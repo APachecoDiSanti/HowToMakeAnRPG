@@ -84,6 +84,14 @@ gLeft = -gDisplayWidth / 2 + gTileWidth / 2
 gRenderer:AlignTextX("center")
 
 function PointToTile(x, y, tileSize, left, top, mapWidth, mapHeight)
+    --[[ 
+    1. x and y are the pixel point coordinates we want to find out which tile they intersect
+    2. tileSize is the size of the tile in pixels
+    3. top and left are the pixel positions of the top left corner of the map
+        they are used to offest x and y when calculating which tile the point is in
+    4. mapWidth and mapHeight are the width and height of the map in tiles 
+    5. tileX and tileY are the map coordinates, 1 unit is tileSize pixels big
+    ]]
 
     -- Tiles are rendered from the center so we adjust for this.
     x = x + tileSize / 2
@@ -103,14 +111,35 @@ function PointToTile(x, y, tileSize, left, top, mapWidth, mapHeight)
     return tileX, tileY
 end
 
+-- We only want to render the tiles between the top left and bottom right pixels of the viewport
+gTileLeft, gTileTop = PointToTile(
+    -System.ScreenWidth() / 2,  -- Remember that tiles are rendered from the center of the screen
+    System.ScreenHeight() / 2,
+    gTileWidth,
+    gLeft,
+    gTop,
+    gMapWidth,
+    gMapHeight
+)
+
+gTileRight, gTileBottom = PointToTile(
+    System.ScreenWidth() / 2,
+    -System.ScreenHeight() / 2,
+    gTileWidth,
+    gLeft,
+    gTop,
+    gMapWidth,
+    gMapHeight
+)
+
 function update()
 
-    for j = 0, gMapHeight - 1 do
-        for i = 0, gMapWidth - 1 do
+    -- You only need to render the tiles visible in the viewport in the order they are in the map
+    for j = gTileTop, gTileBottom do
+        for i = gTileLeft, gTileRight do
 
             local tile = GetTile(gTiles, gMapWidth, i, j)
-            local uvs = gUVs[tile]
-            gTileSprite:SetUVs(unpack(uvs))
+            gTileSprite:SetUVs(unpack(gUVs[tile]))
             gTileSprite:SetPosition(gLeft + i * gTileWidth, gTop - j * gTileHeight)
 
             if i == tileX and j == tileY then
