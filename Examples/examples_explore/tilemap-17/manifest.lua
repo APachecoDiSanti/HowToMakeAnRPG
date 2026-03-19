@@ -9,6 +9,7 @@ manifest =
         {
             path = "main.lua"
         },
+        ['Map.lua'] = { path = "Map.lua" },
         ['larger_map.lua'] =
         {
             path = "larger_map.lua"

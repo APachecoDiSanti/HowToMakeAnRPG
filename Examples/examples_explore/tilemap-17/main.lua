@@ -6,6 +6,7 @@ LoadLibrary("Asset")
 LoadLibrary("Mouse")
 LoadLibrary("Vector")
 
+Asset.Run("Map.lua")
 Asset.Run("larger_map.lua")
 
 
@@ -47,13 +48,10 @@ function GenerateUVs(tileWidth, tileHeight, texture)
 end
 
 
-gTiledMap = CreateMap1()
+local gMap = Map:Create(CreateMap1())
+gRenderer = Renderer:Create()
 
-
-
-
--- We're going to tidy this all up
 
 function update()
-    -- Empty
+    gMap:Render(gRenderer)
 end
