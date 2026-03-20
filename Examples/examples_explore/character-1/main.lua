@@ -15,7 +15,20 @@ gRenderer = Renderer:Create()
 
 gMap:GotoTile(5, 5)
 
+gHeroTexture = Texture.Find("walk_cycle.png")
+local heroWidth = 16 -- unit in pixels
+local heroHeight = 24
+gHeroUVs = GenerateUVs(
+    heroWidth,
+    heroHeight,
+    gHeroTexture
+)
+gHeroSprite = Sprite:Create()
+gHeroSprite:SetTexture(gHeroTexture)
+gHeroSprite:SetUVs(unpack(gHeroUVs[9]))
+
 function update()
     gRenderer:Translate(-gMap.mCamX, -gMap.mCamY)
     gMap:Render(gRenderer)
+    gRenderer:DrawSprite(gHeroSprite)
 end
