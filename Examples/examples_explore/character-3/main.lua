@@ -28,12 +28,19 @@ gHeroSprite = Sprite:Create()
 gHeroSprite:SetTexture(gHeroTexture)
 -- 9 is the hero facing forward
 gHeroSprite:SetUVs(unpack(gHeroUVs[9]))
+
+
+function Teleport(tileX, tileY, map)
+    local x, y = map:GetTileFoot(tileX, tileY)
+    gHeroSprite:SetPosition(x, y + heroHeight / 2)
+end
+
+
 -- 10, 2 is the tile in front of the door
-gHeroTileX = 10
-gHeroTileY = 2
-local x, y = gMap:GetTileFoot(gHeroTileX, gHeroTileY)
-gHeroSprite:SetPosition(x,
-                        y + heroHeight / 2)
+gHeroX = 10
+gHeroY = 2
+Teleport(gHeroX, gHeroY, gMap)
+
 
 function update()
 
@@ -41,16 +48,19 @@ function update()
     gMap:Render(gRenderer)
     gRenderer:DrawSprite(gHeroSprite)
 
-    if Keyboard.Held(KEY_LEFT) then
-        gMap.mCamX = gMap.mCamX - 1
-
-    elseif Keyboard.Held(KEY_RIGHT) then
-        gMap.mCamX = gMap.mCamX + 1
+    if Keyboard.JustPressed(KEY_LEFT) then
+        gHeroX = gHeroX - 1
+        Teleport(gHeroX, gHeroY, gMap)
+    elseif Keyboard.JustPressed(KEY_RIGHT) then
+        gHeroX = gHeroX + 1
+        Teleport(gHeroX, gHeroY, gMap)
     end
 
-    if Keyboard.Held(KEY_UP) then
-        gMap.mCamY = gMap.mCamY + 1
-    elseif Keyboard.Held(KEY_DOWN) then
-        gMap.mCamY = gMap.mCamY - 1
+    if Keyboard.JustPressed(KEY_UP) then
+        gHeroY = gHeroY - 1
+        Teleport(gHeroX, gHeroY, gMap)
+    elseif Keyboard.JustPressed(KEY_DOWN) then
+        gHeroY = gHeroY + 1
+        Teleport(gHeroX, gHeroY, gMap)
     end
 end
