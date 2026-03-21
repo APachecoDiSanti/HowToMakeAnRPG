@@ -32,7 +32,9 @@ manifest =
         ['small_room.lua'] =
         {
             path = "small_room.lua"
-        }
+        },
+        ['WaitState.lua'] = { path = 'WaitState.lua' },
+        ['MoveState.lua'] = { path = 'MoveState.lua' }
     },
     textures =
     {

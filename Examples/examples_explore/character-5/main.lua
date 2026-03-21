@@ -6,10 +6,13 @@ LoadLibrary("Vector")
 LoadLibrary("Asset")
 LoadLibrary("Keyboard")
 
-
 Asset.Run("Map.lua")
 Asset.Run("Util.lua")
 Asset.Run("Entity.lua")
+Asset.Run("StateMachine.lua")
+Asset.Run("MoveState.lua")
+Asset.Run("WaitState.lua")
+Asset.Run("Tween.lua")
 Asset.Run("small_room.lua")
 
 local gMap = Map:Create(CreateMap1())
@@ -27,34 +30,37 @@ local heroDef =
     tileY = 2
 }
 
-gHero = Entity:Create(heroDef)
+local gHero
+gHero = {
+    mEntity = Entity:Create(heroDef),
+    Init =
+    function(self)
+        self.mController = StateMachine:Create
+        {
+            ['wait'] = function() return self.mWaitState end,
+            ['move'] = function() return self.mMoveState end,
+        }
+        self.mWaitState = WaitState:Create(self, gMap)
+        self.mMoveState = MoveState:Create(self, gMap)
+        self.mController:Change("wait")
+    end
+}
+gHero:Init()
 
 function Teleport(entity, map)
     local x, y = map:GetTileFoot(entity.mTileX, entity.mTileY)
     entity.mSprite:SetPosition(x, y + entity.mHeight / 2)
 end
-Teleport(gHero, gMap)
+Teleport(gHero.mEntity, gMap)
 
 function update()
+    local dt = GetDeltaTime()
+    local playerPos = gHero.mEntity.mSprite:GetPosition()
+    gMap.mCamX = math.floor(playerPos:X())
+    gMap.mCamY = math.floor(playerPos:Y())
 
     gRenderer:Translate(-gMap.mCamX, -gMap.mCamY)
     gMap:Render(gRenderer)
-    gRenderer:DrawSprite(gHero.mSprite)
-
-    if Keyboard.JustPressed(KEY_LEFT) then
-        gHero.mTileX = gHero.mTileX - 1
-        Teleport(gHero, gMap)
-    elseif Keyboard.JustPressed(KEY_RIGHT) then
-        gHero.mTileX = gHero.mTileX + 1
-        Teleport(gHero, gMap)
-    end
-
-    if Keyboard.JustPressed(KEY_UP) then
-        gHero.mTileY = gHero.mTileY - 1
-        Teleport(gHero, gMap)
-    elseif Keyboard.JustPressed(KEY_DOWN) then
-        gHero.mTileY = gHero.mTileY + 1
-        Teleport(gHero, gMap)
-    end
-
+    gRenderer:DrawSprite(gHero.mEntity.mSprite)
+    gHero.mController:Update(dt)
 end
