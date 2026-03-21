@@ -20,7 +20,8 @@ manifest =
         ['small_room.lua'] =
         {
             path = "small_room.lua"
-        }
+        },
+        ['Entity.lua'] = {path = "Entity.lua"}
     },
     textures =
     {
