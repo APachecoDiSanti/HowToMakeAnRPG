@@ -6,6 +6,7 @@ LoadLibrary("Vector")
 LoadLibrary("Asset")
 LoadLibrary("Keyboard")
 
+Asset.Run("Animation.lua")
 Asset.Run("Map.lua")
 Asset.Run("Util.lua")
 Asset.Run("Entity.lua")
@@ -31,17 +32,25 @@ local heroDef =
     tileY = 2
 }
 
-local gHero
 gHero =
 {
-    mController = StateMachine:Create
-    {
-        ['wait'] = function() return WaitState:Create(gHero, gMap) end,
-        ['move'] = function() return MoveState:Create(gHero, gMap) end,
-    },
-    mEntity = Entity:Create(heroDef)
+    mAnimUp = {1, 2, 3, 4},
+    mAnimRight = {5, 6, 7, 8},
+    mAnimDown = {9, 10, 11, 12},
+    mAnimLeft = {13, 14, 15, 16},
+    mEntity = Entity:Create(heroDef),
+    Init = 
+    function(self)
+        self.mController = StateMachine:Create {
+            ['wait'] = function() return WaitState:Create(gHero, gMap) end,
+            ['move'] = function() return MoveState:Create(gHero, gMap) end,
+        }
+        self.mWaitState = WaitState:Create(self, gMap)
+        self.mMoveState = MoveState:Create(self, gMap)
+        self.mController:Change("wait")
+    end
 }
-gHero.mController:Change("wait")
+gHero:Init()
 
 function Teleport(entity, map)
     local x, y = map:GetTileFoot(entity.mTileX, entity.mTileY)

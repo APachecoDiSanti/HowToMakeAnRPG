@@ -6,7 +6,9 @@ function WaitState:Create(character, map)
         mCharacter = character,
         mMap = map,
         mEntity = character.mEntity,
-        mController = character.mController
+        mController = character.mController,
+        mFrameResetSpeed = 0.05,
+        mFrameCount = 0
     }
 
     setmetatable(this, self)
@@ -15,13 +17,22 @@ end
 
 function WaitState:Enter(data)
     -- Reset to default frame
-    self.mEntity:SetFrame(self.mEntity.mStartFrame)
+    self.mFrameCount = 0
 end
 
 function WaitState:Render(renderer) end
 function WaitState:Exit() end
 
 function WaitState:Update(dt)
+    -- If we're in the wait state for a few frames, reset to starting frame
+    if self.mFrameCount ~= -1 then
+        self.mFrameCount = self.mFrameCount + dt
+        if self.mFrameCount >= self.mFrameResetSpeed then
+            self.mFrameCount = -1
+            self.mEntity:SetFrame(self.mEntity.mStartFrame)
+        end
+    end
+
     if Keyboard.Held(KEY_LEFT) then
         self.mController:Change("move", {x = -1, y = 0})
     elseif Keyboard.Held(KEY_RIGHT) then

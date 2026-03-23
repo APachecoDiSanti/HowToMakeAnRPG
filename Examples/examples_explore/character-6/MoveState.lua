@@ -3,6 +3,7 @@ MoveState.__index = MoveState
 function MoveState:Create(character, map)
     local this =
     {
+        mCharacter = character,
         mMap = map,
         mTileWidth = map.mTileWidth,
         mEntity = character.mEntity,
@@ -12,12 +13,25 @@ function MoveState:Create(character, map)
         mTween = Tween:Create(0, 0, 1),
         mMoveSpeed = 0.3
     }
+    this.mAnim = Animation:Create({ this.mEntity.mStartFrame })
 
     setmetatable(this, self)
     return this
 end
 
 function MoveState:Enter(data)
+    local frames = nil
+    if data.x == -1 then
+        frames = self.mCharacter.mAnimLeft
+    elseif data.x == 1 then
+        frames = self.mCharacter.mAnimRight
+    elseif data.y == -1 then
+        frames = self.mCharacter.mAnimUp
+    elseif data.y == 1 then
+        frames = self.mCharacter.mAnimDown
+    end
+    self.mAnim:SetFrames(frames)
+
     self.mMoveX = data.x
     self.mMoveY = data.y
     local pixelPos = self.mEntity.mSprite:GetPosition()
@@ -34,6 +48,8 @@ end
 function MoveState:Render(renderer) end
 
 function MoveState:Update(dt)
+    self.mAnim:Update(dt)
+    self.mEntity:SetFrame(self.mAnim:Frame())
     self.mTween:Update(dt)
 
     local value = self.mTween:Value()
