@@ -59,8 +59,8 @@ function Map:GetTile(x, y, layer)
 end
 
 function Map:IsBlocked(layer, tileX, tileY)
-    -- Collision layer should always be 1 above the official layer
-    local tile = self:GetTile(tileX, tileY, layer + 1)
+    -- Collision layer is above decoration layer
+    local tile = self:GetTile(tileX, tileY, layer + 2)
     print(tileX, tileY, layer, tile, tile == self.mBlockingTile)
     return tile == self.mBlockingTile
 end
@@ -122,6 +122,13 @@ function Map:Render(renderer)
                                          self.mY - j * self.mTileHeight)
 
             renderer:DrawSprite(self.mTileSprite)
+
+            tile = self:GetTile(i, j, 2)  -- decorattion layer
+            if tile > 0 then
+                uvs = self.mUVs[tile]
+                self.mTileSprite:SetUVs(unpack(uvs))
+                renderer:DrawSprite(self.mTileSprite)
+            end
         end
     end
 end
