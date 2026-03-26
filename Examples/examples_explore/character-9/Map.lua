@@ -102,6 +102,12 @@ end
 
 
 function Map:Render(renderer)
+    self:RenderLayer(renderer, 1)
+end
+
+function Map:RenderLayer(renderer, layer)
+    -- Our map layers consist of 3 sections each: base, decoration and collision
+    local layerIndex = (layer * 3) - 2
 
     local tileLeft, tileBottom =
         self:PointToTile(self.mCamX - System.ScreenWidth() / 2,
@@ -114,7 +120,7 @@ function Map:Render(renderer)
     for j = tileTop, tileBottom do
         for i = tileLeft, tileRight do
 
-            local tile = self:GetTile(i, j)
+            local tile = self:GetTile(i, j, layerIndex)
             local uvs = {}
 
 
@@ -122,6 +128,7 @@ function Map:Render(renderer)
                                          self.mY - j * self.mTileHeight)
 
             -- There can be empty tiles in the first layer too!
+            -- Base layer
             if tile > 0 then
                 uvs = self.mUVs[tile]
                 self.mTileSprite:SetUVs(unpack(uvs))
@@ -129,7 +136,7 @@ function Map:Render(renderer)
             end
 
             -- The second section of layer is always the decoration.
-            tile = self:GetTile(i, j, 2)
+            tile = self:GetTile(i, j, layerIndex + 1)
 
             -- If the decoration tile exists
             if tile > 0 then
@@ -140,4 +147,11 @@ function Map:Render(renderer)
 
         end
     end
+end
+
+
+function Map:LayerCount()
+    -- 3 sections per layer
+    assert(#self.mMapDef.layers % 3 == 0)
+    return #self.mMapDef.layers / 3
 end
