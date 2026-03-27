@@ -56,11 +56,9 @@ gHero =
 }
 gHero:Init()
 
-function Teleport(entity, map)
-    local x, y = map:GetTileFoot(entity.mTileX, entity.mTileY)
-    entity.mSprite:SetPosition(x, y + entity.mHeight / 2)
-end
-Teleport(gHero.mEntity, gMap)
+gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
+gDownDoorTeleport = Actions.Teleport(gMap, 10, 11)
+gUpDoorTeleport(nil, gHero.mEntity)
 
 
 
@@ -84,4 +82,8 @@ function update()
     end
 
     gHero.mController:Update(dt)
+
+    if Keyboard.JustPressed(KEY_SPACE) then
+        gDownDoorTeleport(nil, gHero.mEntity)
+    end
 end
