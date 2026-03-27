@@ -61,6 +61,20 @@ gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
 gDownDoorTeleport = Actions.Teleport(gMap, 10, 11)
 gUpDoorTeleport(nil, gHero.mEntity)
 
+gTriggerTop = Trigger:Create{
+    OnEnter = gDownDoorTeleport
+}
+gTriggerBot = Trigger:Create {
+    OnEnter = gUpDoorTeleport
+}
+gMap.mTriggers = {
+    -- Layer 1
+    {
+        [gMap:CoordToIndex(10, 12)] = gTriggerBot,
+        [gMap:CoordToIndex(11, 2)] = gTriggerTop,
+    }
+}
+
 
 
 function update()

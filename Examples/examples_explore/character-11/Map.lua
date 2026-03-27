@@ -18,7 +18,8 @@ function Map:Create(mapDef)
 
         mTiles = layer.data,
         mTileWidth = mapDef.tilesets[1].tilewidth,
-        mTileHeight = mapDef.tilesets[1].tileheight
+        mTileHeight = mapDef.tilesets[1].tileheight,
+        mTriggers = {}
 
     }
     this.mTileSprite:SetTexture(this.mTextureAtlas)
@@ -50,13 +51,28 @@ function Map:Create(mapDef)
     return this
 end
 
+
 function Map:GetTile(x, y, layer)
     local layer = layer or 1
     local tiles = self.mMapDef.layers[layer].data
-    x = x + 1 -- change from  1 -> rowsize
-              -- to           0 -> rowsize - 1
-    return tiles[x + y * self.mWidth]
+    return tiles[self:CoordToIndex(x, y)]
 end
+
+
+function Map:GetTrigger(layer, x, y)
+    local triggers = self.mTriggers[layer]
+    if not triggers then
+        return
+    end
+    local index = self:CoordToIndex(x, y)
+    return triggers[index]
+end
+
+
+function Map:CoordToIndex(x, y)
+    return (x + 1) + y * self.mWidth
+end
+
 
 function Map:IsBlocked(layer, tileX, tileY)
     -- Collision layer should always be 2 above the official layer
