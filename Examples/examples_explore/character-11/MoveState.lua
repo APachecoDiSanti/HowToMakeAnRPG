@@ -26,12 +26,16 @@ function MoveState:Enter(data)
 
     if data.x == 1 then
         frames = self.mCharacter.mAnimRight
+        self.mCharacter.mFacing = "right"
     elseif data.x == -1 then
         frames = self.mCharacter.mAnimLeft
+        self.mCharacter.mFacing = "left"
     elseif data.y == -1 then
         frames = self.mCharacter.mAnimUp
+        self.mCharacter.mFacing = "up"
     elseif data.y == 1 then
         frames = self.mCharacter.mAnimDown
+        self.mCharacter.mFacing = "down"
     end
 
     self.mAnim:SetFrames(frames)
@@ -54,9 +58,20 @@ function MoveState:Enter(data)
 end
 
 function MoveState:Exit()
+    -- Called when exiting a tile
+    if self.mMoveX ~= 0 or self.mMoveY ~= 0 then
+        local trigger = self.mMap:GetTrigger(self.mEntity.mLayer, self.mEntity.mTileX, self.mEntity.mTileY)
+        if trigger then
+            trigger:OnExit(self.mEntity)
+        end
+    end
+
+    -- Movement
     self.mEntity.mTileX = self.mEntity.mTileX + self.mMoveX
     self.mEntity.mTileY = self.mEntity.mTileY + self.mMoveY
     Teleport(self.mEntity, self.mMap)
+
+    -- Called when entering a tile
     local trigger = self.mMap:GetTrigger(self.mEntity.mLayer, self.mEntity.mTileX, self.mEntity.mTileY)
     if trigger then
         trigger:OnEnter(self.mEntity)
@@ -76,8 +91,8 @@ function MoveState:Update(dt)
     local x = self.mPixelX + (value * self.mMoveX)
     local y = self.mPixelY - (value * self.mMoveY)
     self.mEntity.mX = math.floor(x)
-self.mEntity.mY = math.floor(y)
-self.mEntity.mSprite:SetPosition(self.mEntity.mX , self.mEntity.mY)
+    self.mEntity.mY = math.floor(y)
+    self.mEntity.mSprite:SetPosition(self.mEntity.mX , self.mEntity.mY)
 
     if self.mTween:IsFinished() then
         self.mController:Change("wait")

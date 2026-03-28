@@ -42,6 +42,7 @@ gHero =
     mAnimRight = {5, 6, 7, 8},
     mAnimDown = {9, 10, 11, 12},
     mAnimLeft = {13, 14, 15, 16},
+    mFacing = "down",
     mEntity = Entity:Create(heroDef),
     Init =
     function(self)
@@ -76,6 +77,26 @@ gMap.mTriggers = {
 }
 
 
+function GetFacedTileCoords(character)
+    local xInc = 0
+    local yInc = 0
+
+    if character.mFacing == "left" then
+        xInc = -1
+    elseif character.mFacing == "right" then
+        xInc = 1
+    elseif character.mFacing == "up" then
+        yInc = -1
+    elseif character.mFacing == "right" then
+        yInc = 1
+    end
+
+    local x = character.mEntity.mTileX + xInc
+    local y = character.mEntity.mTileY + yInc
+    
+    return x, y
+end
+
 
 function update()
 
@@ -99,6 +120,10 @@ function update()
     gHero.mController:Update(dt)
 
     if Keyboard.JustPressed(KEY_SPACE) then
-        gUpDoorTeleport(nil, gHero.mEntity)
+        local x, y = GetFacedTileCoords(gHero)
+        local trigger = gMap:GetTrigger(gHero.mEntity.mLayer, x, y)
+        if trigger then
+            trigger:OnUse(gHero)
+        end
     end
 end
