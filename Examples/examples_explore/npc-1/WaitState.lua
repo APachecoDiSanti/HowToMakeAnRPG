@@ -1,4 +1,4 @@
-WaitState = {}
+WaitState = { mName = "wait" }
 WaitState.__index = WaitState
 function WaitState:Create(character, map)
     local this =

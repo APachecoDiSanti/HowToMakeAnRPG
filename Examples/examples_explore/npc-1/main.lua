@@ -26,39 +26,7 @@ local gMap = Map:Create(CreateMap1())
 gRenderer = Renderer:Create()
 
 gMap:GotoTile(5, 5)
-
-local heroDef =
-{
-    texture = "walk_cycle.png",
-    width = 16,
-    height = 24,
-    startFrame = 9,
-    tileX = 11,
-    tileY = 3,
-    layer = 1
-}
-
-gHero =
-{
-    mAnimUp = {1, 2, 3, 4},
-    mAnimRight = {5, 6, 7, 8},
-    mAnimDown = {9, 10, 11, 12},
-    mAnimLeft = {13, 14, 15, 16},
-    mFacing = "down",
-    mEntity = Entity:Create(heroDef),
-    Init =
-    function(self)
-        self.mController = StateMachine:Create
-        {
-            ['wait'] = function() return self.mWaitState end,
-            ['move'] = function() return self.mMoveState end,
-        }
-        self.mWaitState = WaitState:Create(self, gMap)
-        self.mMoveState = MoveState:Create(self, gMap)
-        self.mController:Change("wait")
-    end
-}
-gHero:Init()
+gHero = Character:Create(gCharacters.hero, gMap)
 
 gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
 gDownDoorTeleport = Actions.Teleport(gMap, 10, 11)

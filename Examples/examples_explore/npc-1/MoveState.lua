@@ -1,4 +1,4 @@
-MoveState = {}
+MoveState = { mName = "move" }
 MoveState.__index = MoveState
 function MoveState:Create(character, map)
     local this =
@@ -25,16 +25,16 @@ function MoveState:Enter(data)
     local frames = nil
 
     if data.x == 1 then
-        frames = self.mCharacter.mAnimRight
+        frames = self.mCharacter.mAnims.right
         self.mCharacter.mFacing = "right"
     elseif data.x == -1 then
-        frames = self.mCharacter.mAnimLeft
+        frames = self.mCharacter.mAnims.left
         self.mCharacter.mFacing = "left"
     elseif data.y == -1 then
-        frames = self.mCharacter.mAnimUp
+        frames = self.mCharacter.mAnims.up
         self.mCharacter.mFacing = "up"
     elseif data.y == 1 then
-        frames = self.mCharacter.mAnimDown
+        frames = self.mCharacter.mAnims.down
         self.mCharacter.mFacing = "down"
     end
 
