@@ -28,6 +28,8 @@ gRenderer = Renderer:Create()
 gMap:GotoTile(5, 5)
 
 gHero = Character:Create(gCharacters.hero, gMap)
+gNPC = Character:Create(gCharacters.standing_npc, gMap)
+Actions.Teleport(gMap, 11, 5)(nil, gNPC.mEntity)
 
 
 gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
@@ -93,9 +95,13 @@ function update()
         if i == gHero.mEntity.mLayer then
             gRenderer:DrawSprite(gHero.mEntity.mSprite)
         end
+        if i == gNPC.mEntity.mLayer then
+            gRenderer:DrawSprite(gNPC.mEntity.mSprite)
+        end
     end
 
     gHero.mController:Update(dt)
+    gNPC.mController:Update(dt)
 
     if Keyboard.JustPressed(KEY_SPACE) then
         -- which way is the player facing?

@@ -6,7 +6,8 @@ assert(MoveState)
 gCharacterStates =
 {
     wait = WaitState,
-    move = MoveState
+    move = MoveState,
+    npc_stand = NPCStandState,
 }
 
 gEntities =
@@ -25,6 +26,13 @@ gEntities =
 
 gCharacters =
 {
+    standing_npc = {
+        entity = "hero",
+        anims = {},
+        facing = "down",
+        controller = {"npc_stand"},
+        state = "npc_stand"
+    },
     hero =
     {
         entity = "hero",
