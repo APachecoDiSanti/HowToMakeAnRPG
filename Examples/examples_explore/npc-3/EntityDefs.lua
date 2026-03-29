@@ -8,6 +8,7 @@ gCharacterStates =
     wait = WaitState,
     move = MoveState,
     npc_stand = NPCStandState,
+    plan_stroll = PlanStrollState,
 }
 
 gEntities =
@@ -26,6 +27,18 @@ gEntities =
 
 gCharacters =
 {
+    strolling_npc = {
+        entity = "hero",
+        anims = {
+            up = {1, 2, 3, 4},
+            right = {5, 6, 7, 8},
+            down = {9, 10, 11, 12},
+            left = {13, 14, 15, 16},
+        },
+        facing = "down",
+        controller = { "plan_stroll", "move" },
+        state = "plan_stroll"
+    },
     standing_npc =
     {
         entity = "hero",

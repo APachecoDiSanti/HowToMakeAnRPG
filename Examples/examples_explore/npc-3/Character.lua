@@ -12,6 +12,7 @@ function Character:Create(def, map)
         mEntity = Entity:Create(entityDef),
         mAnims = def.anims,
         mFacing = def.facing,
+        mDefaultState = def.state,
     }
 
     setmetatable(this, self)

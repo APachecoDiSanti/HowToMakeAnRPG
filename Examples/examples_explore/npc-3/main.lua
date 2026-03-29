@@ -29,7 +29,7 @@ gRenderer = Renderer:Create()
 gMap:GotoTile(5, 5)
 
 gHero = Character:Create(gCharacters.hero, gMap)
-gNPC = Character:Create(gCharacters.standing_npc, gMap)
+gNPC = Character:Create(gCharacters.strolling_npc, gMap)
 Actions.Teleport(gMap, 11, 5)(nil, gNPC.mEntity)
 
 gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
