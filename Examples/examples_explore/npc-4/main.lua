@@ -23,18 +23,28 @@ Asset.Run("EntityDefs.lua")
 Asset.Run("Character.lua")
 Asset.Run("small_room.lua")
 
-local gMap = Map:Create(CreateMap1())
+
+local mapDef = CreateMap1()
+mapDef.on_wake = {
+    {
+        id = "AddNPC",
+        params = {{ def = "strolling_npc", x = 11, y = 5 }},
+    },
+    {
+        id = "AddNPC",
+        params = {{ def = "standing_npc", x = 4, y = 5 }},
+    }
+}
+local gMap = Map:Create(mapDef)
 gRenderer = Renderer:Create()
 
 gMap:GotoTile(5, 5)
 
 gHero = Character:Create(gCharacters.hero, gMap)
-gNPC = Character:Create(gCharacters.strolling_npc, gMap)
-Actions.Teleport(gMap, 11, 5)(nil, gNPC.mEntity)
 
 gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
 gDownDoorTeleport = Actions.Teleport(gMap, 10, 11)
-gUpDoorTeleport(nil, gHero.mEntity)
+gHero.mEntity:SetTilePos(11, 3, 1, gMap)
 
 
 gTriggerTop =   Trigger:Create
@@ -91,17 +101,19 @@ function update()
     local layerCount = gMap:LayerCount()
 
     for i = 1, layerCount do
-        gMap:RenderLayer(gRenderer, i)
+        local heroEntity = nil
         if i == gHero.mEntity.mLayer then
-            gRenderer:DrawSprite(gHero.mEntity.mSprite)
+            heroEntity = gHero.mEntity
         end
-        if i == gNPC.mEntity.mLayer then
-            gRenderer:DrawSprite(gNPC.mEntity.mSprite)
-        end
+        
+        gMap:RenderLayer(gRenderer, i, heroEntity)
     end
 
     gHero.mController:Update(dt)
-    gNPC.mController:Update(dt)
+    
+    for k, v in ipairs(gMap.mNPCs) do
+        v.mController:Update(dt)
+    end
 
     if Keyboard.JustPressed(KEY_SPACE) then
         -- which way is the player facing?

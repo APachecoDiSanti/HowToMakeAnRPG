@@ -20,6 +20,26 @@ function Entity:Create(def)
     return this
 end
 
+
 function Entity:SetFrame(frame)
     self.mSprite:SetUVs(unpack(self.mUVs[frame]))
+end
+
+
+function Entity:SetTilePos(x, y, layer, map)
+    -- Remove from current tile
+    if map:GetEntity(self.mTileX, self.mTileY, self.mLayer) == self then
+        map:RemoveEntity(self)
+    end
+
+    -- Check target tile, target position should be empty
+    assert(map:GetEntity(x, y, layer, map) == nil)
+
+    self.mTileX = x or self.mTileX
+    self.mTileY = y or self.mTileY
+    self.mLayer = layer or self.mLayer
+
+    map:AddEntity(self)
+    local x, y = map:GetTileFoot(self.mTileX, self.mTileY)
+    self.mSprite:SetPosition(x, y + self.mHeight / 2)
 end
