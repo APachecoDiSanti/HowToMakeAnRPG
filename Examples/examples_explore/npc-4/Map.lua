@@ -120,8 +120,9 @@ end
 function Map:IsBlocked(layer, tileX, tileY)
     -- Collision layer should always be 2 above the official layer
     local tile = self:GetTile(tileX, tileY, layer + 2)
+    local entity = self:GetEntity(tileX, tileY, layer)
     --print(tileX, tileY, layer, tile, tile == self.mBlockingTile)
-    return tile == self.mBlockingTile
+    return tile == self.mBlockingTile or entity ~= nil
 end
 
 function Map:GetTileFoot(x, y)

@@ -56,33 +56,24 @@ function MoveState:Enter(data)
         self.mController:Change(self.mCharacter.mDefaultState)
         return
     end
-end
-
-function MoveState:Exit()
 
     if self.mMoveX ~= 0 or self.mMoveY ~= 0 then
-        local trigger = self.mMap:GetTrigger(self.mEntity.mLayer,
-                                            self.mEntity.mTileX,
-                                            self.mEntity.mTileY)
+        local trigger = self.mMap:GetTrigger(self.mEntity.mLayer, self.mEntity.mTileX, self.mEntity.mTileY)
         if trigger then
             trigger:OnExit(self.mEntity)
         end
     end
 
-    self.mEntity:SetTilePos(
-        self.mEntity.mTileX + self.mMoveX,
-        self.mEntity.mTileY + self.mMoveY,
-        self.mEntity.mLayer,
-        self.mMap
-    )
+    self.mEntity:SetTilePos(self.mEntity.mTileX + self.mMoveX, self.mEntity.mTileY + self.mMoveY, self.mEntity.mLayer, self.mMap)
+    self.mEntity.mSprite:SetPosition(pixelPos)
+end
 
-    local trigger = self.mMap:GetTrigger(self.mEntity.mLayer,
-                                         self.mEntity.mTileX,
-                                         self.mEntity.mTileY)
+
+function MoveState:Exit()
+    local trigger = self.mMap:GetTrigger(self.mEntity.mLayer, self.mEntity.mTileX, self.mEntity.mTileY)
     if trigger then
         trigger:OnEnter(self.mEntity)
     end
-
 end
 
 function MoveState:Render(renderer) end
