@@ -35,40 +35,24 @@ mapDef.on_wake =
         params = {{ def = "standing_npc", x = 4, y = 5 }},
     }
 }
+mapDef.actions = {
+    tele_south = { id = "Teleport", params = {11, 3} },
+    tele_north = { id = "Teleport", params = {10, 11} }
+}
+mapDef.trigger_types = {
+    north_door_trigger = { OnEnter = "tele_north" },
+    south_door_trigger = { OnEnter = "tele_south" }
+}
+mapDef.triggers = {
+    { trigger = "north_door_trigger", x = 11, y = 2 },
+    { trigger = "south_door_trigger", x = 10, y = 12 },
+}
 local gMap = Map:Create(mapDef)
-
 gRenderer = Renderer:Create()
-
 gMap:GotoTile(5, 5)
-
 gHero = Character:Create(gCharacters.hero, gMap)
---gNPC = Character:Create(gCharacters.strolling_npc, gMap)
---Actions.Teleport(gMap, 11, 5)(nil, gNPC.mEntity)
-
-gUpDoorTeleport = Actions.Teleport(gMap, 11, 3)
-gDownDoorTeleport = Actions.Teleport(gMap, 10, 11)
---gUpDoorTeleport(nil, gHero.mEntity)
 gHero.mEntity:SetTilePos(11, 3, 1, gMap)
 
-
-gTriggerTop =   Trigger:Create
-                {
-                    OnEnter = gDownDoorTeleport
-                }
-
-gTriggerBot =   Trigger:Create
-                {
-                    OnEnter = gUpDoorTeleport,
-                }
-
-gMap.mTriggers =
-{
-    -- Layer 1
-    {
-        [gMap:CoordToIndex(10, 12)] = gTriggerBot,
-        [gMap:CoordToIndex(11, 2)] = gTriggerTop,
-    }
-}
 
 function GetFacedTileCoords(character)
 
