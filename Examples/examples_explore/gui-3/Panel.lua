@@ -20,18 +20,17 @@ function Panel:Create(params)
         mTiles = {}, -- the sprites representing the border.
     }
 
-    -- -- Fix up center U,Vs by moving them 0.5 texels in.
-    -- local center = this.mUVs[5]
-    -- local pixelToTexelX = 1 / this.mTexture:GetWidth()
-    -- local pixelToTexelY = 1 / this.mTexture:GetHeight()
-    -- center[1] = center[1] + (pixelToTexelX / 2)
-    -- center[2] = center[2] + (pixelToTexelY / 2)
-    -- center[3] = center[3] - (pixelToTexelX / 2)
-    -- center[4] = center[4] - (pixelToTexelY / 2)
-    -- -- The center sprite is going to be 1 pixel smaller on the X, Y
-    -- -- So we need a variable that will account for that when scaling.
-    -- this.mCenterScale = this.mTileSize / (this.mTileSize - 1)
-    this.mCenterScale = 1
+    -- Reduce 0.5 pixels the UVs for the center tile of the panel to prevent interpolation with borders
+    local center = this.mUVs[5]
+    local pixelToTexelX = 1 / this.mTexture:GetWidth()
+    local pixelToTexelY = 1 / this.mTexture:GetHeight()
+    center[1] = center[1] + (pixelToTexelX / 2)
+    center[2] = center[2] + (pixelToTexelY / 2)
+    center[3] = center[3] - (pixelToTexelX / 2)
+    center[4] = center[4] - (pixelToTexelY / 2)
+
+    -- We reduced the texture by 1 pixel all around it, so keep this value for scaling
+    this.mCenterScale = this.mTileSize / (this.mTileSize - 1)
 
     -- Create a sprite for each tile of the panel
     -- 1. top left      2. top          3. top right
@@ -84,9 +83,8 @@ function Panel:Position(left, top, right, bottom)
     self.mTiles[6]:SetScale(1, heightScale)
     self.mTiles[6]:SetPosition(right - hSize, centerY)
 
-    -- Scale the middle backing panel
-    self.mTiles[5]:SetScale(widthScale * self.mCenterScale,
-                            heightScale * self.mCenterScale)
+    -- Scale the middle backing panel using the value we stored
+    self.mTiles[5]:SetScale(widthScale * self.mCenterScale, heightScale * self.mCenterScale)
     self.mTiles[5]:SetPosition(centerX, centerY)
 
     -- Hide corner tiles when scale is equal to zero
