@@ -74,6 +74,14 @@ function Panel:Position(left, top, right, bottom)
 end
 
 
+function Panel:CenterPosition(x, y, width, height)
+  -- Drawing a panel from the center
+  local hWidth = width / 2
+  local hHeight = height / 2
+  return self:Position(x - hWidth, y + hHeight, x + hWidth, y - hHeight)
+end
+
+
 function Panel:Render(renderer)
   for _, v in ipairs(self.mTiles) do
     renderer:DrawSprite(v)

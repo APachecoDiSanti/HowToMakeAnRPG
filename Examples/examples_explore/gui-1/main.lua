@@ -16,13 +16,11 @@ local gPanel = Panel:Create {
   texture = Texture.Find("simple_panel.png"),
   size = 3,
 }
-local left = -100
-local top = 0
-local right = 100
-local bottom = -100
-gPanel:Position(left, top, right, bottom)
+gPanel:CenterPosition(0, 0, 128, 32)
 
 
 function update()
   gPanel:Render(gRenderer)
+  gRenderer:AlignText("center", "center")
+  gRenderer:DrawText2d(0, 0, "Hello World", Vector.Create(1, 1, 1, 1))
 end
