@@ -13,7 +13,30 @@ Asset.Run("Textbox.lua")
 gRenderer = Renderer.Create()
 
 
-function update()
+local textbox = Textbox:Create{
+  text = "hello",
+  textScale = 2,
+  size = {
+    left = -100,
+    right = 100,
+    top = 32,
+    bottom = -32
+  },
+  textbounds = {
+    left = 10,
+    right = -10,
+    top = -10,
+    bottom = 10
+  },
+  panelArgs = {
+    texture = Texture.Find("gradient_panel.png"),
+    size = 3
+  }
+}
 
+
+function update()
+  local dt = GetDeltaTime()
+  textbox:Render(gRenderer)
 end
 
