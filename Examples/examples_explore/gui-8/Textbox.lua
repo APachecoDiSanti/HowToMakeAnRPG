@@ -13,7 +13,8 @@ function Textbox:Create(params)
         mSize = params.size,
         mBounds = params.textbounds,
         mAppearTween = Tween:Create(0, 1, 0.4, Tween.EaseOutCirc),
-        mWrap = params.wrap or -1
+        mWrap = params.wrap or -1,
+        mChildren = params.children or {},
     }
 
     -- Calculate center point from mSize
@@ -74,4 +75,23 @@ function Textbox:Render(renderer)
         self.mText,
         Vector.Create(1,1,1,1),
         self.mWrap * scale)
+
+    -- Render children on top of parent
+    for k, v in ipairs(self.mChildren) do
+        if v.type == "text" then
+            renderer:DrawText2d(
+                textLeft + (v.x * scale),
+                textTop + (v.y * scale),
+                v.text,
+                Vector.Create(1,1,1,1)
+            )
+        elseif v.type == "sprite" then
+            v.sprite:SetPosition(
+                left + (v.x * scale),
+                top + (v.y * scale)
+            )
+            v.sprite:SetScale(scale, scale)
+            renderer:DrawSprite(v.sprite)
+        end
+    end
 end
