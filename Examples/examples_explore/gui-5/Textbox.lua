@@ -12,6 +12,7 @@ function Textbox:Create(params)
         mPanel = Panel:Create(params.panelArgs),
         mSize = params.size,
         mBounds = params.textbounds,
+        mAppearTween = Tween:Create(0, 1, 0.4, Tween.EaseOutCirc),
     }
 
     -- Calculate center point from mSize
@@ -26,7 +27,7 @@ function Textbox:Create(params)
 end
 
 function Textbox:Render(renderer)
-    local scale = 1
+    local scale = self.mAppearTween:Value()
 
     renderer:ScaleText(self.mTextScale * scale)
     renderer:AlignText("left", "top")
@@ -49,4 +50,23 @@ function Textbox:Render(renderer)
         textTop,
         self.mText,
         Vector.Create(1,1,1,1))
+end
+
+
+function Textbox:Update(dt)
+    self.mAppearTween:Update(dt)
+end
+
+
+function Textbox:OnClick()
+    -- If the dialog is appearing or disappearing, ignore interaction
+    if not (self.mAppearTween:IsFinished() and self.mAppearTween:Value() == 1) then
+        return
+    end
+    self.mAppearTween = Tween:Create(1, 0, 0.2, Tween.EaseInCirc)
+end
+
+
+function Textbox:IsDead()
+    return self.mAppearTween:IsFinished() and self.mAppearTween:Value() == 0
 end

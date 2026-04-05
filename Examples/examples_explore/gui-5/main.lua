@@ -38,7 +38,26 @@ local textbox = Textbox:Create
     }
 }
 
-function update()
-    textbox:Render(gRenderer)
-end
+gStart = false
 
+function update()
+    if Keyboard.JustPressed(KEY_SPACE) then
+        gStart = true
+    end
+    
+    if not gStart then
+        gRenderer:AlignText("center", "center")
+        gRenderer:DrawText2d(0, 0, "Press space.")
+        return
+    end
+
+    if not textbox:IsDead() then
+        local dt = GetDeltaTime()
+        textbox:Update(dt)
+        textbox:Render(gRenderer)
+    end
+
+    if Keyboard.JustPressed(KEY_SPACE) then
+        textbox:OnClick()
+    end
+end
