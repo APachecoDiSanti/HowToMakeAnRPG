@@ -13,6 +13,7 @@ function Textbox:Create(params)
         mSize = params.size,
         mBounds = params.textbounds,
         mAppearTween = Tween:Create(0, 1, 0.4, Tween.EaseOutCirc),
+        mWrap = params.wrap or -1
     }
 
     -- Calculate center point from mSize
@@ -71,5 +72,7 @@ function Textbox:Render(renderer)
         textLeft,
         textTop,
         self.mText,
-        Vector.Create(1,1,1,1))
+        Vector.Create(1,1,1,1),
+        self.mWrap * scale
+    )
 end

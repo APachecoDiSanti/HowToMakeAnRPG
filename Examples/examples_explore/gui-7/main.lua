@@ -18,9 +18,11 @@ function CreateFixed(renderer, x, y, width, height, text)
     local padding = 10
     local textScale = 1.5
     local panelTileSize = 3
+    local wrap = width - padding * 2
 
     return Textbox:Create
     {
+        wrap = wrap,
         text = text,
         textScale = textScale,
         size =
