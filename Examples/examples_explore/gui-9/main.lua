@@ -58,9 +58,35 @@ function CreateFixed(renderer, x, y, width, height, text, params)
         })
     end
 
+    renderer:ScaleText(textScale)
+    -- Section text into box-sized chunks
+    local faceHeight = math.ceil(renderer:MeasureText(text):Y())
+    local start, finish = gRenderer:NextLine(text, 1, wrap)
+    local boundsHeight = height - (boundsTop + boundsBottom)
+    local currentHeight = faceHeight
+    local chunks = {{string.sub(text, start, finish)}}
+
+    while finish < #text do
+        start, finish = gRenderer:NextLine(text, finish, wrap)
+        -- If we're going to overflow on the bottom
+        if (currentHeight + faceHeight) > boundsHeight then
+            -- make a new entry
+            currentHeight = 0
+            table.insert(chunks, {string.sub(text, start, finish)})
+        else
+            table.insert(chunks[#chunks], string.sub(text, start, finish))
+        end
+        currentHeight = currentHeight + faceHeight
+    end
+
+    -- Make each textbox be represented by one string
+    for k, v in ipairs(chunks) do
+        chunks[k] = table.concat(v)
+    end
+
     return Textbox:Create
     {
-        text = text,
+        text = chunks,
         textScale = textScale,
         size =
         {
@@ -95,10 +121,17 @@ local x = 0
 local y = -System.ScreenHeight()/2 + height / 2 -- bottom of the screen
 local text = 'A nation can survive its fools, and even the ambitious. But it cannot survive treason from within. An enemy at the gates is less formidable, for he is known and carries his banner openly. But the traitor moves amongst those within the gate freely, his sly whispers rustling through all the alleys, heard in the very halls of government itself. For the traitor appears not a traitor; he speaks in accents familiar to his victims, and he wears their face and their arguments, he appeals to the baseness that lies deep in the hearts of all men. He rots the soul of a nation, he works secretly and unknown in the night to undermine the pillars of the city, he infects the body politic so that it can no longer resist. A murderer is less to fear.'
 
-local textbox = CreateFixed(gRenderer, x, y, width, height, text)
+local title = "NPC:"
+local avatar = Texture.Find("avatar.png")
+local textbox = CreateFixed(gRenderer, x, y, width, height, text, title, avatar)
 
 function update()
-    textbox:Update(GetDeltaTime())
-    textbox:Render(gRenderer)
-end
+    if not textbox:IsDead() then
+        textbox:Update(GetDeltaTime())
+        textbox:Render(gRenderer)
+    end
 
+    if Keyboard.JustPressed(KEY_SPACE) then
+        textbox:OnClick()
+    end
+end

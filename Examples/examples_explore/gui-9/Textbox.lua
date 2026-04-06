@@ -5,9 +5,16 @@ function Textbox:Create(params)
 
     params = params or {}
 
+    if type(params.text) == "string" then
+        params.text = {params.text}
+    end
+
     local this =
     {
-        mText = params.text,
+        mChunks = params.text,
+        mChunkIndex = 1,
+        mContinueMark = Sprite:Create(),
+        mTime = 0,
         mTextScale = params.textScale or 1,
         mPanel = Panel:Create(params.panelArgs),
         mSize = params.size,
@@ -16,6 +23,7 @@ function Textbox:Create(params)
         mWrap = params.wrap or -1,
         mChildren = params.children or {},
     }
+    this.mContinueMark:SetTexture(Texture.Find("continue_caret.png"))
 
     -- Calculate center point from mSize
     -- We can use this to scale.
@@ -29,20 +37,25 @@ function Textbox:Create(params)
 end
 
 function Textbox:Update(dt)
+    self.mTime = self.mTime + dt
     self.mAppearTween:Update(dt)
 end
 
 function Textbox:OnClick()
     print("In OnClick")
-    --
-    -- If the dialog is appearing or dissapearing
-    -- ignore interaction
-    --
-    if not (self.mAppearTween:IsFinished()
-       and self.mAppearTween:Value() == 1) then
-        return
+    if self.mChunkIndex >= #self.mChunks then
+        --
+        -- If the dialog is appearing or dissapearing
+        -- ignore interaction
+        --
+        if not (self.mAppearTween:IsFinished()
+        and self.mAppearTween:Value() == 1) then
+            return
+        end
+        self.mAppearTween = Tween:Create(1, 0, 0.2, Tween.EaseInCirc)
+    else
+        self.mChunkIndex = self.mChunkIndex + 1
     end
-    self.mAppearTween = Tween:Create(1, 0, 0.2, Tween.EaseInCirc)
 end
 
 function Textbox:IsDead()
@@ -68,13 +81,22 @@ function Textbox:Render(renderer)
     local textLeft = left + (self.mBounds.left * scale)
     local top = self.mY + (self.mHeight/2 * scale)
     local textTop = top + (self.mBounds.top * scale)
+    local bottom = self.mY - (self.mHeight/2 * scale)
 
     renderer:DrawText2d(
         textLeft,
         textTop,
-        self.mText,
+        self.mChunks[self.mChunkIndex],
         Vector.Create(1,1,1,1),
         self.mWrap * scale)
+
+    if self.mChunkIndex < #self.mChunks then
+        -- There are more chunks to render
+        local offset = 12 + math.floor(math.sin(self.mTime*10)) * scale
+        self.mContinueMark:SetScale(scale, scale)
+        self.mContinueMark:SetPosition(self.mX, bottom + offset)
+        renderer:DrawSprite(self.mContinueMark)
+    end
 
     for k, v in ipairs(self.mChildren) do
         if v.type == "text" then
