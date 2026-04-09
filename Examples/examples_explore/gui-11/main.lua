@@ -20,6 +20,7 @@ function CreateFixed(renderer, x, y, width, height, text, params)
     params = params or {}
     local avatar = params.avatar
     local title = params.title
+    local choices = params.choices
 
     local padding = 10
     local textScale = 1.5
@@ -44,6 +45,16 @@ function CreateFixed(renderer, x, y, width, height, text, params)
             x = avatar:GetWidth() / 2 + padding,
             y = -avatar:GetHeight() / 2
         })
+    end
+
+    local selectionMenu = nil
+    if choices then
+        -- options and callback
+        selectionMenu = Selection:Create {
+            data = choices.options,
+            OnSelection = choices.OnSelection,
+        }
+        boundsBottom = boundsBottom - padding*0.5
     end
 
     if title then
@@ -115,22 +126,43 @@ function CreateFixed(renderer, x, y, width, height, text, params)
             size = panelTileSize,
         },
         children = children,
-        wrap = wrap
+        wrap = wrap,
+        selectionMenu = selectionMenu
     }
 end
 
 
 
--- Going to create fixed textbox with a selection here.
+local width = System.ScreenWidth() - 4
+local height = 102
+local x = 0
+local y = -System.ScreenHeight()/2 + height/2 -- bottom of screen
+local text = "Should I join your party?"
+local title = "NPC:"
+local avatar = Texture.Find("avatar.png")
+local textbox = CreateFixed(
+    gRenderer,
+    x,
+    y,
+    width,
+    height,
+    text,
+    {
+        title = title,
+        avatar = avatar,
+        choices = {
+            options = { "YES", "NO" },
+            OnSelection = function(i) print("selected", i) end
+        }
+    }
+)
+
 
 function update()
-    -- if not textbox:IsDead() then
-    --     textbox:Update(GetDeltaTime())
-    --     textbox:Render(gRenderer)
-    -- end
-
-    -- if Keyboard.JustPressed(KEY_SPACE) then
-    --     textbox:OnClick()
-    -- end
+    local dt = GetDeltaTime()
+    if not textbox:IsDead() then
+        textbox:Update(GetDeltaTime())
+        textbox:Render(gRenderer)
+        textbox:HandleInput()
+    end
 end
-
