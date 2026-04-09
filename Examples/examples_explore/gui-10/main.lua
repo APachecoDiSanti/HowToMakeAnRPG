@@ -120,7 +120,19 @@ function CreateFixed(renderer, x, y, width, height, text, params)
 end
 
 
+gRenderer:ScaleText(1.5, 1.5)
+gRenderer:AlignText("left", "center")
+gLastSelection = "?"
+gChoice = Selection:Create {
+    data = {"Yes", "No"},
+    cursor = "cursor.png",
+    OnSelection = function(selectIndex)
+        gLastSelection = selectIndex
+    end
+}
 
 function update()
-    -- selection menu code goes here.
+    gRenderer:DrawText2d(0, -50, "Last Selection: " ..  tostring(gLastSelection))
+    gChoice:Render(gRenderer)
+    gChoice:HandleInput()
 end
