@@ -135,23 +135,56 @@ function CreateFixed(renderer, x, y, width, height, text, params)
 end
 
 
-local width = System.ScreenWidth() - 4
-local height = 102 -- a nice height
-local x = 0
-local y = -System.ScreenHeight()/2 + height / 2 -- bottom of the screen
+function CreateFitted(renderer, x, y, text, wrap, params)
+    local params = params or {}
+    local choices = params.choices
+    local title = params.title
+    local avatar = params.avatar
+    local padding = 10
+    -- local panelTileSize = 3
+    local textScale = 1.5
+
+    renderer:ScaleText(textScale, textScale)
+
+    local size = renderer:MeasureText(text, wrap)
+    local width = size:X() + padding * 2
+    local height = size:Y() + padding * 2
+
+    if choices then
+        -- options and callback
+        local selectionMenu = Selection:Create{
+            data = choices.options,
+            displayRows = #choices.options,
+            columns = 1
+        }
+        height = height + selectionMenu:GetHeight() + padding * 4
+        width = math.max(width, selectionMenu:GetWidth() + padding * 2)
+    end
+
+    if title then
+        local size = renderer:MeasureText(title, wrap)
+        height = height + size:Y() + padding
+        width = math.max(width, size:X() + padding * 2)
+    end
+
+    if avatar then
+        local avatarWidth = avatar:GetWidth()
+        local avatarHeight = avatar:GetHeight()
+        width = width + avatarWidth + padding
+        height = math.max(height, avatarHeight + padding)
+    end
+
+    return CreateFixed(renderer, x, y, width, height, text, params)
+end
+
+
 local text = 'Should I join your party?'
 local title = "NPC:"
 local avatar = Texture.Find("avatar.png")
-
-local textbox = CreateFixed(gRenderer, x, y, width, height, text,
+local textbox = CreateFitted(gRenderer, 0, 0, text, 300,
 {
     title = title,
     avatar = avatar,
-    choices =
-    {
-        options = {"Yes", "No"},
-        OnSelection = function(i) print('selected', i) end
-    }
 })
 
 function update()
@@ -163,4 +196,3 @@ function update()
 
     textbox:HandleInput()
 end
-
