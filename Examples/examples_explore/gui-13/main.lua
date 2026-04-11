@@ -184,11 +184,24 @@ end
 
 
 
---
--- Adding a progress bar
---
+local bar = ProgressBar:Create {
+    x = 0,
+    y = 0,
+    foreground = Texture.Find("foreground.png"),
+    background = Texture.Find("background.png"),
+}
+
+local tween = Tween:Create(1, 0, 1)
 
 function update()
+    local dt = GetDeltaTime()
+    tween:Update(dt)
+    local v = tween:Value()
+    bar:SetValue(v)
 
+    if tween:IsFinished() then
+        tween = Tween:Create(v, math.abs(v - 1), 1)
+    end
+
+    bar:Render(gRenderer)
 end
-
