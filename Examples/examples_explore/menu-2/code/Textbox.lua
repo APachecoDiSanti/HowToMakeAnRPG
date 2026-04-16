@@ -12,6 +12,8 @@ function Textbox:Create(params)
     local this =
     {
         -- mText = params.text, Removing this
+        mStack = params.stack,
+        mDoClickCallback = false,
         mChunks = params.text,
         mChunkIndex = 1,
         mContinueMark = Sprite.Create(),
@@ -39,9 +41,24 @@ function Textbox:Create(params)
     return this
 end
 
+
+function Textbox:Enter() end
+
+
+function Textbox:Exit()
+    if self.mDoClickCallback then
+        self.mSelectionMenu:OnClick()
+    end
+end
+
+
 function Textbox:Update(dt)
     self.mTime = self.mTime + dt
     self.mAppearTween:Update(dt)
+    if self:IsDead() then
+        self.mStack:Pop()
+    end
+    return true
 end
 
 
@@ -57,6 +74,10 @@ function Textbox:HandleInput()
 end
 
 function Textbox:OnClick()
+    if self.mSelectionMenu then
+        self.mDoClickCallback = true
+    end
+    
     if self.mChunkIndex >= #self.mChunks then
         --
         -- If the dialog is appearing or dissapearing

@@ -13,22 +13,18 @@ end
 
 function StateStack:Update(dt)
     -- update them and check input
-    for k, v in ipairs(self.mStates) do
-        v:Update(dt)
+    for k = #self.mStates, 1, -1 do
+        local v = self.mStates[k]
+        local continue = v:Update(dt)
+        if not continue then
+            break
+        end
     end
 
-    local top = self.mStates[#self.mStates] -- I think?
-
+    local top = self.mStates[#self.mStates]
     if not top then
         return
     end
-
-    if top:IsDead() then
-        -- Remove the top dialog
-        table.remove(self.mStates)
-        return
-    end
-
     top:HandleInput()
 end
 
@@ -40,7 +36,7 @@ end
 
 
 
-function StateStack:AddFixed(renderer, x, y, width, height, text, params)
+function StateStack:PushFixed(renderer, x, y, width, height, text, params)
 
     params = params or {}
     local avatar = params.avatar
@@ -158,12 +154,13 @@ function StateStack:AddFixed(renderer, x, y, width, height, text, params)
         },
         children = children,
         wrap = wrap,
-        selectionMenu = selectionMenu
+        selectionMenu = selectionMenu,
+        stack = self
     }
     table.insert(self.mStates, textbox)
 end
 
-function StateStack:AddFitted(renderer, x, y, text, wrap, params)
+function StateStack:PushFit(renderer, x, y, text, wrap, params)
 
     local params = params or {}
     local choices = params.choices
@@ -205,5 +202,24 @@ function StateStack:AddFitted(renderer, x, y, text, wrap, params)
         height = math.max(height, avatarHeight + padding)
     end
 
-    return self:AddFixed(renderer, x, y, width, height, text, params)
+    return self:PushFixed(renderer, x, y, width, height, text, params)
+end
+
+
+function StateStack:Push(state)
+    table.insert(self.mStates, state)
+    state:Enter()
+end
+
+
+function StateStack:Pop()
+    local top = self.mStates[#self.mStates]
+    table.remove(self.mStates)
+    top:Exit()
+    return top
+end
+
+
+function StateStack:Top()
+    return self.mStates[#self.mStates]
 end
