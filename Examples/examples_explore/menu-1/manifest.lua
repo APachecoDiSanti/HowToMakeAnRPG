@@ -13,6 +13,7 @@ manifest =
         {
             path = "code/Character.lua"
         },
+        ["Dependencies.lua"] ={path = "code/Dependencies.lua"},
         ['Entity.lua'] =
         {
             path = "code/Entity.lua"
@@ -21,6 +22,7 @@ manifest =
         {
             path = "code/EntityDefs.lua"
         },
+        ["ExploreState.lua"] = {path="code/ExploreState.lua"},
         ['main.lua'] =
         {
             path = "code/main.lua"
