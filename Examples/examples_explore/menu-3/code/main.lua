@@ -45,4 +45,9 @@ function update()
     local dt = GetDeltaTime()
     stack:Update(dt)
     stack:Render(gRenderer)
+
+    if Keyboard.JustPressed(KEY_F) then
+        local fade = FadeState:Create(stack, {start = 1, finish = 0})
+        stack:Push(fade)
+    end
 end
