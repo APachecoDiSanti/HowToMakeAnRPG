@@ -4,18 +4,21 @@ Asset.Run('Dependencies.lua')
 gRenderer = Renderer.Create()
 
 
---
--- We're going to create a layout!
---
+local mapDef = CreateMap1()
+mapDef.on_wake = {}
+mapDef.actions = {}
+mapDef.trigger_types = {}
+mapDef.triggers = {}
+local stack = StateStack:Create()
+local explore = ExploreState:Create(stack, mapDef, Vector.Create(11, 3, 1))
+local menu = InGameMenuState:Create(stack)
 
-local layout = Layout:Create()
+stack:Push(explore)
+stack:Push(menu)
 
-layout:Contract('screen', 118, 40)
-layout:SplitHorz('screen', "top", "bottom", 0.12, 2)
-layout:SplitVert('bottom', "left", "party", 0.726, 2)
-layout:SplitHorz('left', "menu", "gold", 0.7, 2)
 
 function update()
     local dt = GetDeltaTime()
-    layout:DebugRender(gRenderer)
+    stack:Update(dt)
+    stack:Render(gRenderer)
 end
