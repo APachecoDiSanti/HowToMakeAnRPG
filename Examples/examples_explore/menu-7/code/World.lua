@@ -103,3 +103,35 @@ function World:RemoveKey(itemId)
     end
     assert(false) -- should never get here.
 end
+
+
+function World:DrawKey(menu, renderer, x, y, item)
+    if item then
+        local itemDef = ItemDB[item.id]
+        renderer:AlignText("left", "center")
+        renderer:DrawText2d(x, y, itemDef.name)
+    else
+        renderer:AlignText("center", "center")
+        renderer:DrawText2d(x + menu.mSpacingX / 2, y, "-")
+    end
+end
+
+
+function World:DrawItem(menu, renderer, x, y, item)
+    if item then
+        local itemDef = ItemDB[item.id]
+        local iconSprite = gIcons:Get(itemDef.type)
+        if iconSprite then
+            iconSprite:SetPosition(x + 6, y)
+            renderer:DrawSprite(iconSprite)
+        end
+        renderer:AlignText("left", "center")
+        renderer:DrawText2d(x + 18, y, itemDef.name)
+        local right = x + menu.mSpacingX - 64
+        renderer:AlignText("left", "center")
+        renderer:DrawText2d(right, y, string.format(":%02d", item.count))
+    else
+        renderer:AlignText("center", "center")
+        renderer:DrawText2d(x + menu.mSpacingX / 2, y, "-")
+    end
+end
