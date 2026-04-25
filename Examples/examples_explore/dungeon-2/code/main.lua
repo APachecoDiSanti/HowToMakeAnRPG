@@ -6,8 +6,15 @@ local stack = StateStack:Create()
 
 local intro =
 {
+   BlackScreen(),
+   Caption("place", "title", "Village of Sontos"),
+   Caption("time", "subtitle", "MIDNIGHT"),
    Wait(2),
-   Wait(5)
+   NoBlock(FadeOutCaption("place", 3)),
+   FadeOutCaption("time", 3),
+   KillState("place"),
+   KillState("time"),
+   FadeOutScreen(),
 }
 local storyboard = Storyboard:Create(stack, intro)
 stack:Push(storyboard)

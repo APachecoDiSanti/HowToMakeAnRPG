@@ -46,6 +46,8 @@ Apply({
         "Icons.lua",
         "Storyboard.lua",
         "StoryboardEvents.lua",
-        "ScreenState.lua"
+        "ScreenState.lua",
+        "CaptionState.lua",
+        "CaptionStyle.lua",
     },
     function(v) Asset.Run(v) end)

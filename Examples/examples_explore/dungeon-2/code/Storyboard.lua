@@ -6,6 +6,8 @@ function Storyboard:Create(stack, events)
     {
         mStack = stack,
         mEvents = events,
+        mStates = {},
+        mSubStack = StateStack:Create()
     }
 
     setmetatable(this, self)
@@ -23,6 +25,7 @@ function Storyboard:CleanUp()
 end
 
 function Storyboard:Update(dt)
+    self.mSubStack:Update(dt)
 
     if #self.mEvents == 0 then
         self.mStack:Pop()
@@ -54,10 +57,30 @@ function Storyboard:Update(dt)
 end
 
 function Storyboard:Render(renderer)
-    local debugText = string.format("Events Stack: %d", #self.mEvents)
-    renderer:DrawText2d(0, 0, debugText)
+    self.mSubStack:Render(renderer)
 end
+
+
+function Storyboard:PushState(id, state)
+    -- Push a State on the stack but keep a reference here
+    assert(self.mStates[id] == nil)
+    self.mStates[id] = state
+    self.mSubStack:Push(state)
+end
+
 
 function Storyboard:HandleInput()
 
+end
+
+
+function Storyboard:RemoveState(id)
+    local state = self.mStates[id]
+    self.mStates[id] = nil
+    for i = #self.mSubStack.mStates, 1, -1 do
+        local v = self.mSubStack.mStates[i]
+        if v == state then
+            table.remove(self.mSubStack.mStates, i)
+        end
+    end
 end

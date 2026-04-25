@@ -9,6 +9,8 @@ manifest =
         {
             path = "code/Actions.lua"
         },
+        ["CaptionState.lua"] = {path="code/CaptionState.lua"},
+        ["CaptionStyle.lua"] = {path="code/CaptionStyle.lua"},
         ['Character.lua'] =
         {
             path = "code/Character.lua"
@@ -168,5 +170,16 @@ manifest =
         {
             path = "art/inventory_icons.png",
         },
+    },
+    ['fonts'] =
+    {
+        ["default"] =
+        {
+            path = "art/junction.ttf",
+        },
+        ["title"] =
+        {
+            path = "art/contra_italic.ttf",
+        }
     }
 }
