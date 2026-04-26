@@ -12,6 +12,7 @@ Apply({
         "Texture",
         "Vector",
         "Keyboard",
+        "Sound"
     },
     function(v) LoadLibrary(v) end)
 
@@ -49,6 +50,7 @@ Apply({
         "ScreenState.lua",
         "CaptionStyles.lua",
         "CaptionState.lua",
-        "map_sontos_house.lua"
+        "map_sontos_house.lua",
+        "MapDB.lua"
     },
     function(v) Asset.Run(v) end)

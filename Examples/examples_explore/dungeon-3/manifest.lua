@@ -69,6 +69,7 @@ manifest =
         {
             path = "code/Map.lua"
         },
+        ["MapDB.lua"] = { path = "code/MapDB.lua" },
         ['MoveState.lua'] =
         {
             path = "code/MoveState.lua"
@@ -191,5 +192,8 @@ manifest =
         {
             path = "art/contra_italic.ttf",
         }
+    },
+    ["sounds"] = {
+        ["rain"] = { path = "sound/rain.wav" }
     }
 }

@@ -6,7 +6,17 @@ local stack = StateStack:Create()
 
 local intro =
 {
+    Scene {
+        map = "player_house",
+        focusX = 14,
+        focusY = 20,
+        hideHero = true,
+    },
     BlackScreen(),
+    Play("rain"),
+    NoBlock(
+        FadeSound("rain", 0, 1, 3)  -- From 0 to 1 in 3s
+    ),
     Caption("place", "title", "Village of Sontos"),
     Caption("time", "subtitle", "MIDNIGHT"),
     Wait(2),
@@ -14,9 +24,12 @@ local intro =
         FadeOutCaption("place", 3)
     ),
     FadeOutCaption("time", 3),
+    FadeSound("rain", 1, 0, 1), -- From 1 to 0 in 1s
     KillState("place"),
     KillState("time"),
     FadeOutScreen(),
+    Wait(2),
+    Stop("rain"),
 }
 local storyboard = Storyboard:Create(stack, intro)
 stack:Push(storyboard)
