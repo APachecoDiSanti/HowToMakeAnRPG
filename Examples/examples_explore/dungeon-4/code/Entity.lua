@@ -11,6 +11,9 @@ function Entity:Create(def)
         mTileY = def.tileY,
         mLayer = def.layer,
         mStartFrame = def.startFrame,
+        mX = def.x or 0,
+        mY = def.y or 0,
+        mChildren = {}
     }
 
     this.mSprite:SetTexture(this.mTexture)
@@ -19,6 +22,18 @@ function Entity:Create(def)
     this:SetFrame(this.mStartFrame)
     return this
 end
+
+
+function Entity:AddChild(id, entity)
+    assert(self.mChildren[id] == nil)
+    self.mChildren[id] = entity
+end
+
+
+function Entity:RemoveChild(id)
+    self.mChildren[id] = nil
+end
+
 
 function Entity:SetFrame(frame)
     self.mSprite:SetUVs(unpack(self.mUVs[frame]))
@@ -43,5 +58,17 @@ function Entity:SetTilePos(x, y, layer, map)
     map:AddEntity(self)
     local x, y = map:GetTileFoot(self.mTileX, self.mTileY)
     self.mSprite:SetPosition(x, y + self.mHeight / 2)
+    self.mX = x
+    self.mY = y
+end
 
+
+function Entity:Render(renderer)
+    renderer:DrawSprite(self.mSprite)
+
+    for _, v in pairs(self.mChildren) do
+        local sprite = v.mSprite
+        sprite:SetPosition(self.mX + v.mX, self.mY + v.mY)
+        renderer:DrawSprite(sprite)
+    end
 end

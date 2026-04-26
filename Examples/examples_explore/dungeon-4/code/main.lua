@@ -3,21 +3,20 @@ Asset.Run('Dependencies.lua')
 
 gRenderer = Renderer.Create()
 local stack = StateStack:Create()
-
-
-local stack = StateStack:Create()
-
-
 local intro =
 {
-    Scene
-    {
+    Scene{
         map = "player_house",
-        focusX = 15,
-        focusY = 20,
-        hideHero = false,
+        focusX = 20,
+        focusY = 19,
+        hideHero = true,
     },
     BlackScreen(),
+    RunAction(
+        "AddNPC",
+        {"player_house", {def="sleeper", x=14, y=19}},
+        {GetMapRef}
+    ),
     Play("rain"),
     NoBlock(
         FadeSound("rain", 0, 1, 3)
@@ -34,6 +33,10 @@ local intro =
     KillState("time"),
     FadeOutScreen(),
     Wait(2),
+    FadeInScreen(),
+    Wait(0.3),
+    FadeOutScreen(),
+    Wait(1),
     Stop("rain")
 }
 local storyboard = Storyboard:Create(stack, intro)

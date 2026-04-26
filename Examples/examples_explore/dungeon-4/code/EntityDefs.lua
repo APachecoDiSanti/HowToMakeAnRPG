@@ -2,6 +2,7 @@
 -- WaitState, MoveState must already be loaded.
 assert(WaitState)
 assert(MoveState)
+assert(SleepState)
 
 gCharacterStates =
 {
@@ -9,6 +10,7 @@ gCharacterStates =
     move = MoveState,
     npc_stand = NPCStandState,
     plan_stroll = PlanStrollState,
+    sleep = SleepState,
 }
 
 gEntities =
@@ -22,6 +24,14 @@ gEntities =
         tileX = 11,
         tileY = 3,
         layer = 1
+    },
+    sleep = {
+        texture = "sleeping.png",
+        width = 32,
+        height = 32,
+        startFrame = 1,
+        x = 18,
+        y = 32
     }
 }
 
@@ -62,5 +72,12 @@ gCharacters =
         facing = "down",
         controller = { "wait", "move" },
         state = "wait"
+    },
+    sleeper = {
+        entity = "hero",
+        anims = { left = {13} },
+        facing = "left",
+        controller = {"sleep"},
+        state = "sleep"
     }
 }

@@ -200,3 +200,32 @@ function Scene(params)
         return NoBlock(Wait(0.1))()
     end
 end
+
+
+function GetMapRef(storyboard, stateId)
+    local exploreState = storyboard.mStates[stateId]
+    assert(exploreState and exploreState.mMap)
+    return exploreState.mMap
+end
+
+
+
+function RunAction(actionId, actionParams, paramOps)
+    local action = Actions[actionId]
+    assert(action)
+
+    return function(storyboard)
+        -- Lookup references required by action
+        paramOps = paramOps or {}
+
+        for k, op in pairs(paramOps) do
+            if op then
+                actionParams[k] = op(storyboard, actionParams[k])
+            end
+        end
+
+        local actionFunc = action(unpack(actionParams))
+        actionFunc()
+        return EmptyEvent
+    end
+end
