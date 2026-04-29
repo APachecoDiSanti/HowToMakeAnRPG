@@ -3,6 +3,7 @@
 assert(WaitState)
 assert(MoveState)
 assert(SleepState)
+assert(FollowPathState)
 
 gCharacterStates =
 {
@@ -11,6 +12,7 @@ gCharacterStates =
     npc_stand = NPCStandState,
     plan_stroll = PlanStrollState,
     sleep = SleepState,
+    follow_path = FollowPathState,
 }
 
 gEntities =
@@ -33,6 +35,15 @@ gEntities =
         startFrame = 3,
         x = 18,
         y = 32
+    },
+    guard = {
+        texture = "walk_cycle.png",
+        width = 16,
+        height = 24,
+        startFrame = 89,
+        tileX = 1,
+        tileY = 1,
+        layer = 1
     }
 }
 
@@ -74,8 +85,6 @@ gCharacters =
         controller = { "wait", "move" },
         state = "wait"
     },
-
-    -- New
     sleeper =
     {
         entity = "hero",
@@ -86,5 +95,17 @@ gCharacters =
         facing = "left",
         controller  = {"sleep"},
         state = "sleep"
+    },
+    guard = {
+        entity = "guard",
+        anims = {
+            up = {81, 82, 83, 84},
+            right = {85, 86, 87, 88},
+            down = {89, 90, 91, 92},
+            left = {93, 94, 95, 96},
+        },
+        facing = "up",
+        controller = {"npc_stand", "follow_path", "move"},
+        state = "npc_stand"
     }
 }

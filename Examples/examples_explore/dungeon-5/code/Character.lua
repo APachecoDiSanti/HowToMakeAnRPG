@@ -60,3 +60,12 @@ function Character:GetFacedTileCoords()
 
     return x, y
 end
+
+
+function Character:FollowPath(path)
+    self.mPathIndex = 1
+    self.mPath = path
+    self.mPrevDefaultState = self.mDefaultState
+    self.mDefaultState = "follow_path"
+    self.mController:Change("follow_path")
+end

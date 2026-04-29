@@ -41,6 +41,7 @@ manifest =
         {
             path = "code/FrontMenuState.lua"
         },
+        ["FollowPathState.lua"] = { path = "code/FollowPathState.lua" },
         ['ItemMenuState.lua'] =
         {
             path = "code/ItemMenuState.lua"

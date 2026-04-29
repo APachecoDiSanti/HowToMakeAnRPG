@@ -233,3 +233,44 @@ function RunAction(actionId, actionParams, paramOps)
         return EmptyEvent
     end
 end
+
+
+BlockUntilEvent = {}
+BlockUntilEvent.__index = BlockUntilEvent
+
+
+function BlockUntilEvent:Create(UntilFunc)
+    local this = {
+        mUntilFunc = UntilFunc,
+    }
+    setmetatable(this, self)
+    return this
+end
+
+
+function BlockUntilEvent:IsBlocking()
+    return not self.mUntilFunc()
+end
+
+
+function BlockUntilEvent:IsFinished()
+    return not self:IsBlocking()
+end
+
+
+function BlockUntilEvent:Update(dt) end
+function BlockUntilEvent:Render() end
+
+
+function MoveNPC(id, mapId, path)
+    return function(storyboard)
+        local map = GetMapRef(storyboard, mapId)
+        local npc = map.mNPCbyId[id]
+        npc:FollowPath(path)
+        return BlockUntilEvent:Create(
+            function()
+                return npc.mPathIndex > #npc.mPath
+            end
+        )
+    end
+end

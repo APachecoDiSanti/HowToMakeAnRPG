@@ -16,7 +16,7 @@ local intro =
     },
     BlackScreen(),
     RunAction("AddNPC",
-              {"player_house", { def = "sleeper", x = 14, y = 19}},
+              {"player_house", { def = "sleeper", id = "hero", x = 14, y = 19}},
               {GetMapRef}),
     Play("rain"),
     NoBlock(
@@ -29,14 +29,17 @@ local intro =
         FadeOutCaption("place", 3)
     ),
     FadeOutCaption("time", 3),
-    FadeSound("rain", 1, 0, 1),
     KillState("place"),
     KillState("time"),
     FadeOutScreen(),
     Wait(2),
     FadeInScreen(),
+    RunAction("AddNPC", {"player_house", {def = "guard", id = "guard1", x = 19, y = 22}}, {GetMapRef}),
+    NoBlock(FadeOutScreen()),
+    MoveNPC("guard1", "player_house", { "up", "up", "up", "left", "left", "left"}),
     Wait(0.3),
-    FadeOutScreen(),
+    FadeInScreen(),
+    FadeSound("rain", 1, 0, 1),
     Stop("rain")
 }
 local storyboard = Storyboard:Create(stack, intro)

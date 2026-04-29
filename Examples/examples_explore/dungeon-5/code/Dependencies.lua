@@ -25,6 +25,7 @@ Apply({
         "MoveState.lua",
         "WaitState.lua",
         "SleepState.lua",
+        "FollowPathState.lua",
         "NPCStandState.lua",
         "PlanStrollState.lua",
         "Tween.lua",

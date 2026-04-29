@@ -21,7 +21,8 @@ function Map:Create(mapDef)
         mTileHeight = mapDef.tilesets[1].tileheight,
         mTriggers = {},
         mEntities = {},
-        mNPCs = {}
+        mNPCs = {},
+        mNPCbyId = {}
     }
     this.mTileSprite:SetTexture(this.mTextureAtlas)
 
