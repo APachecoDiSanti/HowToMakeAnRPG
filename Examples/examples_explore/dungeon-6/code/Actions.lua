@@ -12,6 +12,7 @@ Actions =
     -- Note this should be used by the Quest manager!
     --
     AddNPC = function(map, npc)
+        assert(npc.id ~= "hero") -- reserved npc name
         return function(trigger, entity)
 
             local charDef = gCharacters[npc.def]

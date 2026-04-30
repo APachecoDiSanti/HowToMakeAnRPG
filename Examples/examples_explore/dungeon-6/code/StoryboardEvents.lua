@@ -262,10 +262,15 @@ function GetMapRef(storyboard, stateId)
     return exploreState.mMap
 end
 
-function Say(mapId, npcId, text)
+function Say(mapId, npcId, text, time, params)
+    time = time or 1
+    params = params or {textScale = 0.8}
     return function(storyboard)
         local map = GetMapRef(storyboard, mapId)
         local npc = map.mNPCbyId[npcId]
+        if npcId == "hero" then
+            npc = storyboard.mStates[mapId].mHero
+        end
         local pos = npc.mEntity.mSprite:GetPosition()
         storyboard.mStack:PushFit(
             gRenderer,
@@ -311,5 +316,36 @@ function MoveNPC(id, mapId, path)
             function()
                 return npc.mPathIndex > #npc.mPath
             end)
+    end
+end
+
+
+function ReplaceScene(name, params)
+    return function(storyboard)
+        local state = storyboard.mStates[name]
+
+        -- Give the state an updated name
+        local id = params.name or params.map
+        storyboard.mStates[name] = nil
+        storyboard.mStates[id] = state
+        local mapDef = MapDB[params.map]()
+        state.mMap = Map:Create(mapDef)
+
+        state.mMap:GotoTile(params.focusX, params.focusY)
+        state.mHero = Character:Create(gCharacters.hero, state.mMap)
+        state.mHero.mEntity:SetTilePos(
+            params.focusX,
+            params.focusY,
+            params.focusZ or 1,
+            state.mMap
+        )
+
+        if params.hideHero then
+            state:HideHero()
+        else
+            state:ShowHero()
+        end
+
+        return NoBlock(Wait(0))()
     end
 end

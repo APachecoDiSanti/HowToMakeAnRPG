@@ -97,6 +97,7 @@ manifest =
         {
             path = "code/map_sontos_house.lua"
         },
+        ["map_jail.lua"] = {path = "code/map_jail.lua"},
         ['ProgressBar.lua'] =
         {
             path = "code/ProgressBar.lua"
@@ -217,6 +218,11 @@ manifest =
         ['rain'] =
         {
             path = "sound/rain.wav"
-        }
+        },
+        ["bell"] = {path = "sound/bell.wav"},
+        ["crumble"] = {path = "sound/crumble.wav"},
+        ["door_break"] = {path = "sound/door_break.wav"},
+        ["wagon"] = {path = "sound/wagon.wav"},
+        ["wind"] = {path = "sound/wind.wav"},
     }
 }

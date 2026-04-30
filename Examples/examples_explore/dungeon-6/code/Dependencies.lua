@@ -53,6 +53,7 @@ Apply({
         "CaptionStyles.lua",
         "CaptionState.lua",
         "map_sontos_house.lua",
+        "map_jail.lua",
         "MapDB.lua",
     },
     function(v) Asset.Run(v) end)
