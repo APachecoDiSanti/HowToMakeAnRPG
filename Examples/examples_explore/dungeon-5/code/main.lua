@@ -38,6 +38,7 @@ local intro =
     NoBlock(FadeOutScreen()),
     MoveNPC("guard1", "player_house", { "up", "up", "up", "left", "left", "left"}),
     Wait(0.3),
+    Say("player_house", "guard1", "Take Him!"),
     FadeInScreen(),
     FadeSound("rain", 1, 0, 1),
     Stop("rain")

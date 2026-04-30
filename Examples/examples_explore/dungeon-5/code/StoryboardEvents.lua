@@ -274,3 +274,54 @@ function MoveNPC(id, mapId, path)
         )
     end
 end
+
+
+TimedTextboxEvent = {}
+TimedTextboxEvent.__index = TimedTextboxEvent
+
+
+function TimedTextboxEvent:Create(box, time)
+    local this = {
+        mTextbox = box,
+        mCountDown = time
+    }
+
+    setmetatable(this, self)
+    return this
+end
+
+
+function TimedTextboxEvent:Update(dt, storyboard)
+    self.mCountDown = self.mCountDown - dt
+    if self.mCountDown <= 0 then
+        self.mTextbox:OnClick()
+    end
+end
+
+
+function TimedTextboxEvent:Render() end
+
+
+function TimedTextboxEvent:IsBlocking()
+    return self.mCountDown > 0
+end
+
+
+function TimedTextboxEvent:IsFinished()
+    return not self:IsBlocking()
+end
+
+
+function Say(mapId, npcId, text, time, params)
+    time = time or 1
+    params = params or {textScale = 0.8}
+
+    return function(storyboard)
+        local map = GetMapRef(storyboard, mapId)
+        local npc = map.mNPCbyId[npcId]
+        local pos = npc.mEntity.mSprite:GetPosition()
+        storyboard.mStack:PushFit(gRenderer, -map.mCamX + pos:X(), -map.mCamY + pos:Y() + 32, text, -1, params)
+        local box = storyboard.mStack:Top()
+        return TimedTextboxEvent:Create(box, time)
+    end
+end
