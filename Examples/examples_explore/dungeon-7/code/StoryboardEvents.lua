@@ -350,3 +350,16 @@ function MoveNPC(id, mapId, path)
             end)
     end
 end
+
+
+function HandOff(mapId)
+    return function(storyboard)
+        local exploreState = storyboard.mStates[mapId]
+        -- remove storyboard from the top of the stack
+        storyboard.mStack:Pop()
+        storyboard.mStack:Push(exploreState)
+        exploreState.mStack = gStack
+        return EmptyEvent
+    end
+end
+

@@ -115,6 +115,8 @@ local intro =
     Wait(0.5),
     Say("jail", "hero", "Where am I?", 3),
     Wait(3),
+
+    HandOff("jail")
 }
 --local storyboard = Storyboard:Create(stack, scene_replace_check)
 local storyboard = Storyboard:Create(stack, intro)
