@@ -237,6 +237,7 @@ manifest =
         ['wagon'] =
         {
             path = "sound/wagon.wav"
-        }
+        },
+        ["crumble"] = {path = "sound/crumble.wav"}
     }
 }

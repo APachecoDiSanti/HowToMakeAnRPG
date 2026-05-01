@@ -2,7 +2,8 @@ LoadLibrary('Asset')
 Asset.Run('Dependencies.lua')
 
 gRenderer = Renderer.Create()
-local stack = StateStack:Create()
+gStack = StateStack:Create()
+CaptionStyles['default']:Render(gRenderer, "test")
 
 local intro =
 {
@@ -15,7 +16,7 @@ local intro =
     },
     SOP.BlackScreen(),
     SOP.RunAction("AddNPC",
-              {"player_house", { def = "sleeper", id="sleeper", x = 14, y = 19}},
+              {"player_house", { def = "sleeper", id="sleeper", x = 25, y = 26}},
               {GetMapRef}),
     SOP.Play("rain"),
     SOP.NoBlock(
@@ -35,7 +36,7 @@ local intro =
     SOP.Wait(2),
     SOP.FadeInScreen(),
     SOP.RunAction("AddNPC",
-         {"player_house", { def = "guard", id = "guard1", x = 16, y = 22}},
+         {"player_house", { def = "guard", id = "guard1", x = 30, y = 28}},
          {GetMapRef}),
     SOP.Wait(1),
     SOP.Play("door_break"),
@@ -96,11 +97,11 @@ local intro =
     SOP.Wait(1),
     SOP.HandOff("jail")
 }
-local storyboard = Storyboard:Create(stack, intro)
-stack:Push(storyboard)
+local storyboard = Storyboard:Create(gStack, intro)
+gStack:Push(storyboard)
 
 function update()
     local dt = GetDeltaTime()
-    stack:Update(dt)
-    stack:Render(gRenderer)
+    gStack:Update(dt)
+    gStack:Render(gRenderer)
 end

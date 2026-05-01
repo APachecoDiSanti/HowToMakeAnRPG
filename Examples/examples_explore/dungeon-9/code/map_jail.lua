@@ -1,4 +1,53 @@
 function CreateJailMap()
+
+    local CrumbleScript =
+    function(map, trigger, entity, x, y, layer)
+
+        local OnPush
+        local dialogParams =
+        {
+            textScale = 1,
+            choices =
+            {
+                options =
+                {
+                    "Push the wall",
+                    "Leave it alone"
+                },
+                OnSelection = function(index)
+                    if index == 1 then
+                        OnPush(map)
+                    end
+                end
+            },
+        }
+
+        gStack:PushFit(gRenderer,
+                       0, 0,
+                       "The wall here is crumbling. Push it?",
+                       255,
+                       dialogParams)
+
+        -- 2. OnYes erase wall
+        OnPush = function(map)
+            -- The player's pushing the wall.
+            gStack:PushFit(gRenderer, 0,0,
+                    "The wall crumbles.",
+                    255, {textScale=1})
+            Sound.Play("crumble")
+
+            map:RemoveTrigger(x, y, layer)
+            map:WriteTile
+            {
+                x = x,
+                y = y,
+                layer = layer,
+                tile = 134,
+                collision = false
+            }
+        end
+    end
+
   return {
   version = "1.1",
   luaversion = "5.1",
@@ -9,9 +58,22 @@ function CreateJailMap()
   tileheight = 16,
   properties = {},
   on_wake = {},
-  actions = {},
-  trigger_types = {},
-  triggers = {},
+  actions =
+  {
+        break_wall_script =
+        {
+            id = "RunScript",
+            params = { CrumbleScript }
+        }
+  },
+  trigger_types =
+  {
+      cracked_stone = { OnUse = "break_wall_script" }
+  },
+  triggers =
+  {
+      { trigger = "cracked_stone", x = 60, y = 11},
+  },
   tilesets = {
     {
       name = "tileset_jail",
