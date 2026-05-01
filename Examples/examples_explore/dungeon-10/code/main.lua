@@ -102,8 +102,10 @@ local intro =
 local storyboard = Storyboard:Create(gStack, intro)
 gStack:Push(storyboard)
 
+
 function update()
     local dt = GetDeltaTime()
     gStack:Update(dt)
     gStack:Render(gRenderer)
+    gWorld:Update(dt)
 end

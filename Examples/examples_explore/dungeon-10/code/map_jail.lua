@@ -1,5 +1,21 @@
 function CreateJailMap()
 
+    local BoneItemId = 4
+    local BoneScript = function(map, trigger, entity, x, y, layer)
+      local GiveBone = function()
+        gStack:PushFit(gRenderer, 0, 0, "Found key item: 'Calcified bone'", 255, {textScale = 1})
+        gWorld:AddKey(BoneItemId)
+        Sound.Play("key_item")
+      end
+
+      -- 1. The skeleton collapsed into dust
+      gStack:PushFit(gRenderer, 0, 0, "The skeleton collapsed into dust.", 255, {textScale = 1, OnFinish=GiveBone})
+      Sound.Play("skeleton_destroy")
+      map:RemoveTrigger(73, 11, layer)
+      map:RemoveTrigger(74, 11, layer)
+      map:WriteTile{x = 74, y = 11, layer = layer, tile = 136, collision = true}
+    end
+
     local CrumbleScript =
     function(map, trigger, entity, x, y, layer)
 
@@ -64,15 +80,22 @@ function CreateJailMap()
         {
             id = "RunScript",
             params = { CrumbleScript }
+        },
+        bone_script = {
+            id = "RunScript",
+            params = { BoneScript }
         }
   },
   trigger_types =
   {
-      cracked_stone = { OnUse = "break_wall_script" }
+      cracked_stone = { OnUse = "break_wall_script" },
+      skeleton = { OnUse = "bone_script" }
   },
   triggers =
   {
       { trigger = "cracked_stone", x = 60, y = 11},
+      { trigger = "skeleton", x = 73, y = 11},
+      { trigger = "skeleton", x = 74, y = 11},
   },
   tilesets = {
     {

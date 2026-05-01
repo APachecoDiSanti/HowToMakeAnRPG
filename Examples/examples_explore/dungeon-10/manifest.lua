@@ -242,6 +242,8 @@ manifest =
         ['crumble'] =
         {
             path = "sound/crumble.wav"
-        }
+        },
+        ['skeleton_destroy'] = {path = "sound/skeleton_destroy.wav"},
+        ['key_item'] = {path = "sound/key_item.wav"}
     }
 }
