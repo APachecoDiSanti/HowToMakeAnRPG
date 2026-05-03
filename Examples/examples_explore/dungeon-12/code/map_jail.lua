@@ -139,6 +139,36 @@ function CreateJailMap()
         end
     end
 
+    local EnterGrate = function () end
+
+    local UseGrate = function(map, trigger, entity, x, y, layer)
+      if gWorld:HasKey(BoneItemId) then
+        local OnOpen
+        local dialogParams = {
+          textScale = 1,
+          choices = {
+            options = {"Prize open the gate", "Leave it alone"},
+            OnSelection = function(index)
+              if index == 1 then
+                OnOpen(map)
+              end
+            end
+          }
+        }
+
+        gStack:PushFit(gRenderer, 0, 0, "There's a tunnel behind the grate. Prize it open using the bone?", 300, dialogParams)
+        OnOpen = function()
+          Sound.Play("grate")
+          map:WriteTile{x = 57, y = 6, layer = layer, tile = 151, collision = false}
+          map:WriteTile{x = 58, y = 6, layer = layer, tile = 152, collision = false}
+          map:AddTrigger{x = 57, y = 6, layer = layer, trigger = "grate_open"}
+          map:AddTrigger{x = 58, y = 6, layer = layer, trigger = "grate_open"}
+        end
+      else
+        gStack:PushFit(gRenderer, 0, 0, "There's a tunnel behind the grate. But you can't move the grate with your bare hands.", 300, {textScale = 1})
+      end
+    end
+
   return {
   version = "1.1",
   luaversion = "5.1",
@@ -176,7 +206,9 @@ function CreateJailMap()
         {
             id = "RunScript",
             params = { TalkGregor }
-        }
+        },
+        use_grate = { id = "RunScript", params = { UseGrate } },
+        enter_grate = { id = "RunScript", params = { EnterGrate } },
   },
   trigger_types =
   {
@@ -184,6 +216,8 @@ function CreateJailMap()
       skeleton = { OnUse = "bone_script" },
       gregor_trigger = { OnExit = "move_gregor" },
       gregor_talk_trigger = { OnUse = "talk_gregor" },
+      grate_close = { OnUse = "use_grate" },
+      grate_open = { OnUse = "enter_grate" },
   },
   triggers =
   {
@@ -191,7 +225,9 @@ function CreateJailMap()
       { trigger = "skeleton", x = 73, y = 11},
       { trigger = "skeleton", x = 74, y = 11},
       { trigger = "gregor_trigger", x = 59, y = 11},
-      { trigger = "gregor_talk_trigger", x = 50, y = 13}
+      { trigger = "gregor_talk_trigger", x = 50, y = 13},
+      { trigger = "grate_close", x = 57, y = 6},
+      { trigger = "grate_close", x = 58, y = 6},
   },
   tilesets = {
     {

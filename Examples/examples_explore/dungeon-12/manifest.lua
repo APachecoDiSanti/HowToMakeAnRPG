@@ -249,6 +249,8 @@ manifest =
         ['skeleton_destroy'] =
         {
             path = "sound/skeleton_destroy.wav"
-        }
+        },
+        ["grate"] = { path = "sound/grate.wav"},
+        ["reveal"] = { path = "sound/reveal.wav"},
     }
 }

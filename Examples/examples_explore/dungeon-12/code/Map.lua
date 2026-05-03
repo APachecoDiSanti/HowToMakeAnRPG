@@ -82,18 +82,7 @@ function Map:Create(mapDef)
     --
     this.mTriggers = {}
     for k, v in ipairs(mapDef.triggers) do
-        local x = v.x
-        local y = v.y
-        local layer = v.layer or 1
-
-        if not this.mTriggers[layer] then
-            this.mTriggers[layer] = {}
-        end
-
-        local targetLayer = this.mTriggers[layer]
-        local trigger = this.mTriggerTypes[v.trigger]
-        assert(trigger)
-        targetLayer[this:CoordToIndex(x, y)] = trigger
+        this:AddTrigger(v)
     end
 
     for _, v in ipairs(mapDef.on_wake or {}) do
@@ -103,6 +92,23 @@ function Map:Create(mapDef)
 
     return this
 end
+
+
+function Map:AddTrigger(def)
+    local x = def.x
+    local y = def.y
+    local layer = def.layer or 1
+
+    if not self.mTriggers[layer] then
+        self.mTriggers[layer] = {}
+    end
+
+    local targetLayer = self.mTriggers[layer]
+    local trigger = self.mTriggerTypes[def.trigger]
+    assert(trigger)
+    targetLayer[self:CoordToIndex(x, y)] = trigger
+end
+
 
 function Map:GetEntity(x, y, layer)
     if not self.mEntities[layer] then
