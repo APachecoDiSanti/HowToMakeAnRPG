@@ -1,9 +1,43 @@
 function CreateJailMap()
+    
+    local BoneItemId = 4
+
+    local MoveGregor = function(map, trigger, entity, x, y, layer)
+      if gWorld:HasKey(BoneItemId) then
+        local gregor = map.mNPCbyId["gregor"]
+        assert(gregor)
+        gregor:FollowPath {"up", "up", "up", "right", "right", "right", "right", "right", "right", "down", "down", "down"}
+        map:RemoveTrigger(x, y, layer)
+      end
+    end
+
+    local TalkGregor = function(map, trigger, entity, x, y, layer)
+      local gregor = map.mNPCbyId["gregor"]
+      if gregor.mEntity.mTileX == x and gregor.mEntity.mTileY == y - 1 then
+        gregor.mTalkIndex = gregor.mTalkIndex or 1
+        local speech = {
+          "You're another black blood aren't you?",
+          "Come the morning, they'll kill you, just like the others.",
+          "If I was you, I'd try to escape.",
+          "Pry the drain open, with that big bone you're holding."
+        }
+
+        local text = speech[gregor.mTalkIndex]
+        local height = 102
+        local width = 500
+        local x = 0
+        local y = -System.ScreenHeight()/2 + height / 2
+        gStack:PushFix(gRenderer, x, y, width, height, text, {textScale = 1, title = "Prisoner:"})
+        gregor.mTalkIndex = gregor.mTalkIndex + 1
+        if gregor.mTalkIndex > #speech then
+          gregor.mTalkIndex = 1
+        end
+      end
+    end
 
     local BoneScript =
     function(map, trigger, entity, x, y, layer)
 
-        local BoneItemId = 4
         local GiveBone = function()
             gStack:PushFit(gRenderer, 0, 0,
                            'Found key item: "Calcified bone"',
@@ -88,7 +122,12 @@ function CreateJailMap()
   tilewidth = 16,
   tileheight = 16,
   properties = {},
-  on_wake = {},
+  on_wake = {
+    {
+      id = "AddNPC",
+      params = {{ def = "prisoner", id = "gregor", x = 44, y = 12}},
+    }
+  },
   actions =
   {
         break_wall_script =
@@ -100,18 +139,30 @@ function CreateJailMap()
         {
             id = "RunScript",
             params = { BoneScript }
+        },
+        move_gregor = {
+          id = "RunScript",
+          params = { MoveGregor }
+        },
+        talk_gregor = {
+          id = "RunScript",
+          params = { TalkGregor }
         }
   },
   trigger_types =
   {
       cracked_stone = { OnUse = "break_wall_script" },
-      skeleton = { OnUse = "bone_script" }
+      skeleton = { OnUse = "bone_script" },
+      gregor_trigger = { OnExit = "move_gregor" },
+      gregor_talk_trigger = { OnUse = "talk_gregor" }
   },
   triggers =
   {
       { trigger = "cracked_stone", x = 60, y = 11},
       { trigger = "skeleton", x = 73, y = 11},
       { trigger = "skeleton", x = 74, y = 11},
+      { trigger = "gregor_trigger", x = 59, y = 11},
+      { trigger = "gregor_talk_trigger", x = 50, y = 13}
   },
   tilesets = {
     {

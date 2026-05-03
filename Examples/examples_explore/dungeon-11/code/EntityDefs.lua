@@ -3,6 +3,9 @@
 assert(WaitState)
 assert(MoveState)
 assert(SleepState)
+assert(NPCStandState)
+assert(PlanStrollState)
+assert(FollowPathState)
 
 gCharacterStates =
 {
@@ -45,16 +48,16 @@ gEntities =
         x = 18,
         y = 32
     },
-    -- prisoner =
-    -- {
-    --     texture = "prisoner.png",
-    --     width = 16,
-    --     height = 18,
-    --     startFrame = 23,
-    --     tileX = 1,
-    --     tileY = 1,
-    --     layer = 1
-    -- },
+    prisoner =
+    {
+        texture = "walk_cycle.png",
+        width = 16,
+        height = 24,
+        startFrame = 58,
+        tileX = 1,
+        tileY = 1,
+        layer = 1
+    },
 }
 
 gCharacters =
@@ -73,14 +76,19 @@ gCharacters =
         controller = {"npc_stand", "follow_path", "move"},
         state = "npc_stand"
     },
-    -- prisoner =
-    -- {
-    --     entity = "prisoner",
-    --     anims = {},
-    --     facing = "down",
-    --     controller = {"npc_stand", "plan_stroll", "move"},
-    --     state = "npc_stand"
-    -- },
+    prisoner =
+    {
+        entity = "prisoner",
+        anims = {
+            up = {49, 50, 51, 52},
+            right = {53, 54, 55, 56},
+            down = {57, 58, 59, 60},
+            left = {61, 62, 63, 64},
+        },
+        facing = "down",
+        controller = {"npc_stand", "follow_path", "move"},
+        state = "npc_stand"
+    },
     hero =
     {
         entity = "hero",
