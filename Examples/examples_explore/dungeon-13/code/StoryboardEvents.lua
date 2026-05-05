@@ -110,9 +110,10 @@ end
 
 local EmptyEvent = WaitEvent:Create(0)
 
-function SOP.BlackScreen(id)
+function SOP.BlackScreen(id, alpha)
 
     id = id or "blackscreen"
+    local black = Vector.Create(0, 0, 0, alpha or 1)
 
     return function(storyboard)
         local screen = ScreenState:Create(black)
@@ -278,6 +279,7 @@ function SOP.ReplaceScene(name, params)
             params.focusY,
             params.focusZ or 1,
             state.mMap)
+        state:SetFollowCam(true, state.mHero)
 
         if params.hideHero then
             state:HideHero()
@@ -356,5 +358,61 @@ function SOP.HandOff(mapId)
         storyboard.mStack:Push(exploreState)
         exploreState.mStack = gStack
         return EmptyEvent
+    end
+end
+
+
+function SOP.FadeOutChar(mapId, npcId, duration)
+    duration = duration or 1
+    return function(storyboard)
+        local map = GetMapRef(storyboard, mapId)
+        local npc = map.mNPCbyId[npcId]
+        if npcId == "hero" then
+            npc = storyboard.mStates[mapId].mHero
+        end
+
+        return TweenEvent:Create(
+            Tween:Create(1, 0, duration),
+            npc.mEntity.mSprite,
+            function(target, value)
+                local c = target:GetColor()
+                c:SetW(value)
+                target:SetColor(c)
+            end    
+        )
+    end
+end
+
+
+function SOP.WriteTile(mapId, writeParams)
+    return function(storyboard)
+        local map = GetMapRef(storyboard, mapId)
+        map:WriteTile(writeParams)
+        return EmptyEvent
+    end
+end
+
+
+function SOP.MoveCamToTile(stateId, tileX, tileY, duration)
+    duration = duration or 1
+    return function(storyboard)
+        local state = storyboard.mStates[stateId]
+        state:SetFollowCam(false)
+        local startX = state.mManualCamX
+        local startY = state.mManualCamY
+        local endX, endY = state.mMap:GetTileFoot(tileX, tileY)
+        local xDistance = endX - startX
+        local yDistance = endY - startY
+
+        return TweenEvent:Create(
+            Tween:Create(0, 1, duration, Tween.EaseOutQuad),
+            state,
+            function(target, value)
+                local dX = startX + (xDistance * value)
+                local dY = startY + (yDistance * value)
+                state.mManualCamX = dX
+                state.mManualCamY = dY
+            end
+        )
     end
 end
