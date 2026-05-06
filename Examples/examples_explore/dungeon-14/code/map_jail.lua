@@ -106,15 +106,16 @@ function CreateJailMap()
                 })
             ),
             SOP.FadeInScreen(),
-            -- -- SOP.ReplaceScene(
-            -- --     "handin",
-            -- --     {
-            -- --         map = "sewer",
-            -- --         focusX = 31,
-            -- --         focusY = 22,
-            -- --         hideHero = false
-            -- --     }),
-            -- --  SOP.HandOff("sewer")
+            SOP.ReplaceScene(
+                "handin",
+                {
+                    map = "sewer",
+                    focusX = 35,
+                    focusY = 15,
+                    hideHero = false
+                }),
+            SOP.FadeOutScreen(),
+            SOP.HandOff("sewer")
         }
         local storyboard = Storyboard:Create(gStack, cutscene, true)
         gStack:Push(storyboard)

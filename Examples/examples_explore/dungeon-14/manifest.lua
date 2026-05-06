@@ -45,6 +45,7 @@ manifest =
         {
             path = "code/FollowPathState.lua"
         },
+        ["GameOverState.lua"] = {path = "code/GameOverState.lua"},
         ['ItemMenuState.lua'] =
         {
             path = "code/ItemMenuState.lua"
@@ -64,6 +65,10 @@ manifest =
         ['map_jail.lua'] =
         {
             path = "code/map_jail.lua"
+        },
+        ['map_sewer.lua'] =
+        {
+            path = "code/map_sewer.lua"
         },
         ['Layout.lua'] =
         {

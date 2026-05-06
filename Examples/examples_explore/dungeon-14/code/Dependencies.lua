@@ -52,8 +52,10 @@ Apply({
         "ScreenState.lua",
         "CaptionStyles.lua",
         "CaptionState.lua",
+        "GameOverState.lua",
         "map_sontos_house.lua",
         "map_jail.lua",
+        "map_sewer.lua",
         "MapDB.lua",
     },
     function(v) Asset.Run(v) end)
