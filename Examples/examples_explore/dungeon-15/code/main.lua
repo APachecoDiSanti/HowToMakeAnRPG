@@ -100,7 +100,8 @@ local intro =
     SOP.HandOff("jail")
 }
 local storyboard = Storyboard:Create(gStack, intro)
-gStack:Push(storyboard)
+local titleState = TitleScreenState:Create(gStack, storyboard)
+gStack:Push(titleState)
 
 function update()
     local dt = GetDeltaTime()
