@@ -80,7 +80,7 @@ function FrontMenuState:Render(renderer)
         v:Render(renderer)
     end
 
-    renderer:ScaleText(1.5, 1.5)
+    renderer:ScaleText(self.mParent.mTitleSize, self.mParent.mTitleSize)
     renderer:AlignText("left", "center")
     local menuX = self.mLayout:Left("menu") - 16
     local menuY = self.mLayout:Top("menu") - 24
@@ -95,7 +95,7 @@ function FrontMenuState:Render(renderer)
     local goldX = self.mLayout:MidX("gold") - 22
     local goldY = self.mLayout:MidY("gold") + 22
 
-    renderer:ScaleText(1.22, 1.22)
+    renderer:ScaleText(self.mParent.mLabelSize, self.mParent.mLabelSize)
     renderer:AlignText("right", "top")
     renderer:DrawText2d(goldX, goldY, "GP:")
     renderer:DrawText2d(goldX, goldY - 25, "TIME:")
