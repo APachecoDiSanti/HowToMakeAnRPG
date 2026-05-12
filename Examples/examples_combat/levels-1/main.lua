@@ -20,6 +20,13 @@ Stats:Create
 }
 
 
+local r1d6 = Dice:Create("1d6")
+print(r1d6:Roll())
+print(r1d6:Roll())
+
+local roll = Dice:Create("1d6 1d8+10")
+print(roll:Roll())
+
 function update()
     gRenderer:DrawText2d(0, 0, "Let's make a level class!")
 end
