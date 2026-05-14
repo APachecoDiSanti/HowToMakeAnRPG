@@ -17,5 +17,6 @@ manifest =
         {
             path = "dice.lua"
         },
+        ["actor.lua"] = {path = "actor.lua"},
     },
 }

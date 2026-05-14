@@ -21,6 +21,12 @@ Stats:Create
 }
 
 
+local Growth = {
+    fast = Dice:Create("3d2"),
+    med = Dice:Create("1d3"),
+    slow = Dice:Create("1d2"),
+}
+
 function update()
     gRenderer:DrawText2d(0, 0, "Let's make a level class!")
 end
