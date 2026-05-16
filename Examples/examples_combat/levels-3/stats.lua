@@ -1,6 +1,10 @@
 Stats = {}
 Stats.__index = Stats
 function Stats:Create(stats)
+    print("stats create: ")
+    print(stats)
+    print(#stats)
+
     local this =
     {
         mBase = {},
@@ -9,6 +13,8 @@ function Stats:Create(stats)
 
     -- Shallow copy
     for k, v in pairs(stats) do
+        print(k)
+        print(v)
         this.mBase[k] = v
     end
 

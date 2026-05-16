@@ -14,7 +14,7 @@ function Actor:Create(def, ...)
         mLevel = 1,
     }
 
-    this.mNextLevelXP = nextLevel(this.mLevel)
+    this.mNextLevelXP = NextLevel(this.mLevel)
 
     setmetatable(this, self)
     return this
@@ -30,7 +30,6 @@ function Actor:AddXP(xp)
 end
 
 function Actor:CreateLevelUp()
-
     local levelup =
     {
         xp = - self.mNextLevelXP,
@@ -54,7 +53,7 @@ end
 function Actor:ApplyLevel(levelup)
     self.mXP = self.mXP + levelup.xp
     self.mLevel = self.mLevel + levelup.level
-    self.mNextLevelXP = nextLevel(self.mLevel)
+    self.mNextLevelXP = NextLevel(self.mLevel)
 
     assert(self.mXP >= 0)
 

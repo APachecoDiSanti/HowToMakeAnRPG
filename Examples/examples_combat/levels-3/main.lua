@@ -16,9 +16,7 @@ gRenderer = Renderer.Create()
 
 
 -- Let's design some growth strategies
-local stats =
-Stats:Create
-{
+local stats = {
     ["hp_now"] = 300,
     ["hp_max"] = 300,
     ["mp_now"] = 300,
@@ -80,6 +78,39 @@ mageDef =
 mage = Actor:Create(mageDef)
 thief = Actor:Create(thiefDef)
 hero = Actor:Create(heroDef)
+
+
+function PrintLevelUp(levelup)
+    local plu_stats = levelup.stats
+    print(string.format("HP:+%d MP:+%d", plu_stats["hp_max"], plu_stats["mp_max"]))
+    print(string.format("str:+%d spd:+%d int:+%d", plu_stats["strength"], plu_stats["speed"], plu_stats["intelligence"]))
+    print("")
+end
+
+
+function ApplyXP(actor, xp)
+    actor:AddXP(xp)
+    while(actor:ReadyToLevelUp()) do
+        local levelup = actor:CreateLevelUp()
+        local levelNumber = actor.mLevel + levelup.level
+        print(string.format("Level Up! (Level %d)", levelNumber))
+        PrintLevelUp(levelup)
+        actor:ApplyLevel(levelup)
+    end
+end
+
+ApplyXP(hero, 10001)
+
+print("==XP applied==")
+print("Level:", hero.mlevel)
+print("XP:", hero.mXp)
+print("Next Level XP:", hero.mNextLevelXP)
+
+local hStats = hero.mStats
+
+print(string.format("HP:+%d MP:+%d", hStats:Get("hp_max"), hStats:Get("mp_max")))
+print(string.format("str:+%d spd:+%d int:+%d", hStats:Get("strength"), hStats:Get("speed"), hStats:Get("intelligence")))
+
 
 function update()
     gRenderer:DrawText2d(0, 0, "Let's make a level class!")
