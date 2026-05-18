@@ -177,6 +177,12 @@ manifest =
         {
             path = "code/map_arena.lua"
         },
+        ["StatDefs.lua"] = {path="code/StatDefs.lua"},
+        ["PartyMemberDefs.lua"] = {path="code/PartyMemberDefs.lua"},
+        ["Party.lua"] = {path="code/Party.lua"},
+        ["LevelFunction.lua"] = {path="code/LevelFunction.lua"},
+        ["Actor.lua"] = {path="code/Actor.lua"},
+        ["ActorSummary.lua"] = {path="code/ActorSummary.lua"},
     },
     textures =
     {
@@ -220,6 +226,15 @@ manifest =
         {
             path = "art/tileset_arena.png",
         },
+        ["hero_portrait.png"] = {path="art/hero_portrait.png"},
+        ["thief_portrait.png"] = {path="art/thief_portrait.png"},
+        ["mage_portrait.png"] = {path="art/mage_portrait.png"},
+        ["hpbackground.png"] = {path="art/hpbackground.png"},
+        ["hpforeground.png"] = {path="art/hpforeground.png"},
+        ["mpbackground.png"] = {path="art/mpbackground.png"},
+        ["mpforeground.png"] = {path="art/mpforeground.png"},
+        ["xpbackground.png"] = {path="art/xpbackground.png"},
+        ["xpforeground.png"] = {path="art/xpforeground.png"},
     },
     ['fonts'] =
     {

@@ -7,6 +7,7 @@ function World:Create()
         mGold = 0,
         mItems = {},
         mKeyItems = {},
+        mParty = Party:Create()
     }
     setmetatable(this, self)
     return this

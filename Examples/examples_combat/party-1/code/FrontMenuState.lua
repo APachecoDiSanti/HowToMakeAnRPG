@@ -26,7 +26,7 @@ function FrontMenuState:Create(parent)
                 "Items",
                 -- "Magic",
                 -- "Equipment",
-                -- "Status",
+                "Status",
                 -- "Save"
             },
             OnSelection = function(...) this:OnMenuClick(...) end
@@ -48,8 +48,35 @@ function FrontMenuState:Create(parent)
     this.mSelections.mX = this.mLayout:MidX("menu") - 60
     this.mSelections.mY = this.mLayout:Top("menu") - 24
 
+    this.mPartyMenu = Selection:Create {
+        spacingY = 90,
+        data = this:CreatePartySummaries(),
+        columns = 1,
+        rows = 3,
+        OnSelection = function(...) this:OnPartyMemberChosen(...) end,
+        RenderItem = function(menu, renderer, x, y, item)
+            if item then
+                item:SetPosition(x, y + 35)
+                item:Render(renderer)
+            end
+        end
+    }
+    this.mPartyMenu:HideCursor()
+
     return this
 end
+
+
+function FrontMenuState:CreatePartySummaries()
+    local partyMembers = gWorld.mParty.mMembers
+    local out = {}
+    for _, v in pairs(partyMembers) do
+        local summary = ActorSummary:Create(v, {showXP=true})
+        table.insert(out, summary)
+    end
+    return out
+end
+
 
 function FrontMenuState:Enter()
 
@@ -104,4 +131,9 @@ function FrontMenuState:Render(renderer)
     renderer:AlignText("left", "top")
     renderer:DrawText2d(goldX + 10, goldY, gWorld:GoldAsString())
     renderer:DrawText2d(goldX + 10, goldY - 25, gWorld:TimeAsString())
+
+    local partyX = self.mLayout:Left("party") - 16
+    local partyY = self.mLayout:Top("party") - 45
+    self.mPartyMenu:SetPosition(partyX, partyY)
+    self.mPartyMenu:Render(renderer)
 end
