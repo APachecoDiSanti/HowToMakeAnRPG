@@ -29,10 +29,9 @@ function InGameMenuState:Create(stack)
             --return EquipMenuState:Create(this)
             return this.mStateMachine.mEmpty
         end,
-        ['status'] =
+        ["status"] =
         function()
-            --return StatusMenuState:Create(this)
-            return this.mStateMachine.mEmpty
+            return StatusMenuState:Create(this) -- Problem is here
         end
     }
     this.mStateMachine:Change("frontmenu")

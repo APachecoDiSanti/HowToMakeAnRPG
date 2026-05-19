@@ -45,6 +45,7 @@ Apply({
         "ExploreState.lua",
         "Layout.lua",
         "InGameMenuState.lua",
+        "StatusMenuState.lua",
         "FrontMenuState.lua",
         "World.lua",
         "ItemDB.lua",

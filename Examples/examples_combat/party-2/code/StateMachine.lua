@@ -54,10 +54,24 @@ function StateMachine:Create(states)
 	return this
 end
 
+function print_array(a)
+  local str = "{ "
+  for i=1, #a do
+    str = str .. a[i] .. ", "
+  end
+  str = str .. "}"
+  print(str)
+end
+
+
 function StateMachine:Change(stateName, enterParams)
 	assert(self.mStates[stateName]) -- state must exist!
 	self.mCurrent:Exit()
+	print(self.mStates[stateName])
+	print(self.mCurrent)
 	self.mCurrent = self.mStates[stateName]()
+	print(self.mCurrent)
+	print_array(self.mCurrent)
 	self.mCurrent:Enter(enterParams)
 end
 

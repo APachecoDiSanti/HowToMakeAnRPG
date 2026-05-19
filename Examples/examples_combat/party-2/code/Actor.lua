@@ -1,5 +1,44 @@
 
-Actor = {}
+Actor = {
+    EquipSlotLabels = {
+        "Weapon:",
+        "Armor:",
+        "Accessory:",
+        "Accessory:",
+    },
+    EquipSlotId = {
+        "weapon",
+        "armor",
+        "acces1",
+        "acces2",
+    },
+    ActorStats = {
+        "strength",
+        "speed",
+        "intelligence"
+    },
+    ItemStats = {
+        "attack",
+        "defense",
+        "magic",
+        "resist"
+    },
+    ActorStatLabels = {
+        "Strength",
+        "Speed",
+        "Intelligence"
+    },
+    ItemStatLabels = {
+        "Attack",
+        "Defense",
+        "Magic",
+        "Resist"
+    },
+    ActionLabels = {
+        ["attack"] = "Attack",
+        ["item"] = "Item"
+    }
+}
 Actor.__index = Actor
 function Actor:Create(def)
 
@@ -22,7 +61,8 @@ function Actor:Create(def)
             armor = def.armor,
             acces1 = def.acces1,
             acces2 = def.acces2,
-        }
+        },
+        mActiveEquipSlots = def.equipslots or { 1, 2, 3}
     }
 
     if def.portrait then
@@ -79,4 +119,21 @@ function Actor:ApplyLevel(levelup)
     end
 
     -- Unlock any special abilities etc.
+end
+
+
+function Actor:RenderEquipment(menu, renderer, x, y, index)
+    x = x + 100
+    local label = self.EquipSlotLabels[index]
+    renderer:AlignText("right", "center")
+    renderer:DrawText2d(x, y, label)
+    local slotId = self.EquipSlotId[index]
+    local text = "none"
+    if self.mEquipment[slotId] then
+        local itemId = self.mEquipment[slotId]
+        local item = ItemDB[itemId]
+        text = item.name
+    end
+    renderer:AlignText("left", "center")
+    renderer:DrawText2d(x + 10, y, text)
 end

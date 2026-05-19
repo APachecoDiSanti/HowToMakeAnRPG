@@ -39,7 +39,8 @@ function FrontMenuState:Create(parent)
             layout:CreatePanel("party"),
             layout:CreatePanel("menu")
         },
-        mTopBarText = "Current Map Name",
+        mTopBarText = "Empty Room",
+        mInPartyMenu = false
     }
 
     setmetatable(this, self)
@@ -81,14 +82,30 @@ function FrontMenuState:OnMenuClick(index)
     if index == ITEMS then
         return self.mStateMachine:Change("items")
     end
+
+    self.mInPartyMenu = true
+    self.mSelections:HideCursor()
+    self.mPartyMenu:ShowCursor()
+    self.mPrevTopBarText = self.mTopBarText
+    self.mTopBarText = "Choose a party member"
 end
 
 function FrontMenuState:Update(dt)
-    self.mSelections:HandleInput()
+    if self.mInPartyMenu then
+        self.mPartyMenu:HandleInput()
+        if Keyboard.JustPressed(KEY_BACKSPACE) or Keyboard.JustPressed(KEY_ESCAPE) then
+            self.mInPartyMenu = false
+            self.mTopBarText = self.mPrevTopBarText
+            self.mSelections:ShowCursor()
+            self.mPartyMenu:HideCursor()
+        end
+    else
+        self.mSelections:HandleInput()
 
-    if Keyboard.JustPressed(KEY_BACKSPACE) or
-       Keyboard.JustPressed(KEY_ESCAPE) then
-        self.mStack:Pop()
+        if Keyboard.JustPressed(KEY_BACKSPACE) or
+        Keyboard.JustPressed(KEY_ESCAPE) then
+            self.mStack:Pop()
+        end
     end
 end
 
@@ -141,4 +158,15 @@ function FrontMenuState:Render(renderer)
     local partyY = self.mLayout:Top("party") - 45
     self.mPartyMenu:SetPosition(partyX, partyY)
     self.mPartyMenu:Render(renderer)
+end
+
+
+function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
+    local indexToStateId = {
+        [2] = "status"
+    }
+    local actor = actorSummary.mActor
+    local index = self.mSelections:GetIndex()
+    local stateId = indexToStateId[index]
+    self.mStateMachine:Change(stateId, actor)
 end

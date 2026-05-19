@@ -61,6 +61,7 @@ manifest =
         {
             path = "code/InGameMenuState.lua"
         },
+        ["StatusMenuState.lua"] = {path="code/StatusMenuState.lua"},
         ['Icons.lua'] =
         {
             path = "code/Icons.lua"
