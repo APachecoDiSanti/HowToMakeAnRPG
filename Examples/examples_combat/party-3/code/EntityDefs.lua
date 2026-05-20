@@ -62,6 +62,7 @@ gCharacters =
         facing = "down",
         controller = { "wait", "move" },
         state = "wait",
+        partyDef = gPartyMemberDefs.hero
     },
     thief =
     {
@@ -75,8 +76,8 @@ gCharacters =
             left = {45, 46, 47, 48},
         },
         facing = "down",
-        controller = { "wait", "move" },
-        state = "wait",
+        controller = { "npc_stand", "move" },
+        state = "npc_stand",
     },
     mage =
     {
@@ -90,7 +91,7 @@ gCharacters =
             left = {29, 30, 31, 32},
         },
         facing = "down",
-        controller = { "wait", "move" },
-        state = "wait",
+        controller = { "npc_stand", "move" },
+        state = "npc_stand",
     }
 }

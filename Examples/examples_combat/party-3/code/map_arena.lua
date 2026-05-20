@@ -1,5 +1,38 @@
 function CreateArenaMap()
 
+  local RecruitNPC = function(map, trigger, entity, x, y, layer)
+    local npc = map:GetNPC(x, y, layer)
+    local actorId = npc.mDef.actorId
+    local actorDef = gPartyMemberDefs[actorId]
+    local name = actorDef.name
+    local OnRecruit
+    local dialogParams = {
+      textScale = 1.2,
+      choices = {
+        options = {"Recruit", "Leave"},
+        OnSelection = function(index)
+          if index == 1 then
+            OnRecruit()
+          end
+        end
+      }
+    }
+
+    gStack:PushFit(gRenderer, 0, 0, string.format("Recruit %s?", name), 300, dialogParams)
+    
+    OnRecruit = function ()
+      local fadeout = {
+        SOP.FadeOutChar("handin", npc.mId),
+        SOP.RunAction("RemoveNPC", {"handin", npc.mId}, {GetMapRef}),
+        SOP.RunAction("AddPartyMember", {npc.mDef.actorId}),
+        SOP.HandOff("handin")
+      }
+      local storyboard = Storyboard:Create(gStack, fadeout, true)
+      gStack:Push(storyboard)
+    end
+  end
+
+
 return
 {
   version = "1.1",
@@ -10,19 +43,15 @@ return
   tilewidth = 16,
   tileheight = 16,
   properties = {},
-  on_wake =
-  {
-
+  on_wake = {
+    {id = "AddNPC", params= {{def="mage", id="mage", x=35, y=14}}},
+    {id = "AddNPC", params= {{def="thief", id="thief", x=42, y=11}}},
   },
-  actions =
-  {
-  },
-  trigger_types =
-  {
-
-  },
-  triggers =
-  {
+  actions = { talk_recruit = {id = "RunScript", params={RecruitNPC}} },
+  trigger_types = { recruit = {OnUse = "talk_recruit"} },
+  triggers = {
+    {trigger = "recruit", x=35, y=14},
+    {trigger = "recruit", x=42, y=11},
   },
   tilesets = {
     {

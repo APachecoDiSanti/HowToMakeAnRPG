@@ -38,5 +38,21 @@ Actions =
         return function(trigger, entity, tX, tY, tLayer)
             Func(map, trigger, entity, tX, tY, tLayer)
         end
+    end,
+
+    RemoveNPC = function(map, id)
+        return function(trigger, entity, tX, tY, tLayer)
+            local npc = map.mNPCbyId[id].mEntity
+            assert(npc)
+            map:RemoveNPC(npc.mTileX, npc.mTileY, npc.mLayer)
+        end
+    end,
+
+    AddPartyMember = function(actorId)
+        return function(trigger, entity, tX, tY, tLayer)
+            local actorDef = gPartyMemberDefs[actorId]
+            assert(actorDef)
+            gWorld.mParty:Add(Actor:Create(actorDef))
+        end
     end
 }
