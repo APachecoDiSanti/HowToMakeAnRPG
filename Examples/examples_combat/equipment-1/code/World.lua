@@ -7,7 +7,8 @@ function World:Create()
         mGold = 0,
         mItems = {},
         mKeyItems = {},
-        mParty = Party:Create()
+        mParty = Party:Create(),
+        mIcons = Icons:Create(Texture.Find("inventory_icons.png"))
     }
     setmetatable(this, self)
     return this
@@ -116,7 +117,7 @@ end
 function World:DrawItem(menu, renderer, x, y, item)
     if item then
         local itemDef = ItemDB[item.id]
-        local iconSprite = gIcons:Get(itemDef.type)
+        local iconSprite = self.mIcons:Get(itemDef.icon or itemDef.type)
         if iconSprite then
             iconSprite:SetPosition(x + 6, y)
             renderer:DrawSprite(iconSprite)
