@@ -146,3 +146,83 @@ function Actor:ApplyLevel(levelup)
 
     -- Unlock any special abilities etc.
 end
+
+
+function Actor:Equip(slot, item)
+    -- 1.Remove any item currently in the slot and put it back in the inventory
+    local prevItem = self.mEquipment[slot]
+    self.mEquipment[slot] = nil
+    if prevItem then
+        -- Remove modifier
+        self.mStats:RemoveModifier(slot)
+        gWorld:AddItem(prevItem)
+    end
+
+    -- 2. If there's a replacement item move it to the slot
+    if not item then
+        return
+    end
+
+    assert(item.count > 0)
+    gWorld:RemoveItem(item.id)
+    self.mEquipment[slot] = item.id
+    local modifier = ItemDB[item.id].stats or {}
+    self.mStats:AddModifier(slot, modifier)
+end
+
+
+function Actor:Unequip(slot)
+    self:Equip(slot, nil)
+end
+
+
+function Actor:CreateStatNameList()
+    local list = {}
+    for _, v in ipairs(Actor.ActorStats) do
+        table.insert(list, v)
+    end
+
+    for _, v in ipairs(Actor.ItemStats) do
+        table.insert(list, v)
+    end
+
+    table.insert(list, "hp_max")
+    table.insert(list, "mp_max")
+
+    return list
+end
+
+
+function Actor:PredictStats(slot, item)
+    local statsId = self:CreateStatNameList()
+    -- Get values for all the current stats
+    local current = {}
+    for _, v in ipairs(statsId) do
+        current[v] = self.mStats:Get(v)
+    end
+
+    -- Replace item
+    local prevItemId = self.mEquipment[slot]
+    self.mStats:RemoveModifier(slot)
+    self.mStats:AddModifier(slot, item.stats)
+
+    -- Get values for modified stats
+    local modified = {}
+    for _, v in ipairs(statsId) do
+        modified[v] = self.mStats:Get(v)
+    end
+
+    -- Get difference
+    local diff = {}
+    for _, v in ipairs(statsId) do
+        diff[v] = modified[v] - current[v]
+    end
+
+    -- Undo Replace Item
+    self.mStats:RemoveModifier(slot)
+    if prevItemId then
+        self.mStats:AddModifier(slot, ItemDB[prevItemId].stats)
+    end
+
+    return diff
+end
