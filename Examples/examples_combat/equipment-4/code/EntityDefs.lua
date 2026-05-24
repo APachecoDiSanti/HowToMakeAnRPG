@@ -44,6 +44,13 @@ gEntities =
         tileY = 3,
         layer = 1
     },
+    chest = {
+        texture = "chest.png",
+        width = 16,
+        height = 16,
+        startFrame = 1,
+        openFrame = 2
+    }
 }
 
 gCharacters =

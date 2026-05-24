@@ -109,6 +109,19 @@ function Map:AddTrigger(def)
     print("Trigger", self:GetTrigger(x, y, layer))
 end
 
+
+function Map:AddFullTrigger(trigger, x, y, layer)
+    layer = layer or 1
+
+    -- Create trigger layer if it doesn't exist
+    if not self.mTriggers[layer] then
+        self.mTriggers[layer] = {}
+    end
+    local targetLayer = self.mTriggers[layer]
+    targetLayer[self:CoordToIndex(x, y)] = trigger
+end
+
+
 function Map:GetEntity(x, y, layer)
     if not self.mEntities[layer] then
         return nil

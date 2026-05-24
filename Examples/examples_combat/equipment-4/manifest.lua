@@ -288,6 +288,10 @@ manifest =
         {
             path = "art/mpforeground.png",
         },
+        ['chest.png'] =
+        {
+            path = "art/chest.png",
+        },
     },
     ['fonts'] =
     {

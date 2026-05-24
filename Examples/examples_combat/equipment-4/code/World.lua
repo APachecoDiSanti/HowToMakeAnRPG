@@ -133,3 +133,10 @@ function World:DrawItem(menu, renderer, x, y, item)
         renderer:DrawText2d(x + menu.mSpacingX/2, y, " - ")
     end
 end
+
+
+function World:AddLoot(loot)
+    for k, v in ipairs(loot) do
+        self:AddItem(v.id, v.count)
+    end
+end

@@ -38,5 +38,38 @@ Actions =
         return function(trigger, entity, tX, tY, tLayer)
             Func(map, trigger, entity, tX, tY, tLayer)
         end
-    end
+    end,
+
+    AddChest = function(map, entityId, loot, x, y, layer)
+        layer = layer or 1
+
+        return function(trigger, entity, tX, tY, tLayer)
+            local entityDef = gEntities[entityId]
+            assert(entityDef ~= nil)
+            local chest = Entity:Create(entityDef)
+            chest:SetTilePos(x, y, layer, map)
+            local OnOpenChest = function()
+                if loot == nil or #loot == 0 then
+                    gStack:PushFit(gRenderer, 0, 0, "The chest is empty!", 300)
+                else
+                    gWorld:AddLoot(loot)
+                    for _, item in ipairs(loot) do
+                        local count = item.count or 1
+                        local name = ItemDB[item.id].name
+                        local message = string.format("Got %s", name)
+                        if count > 1 then
+                            message = message .. string.format(" x%d", count)
+                        end
+                        gStack:PushFit(gRenderer, 0, 0, message, 300)
+                    end
+                end
+                map:RemoveTrigger(chest.mTileX, chest.mTileY, chest.mLayer)
+                chest:SetFrame(entityDef.openFrame)
+            end
+
+            -- Add the user trigger
+            local trigger = Trigger:Create({OnUse = OnOpenChest })
+            map:AddFullTrigger(trigger, chest.mTileX, chest.mTileY, chest.mLayer)
+        end
+    end,
 }
