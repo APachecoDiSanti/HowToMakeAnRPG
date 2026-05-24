@@ -26,7 +26,7 @@ function FrontMenuState:Create(parent)
                 "Items",
                 "Status",
                 -- "Magic",
-                -- "Equipment",
+                "Equipment",
                 -- "Save"
             },
             OnSelection = function(...) this:OnMenuClick(...) end
@@ -96,6 +96,7 @@ function FrontMenuState:OnPartyMemberChosen(actorIndex, actorSummary)
     local indexToStateId =
     {
         [2] = "status",
+        [3] = "equip",
         -- more states can go here.
     }
 

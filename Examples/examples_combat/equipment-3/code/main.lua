@@ -17,8 +17,11 @@ gWorldStaff = ItemDB[4]
 
 print("World staff ", ItemDB[4].name)
 
-gWorld:AddItem(gBoneBlade.id)
-gHero:Equip("weapon", gWorld.mItems[1])
+-- gWorld:AddItem(gBoneBlade.id)
+-- gHero:Equip("weapon", gWorld.mItems[1])
+for _, v in ipairs(ItemDB) do
+    gWorld:AddItem(v.id) 
+end
 
 local diff = gHero:PredictStats("weapon", gWorldStaff)
 
