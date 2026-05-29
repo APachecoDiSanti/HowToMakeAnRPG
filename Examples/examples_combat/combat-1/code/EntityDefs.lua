@@ -52,6 +52,24 @@ gEntities =
         startFrame = 1,
         openFrame = 2
     },
+    combat_hero = {
+        texture = "combat_hero.png",
+        width = 64,
+        height = 64,
+        startFrame = 37
+    },
+    combat_thief = {
+        texture = "combat_thief.png",
+        width = 64,
+        height = 64,
+        startFrame = 37
+    },
+    combat_mage = {
+        texture = "combat_mage.png",
+        width = 64,
+        height = 64,
+        startFrame = 37
+    }
 }
 
 gCharacters =
@@ -60,8 +78,10 @@ gCharacters =
     {
         actorId = "hero",
         entity = "hero",
+        combatEntity = "combat_hero",
         anims =
         {
+            standby = {36, 37, 38, 30},
             up = {1, 2, 3, 4},
             right = {5, 6, 7, 8},
             down = {9, 10, 11, 12},
@@ -75,8 +95,10 @@ gCharacters =
     {
         actorId = "thief",
         entity = "thief",
+        combatEntity = "combat_thief",
         anims =
         {
+            standby = {36, 37, 38, 30},
             up = {33, 34, 35, 36},
             right = {37, 38, 39, 40},
             down = {41, 42, 43, 44},
@@ -90,8 +112,10 @@ gCharacters =
     {
         actorId = "mage",
         entity = "mage",
+        combatEntity = "combat_mage",
         anims =
         {
+            standby = {36, 37, 38, 30},
             up = {17, 18, 19, 20},
             right = {21, 22, 23, 24},
             down = {25, 26, 27, 28},

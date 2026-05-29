@@ -22,3 +22,13 @@ function Party:Remove(member)
     self:RemoveById(member.mId)
 end
 
+
+function Party:ToArray()
+    local array = {}
+
+    for k, v in pairs(self.mMembers) do
+        table.insert(array, v)
+    end
+
+    return array
+end

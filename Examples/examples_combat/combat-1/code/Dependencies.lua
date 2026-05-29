@@ -43,6 +43,7 @@ Apply({
         "Textbox.lua",
         "Scrollbar.lua",
         "ExploreState.lua",
+        "CombatState.lua",
         "Layout.lua",
         "InGameMenuState.lua",
         "FrontMenuState.lua",

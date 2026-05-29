@@ -209,6 +209,7 @@ manifest =
         {
             path = "code/EquipMenuState.lua"
         },
+        ["CombatState.lua"] = {path = "code/CombatState.lua"}
     },
     textures =
     {
