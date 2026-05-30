@@ -123,6 +123,12 @@ function CombatState:CreateCombatCharacters(side)
         local y = pos:Y() * System.ScreenHeight()
         char.mEntity.mSprite:SetPosition(x, y)
 
+        char.mEntity.mX = x
+        char.mEntity.mY = y
+
+        -- Change to standby because it's combat time
+        char.mController:Change(CSStandby.mName)
+
     end
 
 end
@@ -134,6 +140,13 @@ function CombatState:Exit()
 end
 
 function CombatState:Update(dt)
+    for _, v in ipairs(self.mCharacters["party"]) do
+        v.mController:Update(dt)
+    end
+
+    for _, v in ipairs(self.mCharacters["enemy"]) do
+        v.mController:Update(dt)
+    end
 end
 
 function CombatState:HandleInput()

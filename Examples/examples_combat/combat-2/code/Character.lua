@@ -70,3 +70,12 @@ function Character:FollowPath(path)
     self.mDefaultState = "follow_path"
     self.mController:Change("follow_path")
 end
+
+
+function Character:GetCombatAnim(id)
+    if self.mAnims and self.mAnims[id] then
+        return self.mAnims[id]
+    else
+        return {self.mEntity.mStartFrame}
+    end
+end

@@ -217,6 +217,10 @@ manifest =
         {
             path = "code/EnemyDefs.lua"
         },
+        ["CSRunAnim.lua"] = {path = "code/combat_states/CSRunAnim.lua"},
+        ["CSHurt.lua"] = {path = "code/combat_states/CSHurt.lua"},
+        ["CSMove.lua"] = {path = "code/combat_states/CSMove.lua"},
+        ["CSStandby.lua"] = {path = "code/combat_states/CSStandby.lua"}
     },
     textures =
     {
@@ -304,6 +308,7 @@ manifest =
         {
             path = "art/chest.png",
         },
+        ["goblin.png"] = { path = "art/goblin.png"}
     },
     ['fonts'] =
     {

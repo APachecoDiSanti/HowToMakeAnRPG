@@ -9,7 +9,11 @@ gCharacterStates =
     move = MoveState,
     npc_stand = NPCStandState,
     plan_stroll = PlanStrollState,
-    follow_path = FollowPathState
+    follow_path = FollowPathState,
+    cs_run_anim = CSRunAnim,
+    cs_hurt = CSHurt,
+    cs_move = CSMove,
+    cs_standby = CSStandby
 }
 
 gEntities =
@@ -73,6 +77,12 @@ gEntities =
         startFrame = 1,
         openFrame = 2
     },
+    goblin = {
+        texture = "goblin.png",
+        startFrame = 1,
+        width = 32,
+        height = 32,
+    }
 }
 
 gCharacters =
@@ -84,14 +94,29 @@ gCharacters =
         combatEntity = "combat_hero",
         anims =
         {
-            standby = {36, 37, 38, 30},
             up = {1, 2, 3, 4},
             right = {5, 6, 7, 8},
             down = {9, 10, 11, 12},
             left = {13, 14, 15, 16},
+            prone = {19, 20},
+            attack = {5, 4, 3, 2, 1},
+            use = {46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57},
+            hurt = {21, 22, 23, 24},
+            standby = {36, 37, 38, 39},
+            advance = {36, 37, 38, 39},
+            retreat = {61, 62, 63, 64},
+            death = {26, 27, 28, 29},
+            victory = {6, 7, 8, 9},
         },
         facing = "down",
-        controller = { "wait", "move" },
+        controller = { 
+            "wait", 
+            "move",
+            "cs_run_anim",
+            "cs_hurt",
+            "cs_move",
+            "cs_standby"
+        },
         state = "wait",
     },
     thief =
@@ -101,14 +126,28 @@ gCharacters =
         combatEntity = "combat_thief",
         anims =
         {
-            standby = {36, 37, 38, 30},
             up = {33, 34, 35, 36},
             right = {37, 38, 39, 40},
             down = {41, 42, 43, 44},
             left = {45, 46, 47, 48},
+            prone = {9, 10},
+            attack = {1, 2, 3, 4, 5, 6, 7, 8},
+            use = {11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+            hurt = {21, 22, 23, 24, 25, 33, 34},
+            standby = {36, 37, 38, 39},
+            advance = {36, 37, 38, 39},
+            retreat = {61, 62, 63, 64},
+            death = {26, 27, 28, 29, 30, 31, 32},
+            victory = {56, 57, 58, 59, 60, 40},
         },
         facing = "down",
-        controller = { "npc_stand" },
+        controller = { 
+            "npc_stand",
+            "cs_run_anim",
+            "cs_hurt",
+            "cs_move",
+            "cs_standby"
+        },
         state = "npc_stand",
     },
     mage =
@@ -118,14 +157,38 @@ gCharacters =
         combatEntity = "combat_mage",
         anims =
         {
-            standby = {36, 37, 38, 30},
             up = {17, 18, 19, 20},
             right = {21, 22, 23, 24},
             down = {25, 26, 27, 28},
             left = {29, 30, 31, 32},
+            prone = {51, 52},
+            attack = {1, 2, 3, 4, 5, 6, 7},
+            use = {41, 42, 43, 44, 45, 46, 47, 48},
+            hurt = {8, 9, 10, 21, 22, 23},
+            standby = {36, 37, 38, 39},
+            advance = {36, 37, 38, 39},
+            retreat = {61, 62, 63, 64},
+            death = {26, 27, 28, 29, 30, 31, 32, 33, 34},
+            victory = {56, 57, 58, 59, 60, 53, 54, 55, 49, 50, 40, 35},
         },
         facing = "down",
-        controller = { "npc_stand" },
+        controller = { 
+            "npc_stand",
+            "cs_run_anim",
+            "cs_hurt",
+            "cs_move",
+            "cs_standby"
+        },
         state = "npc_stand",
+    },
+    goblin = {
+        entity = "goblin",
+        controller = {
+            "cs_run_anim",
+            "cs_hurt",
+            -- "cs_move",
+            "cs_standby"
+        },
+        state = "cs_standby"
     }
 }
