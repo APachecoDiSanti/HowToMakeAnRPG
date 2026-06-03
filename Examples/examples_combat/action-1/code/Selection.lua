@@ -195,3 +195,13 @@ end
 function Selection:SelectedItem()
     return self.mDataSource[self:GetIndex()]
 end
+
+
+function Selection:CanScrollUp()
+    return self.mDisplayStart > 1
+end
+
+
+function Selection:CanScrollDown()
+    return self.mDisplayStart <= (self.mMaxRows - self.mDisplayRows)
+end

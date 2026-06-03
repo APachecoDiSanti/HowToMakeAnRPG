@@ -157,6 +157,7 @@ manifest =
         {
             path = "code/Util.lua"
         },
+        ["EventQueue.lua"] = {path="code/EventQueue.lua"},
         ['WaitState.lua'] =
         {
             path = "code/WaitState.lua"
@@ -213,6 +214,7 @@ manifest =
         {
             path = "code/CombatState.lua"
         },
+        ["CombatChoiceState.lua"] = {path = "code/CombatChoiceState.lua"},
         ['EnemyDefs.lua'] =
         {
             path = "code/EnemyDefs.lua"
@@ -237,6 +239,7 @@ manifest =
         {
             path = "code/Animation.lua"
         },
+        ["CETurn.lua"] = {path="code/combat_events/CETurn.lua"}
     },
     textures =
     {

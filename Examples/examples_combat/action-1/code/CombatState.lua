@@ -91,6 +91,7 @@ function CombatState:Create(stack, def)
         mStatsYCol = 208,
         mBars = {},
         mStatList = nil,
+        mEventQueue = EventQueue:Create()
     }
 
     -- Setup layout panel
@@ -320,6 +321,19 @@ function CombatState:Update(dt)
     for k, v in ipairs(self.mCharacters['enemy']) do
         v.mController:Update(dt)
     end
+
+    if self.mStack:Top() ~= nil then
+        self.mStack:Update(dt)
+    else
+        self.mEventQueue:Update()
+        self:AddTurns(self.mActors.enemy)
+        self:AddTurns(self.mActors.party)
+        if self:PartyWins() then
+            self.mEventQueue:Clear()
+        elseif self:EnemyWins() then
+            self.mEventQueue:Clear()
+        end
+    end
 end
 
 function CombatState:HandleInput()
@@ -354,5 +368,48 @@ function CombatState:Render(renderer)
     renderer:AlignText("left", "center")
     self.mPartyList:Render(renderer)
     self.mStatList:Render(renderer)
+    self.mStack:Render(renderer)
+end
 
+
+function CombatState:AddTurns(actorList)
+    for _, v in ipairs(actorList) do
+        local alive = v.mStats:Get("hp_now") > 0
+        if alive and not self.mEventQueue:ActorHasEvent(v) then
+            local event = CETurn:Create(self, v)
+            local tp = event:TimePoints(self.mEventQueue)
+            self.mEventQueue:Add(event, tp)
+        end
+    end
+end
+
+
+function CombatState:HasLiveActors(actorList)
+    for _, actor in ipairs(actorList) do
+        local stats = actor.mStats
+        if stats:Get("hp_now") > 0 then
+            return true
+        end
+    end
+    return false
+end
+
+
+function CombatState:EnemyWins()
+    return not self:HasLiveActors(self.mActors.party)
+end
+
+
+function CombatState:PartyWins()
+    return not self:HasLiveActors(self.mActors.enemy)
+end
+
+
+function CombatState:IsPartyMember(actor)
+  for _, v in ipairs(self.mActors.party) do
+    if actor == v then
+      return true
+    end
+  end
+  return false
 end

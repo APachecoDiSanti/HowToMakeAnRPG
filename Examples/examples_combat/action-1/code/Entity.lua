@@ -74,3 +74,23 @@ function Entity:Render(renderer)
     end
 
 end
+
+
+function Entity:GetSelectPosition()
+    local pos = self.mSprite:GetPosition()
+    local height = self.mHeight
+    local x = pos:X()
+    local y = pos:Y() + height / 2
+    local yPad = 16
+    y = y + yPad
+    return Vector.Create(x, y)
+end
+
+
+function Entity:GetTargetPosition()
+    local pos = self.mSprite:GetPosition()
+    local width = self.mWidth
+    local x = pos:X() + width / 2
+    local y = pos:Y()
+    return Vector.Create(x, y)
+end

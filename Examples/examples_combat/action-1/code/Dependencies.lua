@@ -20,6 +20,7 @@ Apply({
         "Animation.lua",
         "Map.lua",
         "Util.lua",
+        "EventQueue.lua",
         "Entity.lua",
         "StateMachine.lua",
         "FollowPathState.lua",
@@ -71,6 +72,8 @@ Apply({
         "StatusMenuState.lua",
         "EquipMenuState.lua",
         "CombatState.lua",
+        "CombatChoiceState.lua",
         "EnemyDefs.lua",
+        "CETurn.lua"
     },
     function(v) Asset.Run(v) end)
