@@ -26,7 +26,7 @@ function CombatChoiceState:Create(context, actor)
         displayRows = 3,
         spacingX = 0,
         spacingY = 19,
-        OnSelection = this.OnSelect,
+        OnSelection = function(...) this:OnSelect(...) end,
         RenderItem = this.RenderAction,
     }
 
@@ -89,7 +89,23 @@ function CombatChoiceState:RenderAction(renderer, x, y, item)
 end
 
 function CombatChoiceState:OnSelect(index, data)
-
+    print(index, data)
+    if data == "attack" then
+        self.mSelection:HideCursor()
+        local state = CombatTargetState:Create(
+            self.mCombatState,
+            {
+                -- targetType = CombatTargetType.All,
+                onSelect = function(targets)
+                    self:TakeAction(data, targets)
+                end,
+                onExit = function()
+                    self.mSelection:ShowCursor()
+                end
+            }
+        )
+        self.mStack:Push(state)
+    end
 end
 
 function CombatChoiceState:Enter()

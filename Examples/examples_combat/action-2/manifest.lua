@@ -209,6 +209,7 @@ manifest =
         {
             path = "code/CombatState.lua"
         },
+        ["CombatTargetState.lua"] = {path="code/CombatTargetState.lua"},
         ['EnemyDefs.lua'] =
         {
             path = "code/EnemyDefs.lua"

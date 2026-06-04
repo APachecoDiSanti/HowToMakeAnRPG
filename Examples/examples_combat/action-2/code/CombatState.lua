@@ -428,3 +428,13 @@ function CombatState:Render(renderer)
                             renderer)
 
 end
+
+
+function CombatState:IsPartyMember(actor)
+  for _, v in ipairs(self.mActors.party) do
+    if actor == v then
+      return true
+    end
+  end
+  return false
+end

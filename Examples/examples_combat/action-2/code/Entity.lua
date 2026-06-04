@@ -72,6 +72,16 @@ function Entity:GetSelectPosition()
 
 end
 
+
+function Entity:GetTargetPosition()
+    local pos = self.mSprite:GetPosition()
+    local width = self.mWidth
+    local x = pos:X() + width / 2
+    local y = pos:Y()
+    return Vector.Create(x, y)
+end
+
+
 function Entity:AddChild(id, entity)
     assert(self.mChildren[id] == nil)
     self.mChildren[id] = entity

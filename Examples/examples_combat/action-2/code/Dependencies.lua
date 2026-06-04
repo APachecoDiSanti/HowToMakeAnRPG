@@ -71,6 +71,7 @@ Apply({
         "StatusMenuState.lua",
         "EquipMenuState.lua",
         "CombatState.lua",
+        "CombatTargetState.lua",
         "EnemyDefs.lua",
         "EventQueue.lua",
         "CETurn.lua",
