@@ -102,7 +102,7 @@ function CombatChoiceState:OnSelect(index, data)
         local state = CombatTargetState:Create(
             self.mCombatState,
             {
-                targetType = CombatTargetType.Side,
+                targetType = CombatTargetType.One,
                 --switchSides = false,
                 OnSelect = function(targets)
                    self:TakeAction(data, targets)
@@ -167,3 +167,16 @@ function CombatChoiceState:HandleInput()
     self.mSelection:HandleInput()
 end
 
+
+function CombatChoiceState:TakeAction(id, targets)
+    self.mStack:Pop() -- target state
+    self.mStack:Pop() -- choice state
+    -- mEventQueue starts updating again
+    local queue = self.mCombatState.mEventQueue
+    if id == "attack" then
+        local def = {}
+        local event = CEAttack:Create(self.mCombatState, self.mActor, def, targets)
+        local tp = event:TimePoints(queue)
+        queue:Add(event, tp)
+    end
+end

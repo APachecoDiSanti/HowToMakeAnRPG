@@ -74,6 +74,7 @@ Apply({
         "EnemyDefs.lua",
         "EventQueue.lua",
         "CETurn.lua",
+        "CEAttack.lua",
         "CombatChoiceState.lua",
         "CombatTargetState.lua"
     },
