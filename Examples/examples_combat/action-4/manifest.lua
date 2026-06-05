@@ -233,10 +233,7 @@ manifest =
         {
             path = "code/combat_states/CSStandby.lua"
         },
-        ['Animation.lua'] =
-        {
-            path = "code/Animation.lua"
-        },
+        ["CSEnemyDie.lua"] = { path = "code/combat_states/CSEnemyDie.lua"},
         ['EventQueue.lua'] =
         {
             path = "code/EventQueue.lua"

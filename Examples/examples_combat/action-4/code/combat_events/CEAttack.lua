@@ -82,6 +82,6 @@ function CEAttack:AttackTarget(target)
 
     -- the enemy needs stats
     -- the player needs a weapon
-
+    self.mState:HandleDeath()
 end
 

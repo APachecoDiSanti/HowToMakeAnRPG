@@ -5,8 +5,8 @@ gEnemyDefs =
         id = "goblin",
         stats =
         {
-            ["hp_now"] = 87,
-            ["hp_max"] = 87,
+            ["hp_now"] = 1,
+            ["hp_max"] = 1,
             ["mp_now"] = 0,
             ["mp_max"] = 0,
             ["strength"] = 8,
