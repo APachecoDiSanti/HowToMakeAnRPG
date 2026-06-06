@@ -29,6 +29,7 @@ function Character:Create(def, map)
     local states = {}
     for _, name in ipairs(def.controller) do
         local state = gCharacterStates[name]
+        print(name)
         assert(state)
         assert(states[state.mName] == nil) -- State already in use!
         states[state.mName] = function() return state:Create(this, map) end

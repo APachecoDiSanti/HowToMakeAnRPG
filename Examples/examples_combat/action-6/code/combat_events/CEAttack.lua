@@ -93,9 +93,16 @@ function CEAttack:AttackTarget(target)
     enemyStats:Set("hp_now", math.max(0, hp))
     print("hp is", enemyStats:Get("hp_now"))
 
-    self.mState:HandleDeath()
-
     -- the enemy needs stats
     -- the player needs a weapon
+    local character = self.mState.mActorCharMap[target]
+    local controller = character.mController
+    if damage > 0 then
+        local state = controller.mCurrent
+        if state.mName ~= "cs_hurt" then
+            controller:Change("cs_hurt", state)
+        end
+    end
 
+    self.mState:HandleDeath()
 end

@@ -30,7 +30,7 @@ Apply({
         "CSMove.lua",
         "CSStandby.lua",
         "CSEnemyDie.lua",
-        "Animation.lua",
+        "CSEnemyHurt.lua",
         "NPCStandState.lua",
         "PlanStrollState.lua",
         "Tween.lua",
