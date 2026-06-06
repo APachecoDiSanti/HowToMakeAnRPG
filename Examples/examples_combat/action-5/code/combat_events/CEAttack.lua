@@ -46,6 +46,19 @@ end
 
 function CEAttack:Execute(queue)
     self.mState.mStack:Push(self.mStoryboard)
+
+    for i = #self.mTargets, 1, -1 do
+        local v = self.mTargets[i]
+        local hp = v.mStats:Get("hp_now")
+        if hp <= 0 then
+            table.remove(self.mTargets, i)
+        end
+    end
+
+    if not next(self.mTargets) then
+        -- Find another enemy
+        self.mTargets = CombatSelector.WeakestEnemy(self.mState)
+    end
 end
 
 function CEAttack:IsFinished()
