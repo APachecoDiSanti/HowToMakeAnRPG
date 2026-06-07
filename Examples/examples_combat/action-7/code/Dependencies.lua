@@ -78,6 +78,8 @@ Apply({
         "CETurn.lua",
         "CEAttack.lua",
         "CombatChoiceState.lua",
-        "CombatTargetState.lua"
+        "CombatTargetState.lua",
+        "JumpingNumbers.lua",
+        "AnimEntityFx.lua"
     },
     function(v) Asset.Run(v) end)

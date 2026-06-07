@@ -265,6 +265,8 @@ manifest =
         {
             path = "code/CombatChoiceState.lua"
         },
+        ["JumpingNumbers.lua"] = {path="code/fx/JumpingNumbers.lua"},
+        ["AnimEntityFx.lua"] = {path="code/fx/AnimEntityFx.lua"},
     },
     textures =
     {

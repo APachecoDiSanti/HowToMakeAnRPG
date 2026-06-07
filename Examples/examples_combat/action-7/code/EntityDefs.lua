@@ -86,6 +86,13 @@ gEntities =
         startFrame = 1,
         openFrame = 2
     },
+    slash = {
+        texture = "combat_slash.png",
+        width = 64,
+        height = 64,
+        startFrame = 3,
+        frames = {3, 2, 1}
+    }
 }
 
 
