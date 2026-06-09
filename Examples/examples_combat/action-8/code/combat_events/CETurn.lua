@@ -34,7 +34,11 @@ function CETurn:Execute(queue)
     -- 2. I'm an enemy, just add a new TakeTurn action
     -- we'll add AI later.
         local target = CombatSelector.RandomAlivePlayer(self.mState)
-        print("Would have targeted", target[1].mName)
+        local def = { player = false }
+        local queue = self.mState.mEventQueue
+        local event = CEAttack:Create(self.mState, self.mOwner, def, target)
+        local tp = event:TimePoints(queue)
+        queue:Add(event, tp)
         self.mFinished = true
         return
     end

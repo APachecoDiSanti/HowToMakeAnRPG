@@ -20,14 +20,29 @@ function CEAttack:Create(state, owner, def, targets)
 
     setmetatable(this, self)
 
-    local storyboard =
-    {
-        SOP.RunState(this.mController, CSMove.mName, {dir = 1}),
-        SOP.RunState(this.mController, CSRunAnim.mName, {'attack', false}),
-        SOP.Function(function() this:DoAttack() end),
-        SOP.RunState(this.mController, CSMove.mName, {dir = -1}),
-        SOP.Function(function() this:OnFinish() end)
-    }
+    local storyboard = nil
+    if this.mDef.player then
+        this.mAttackAnim = gEntities.slash
+        this.mDefaultTargeter = CombatSelector.WeakestEnemy
+        storyboard =
+        {
+            SOP.RunState(this.mController, CSMove.mName, {dir = 1}),
+            SOP.RunState(this.mController, CSRunAnim.mName, {'attack', false}),
+            SOP.Function(function() this:DoAttack() end),
+            SOP.RunState(this.mController, CSMove.mName, {dir = -1}),
+            SOP.Function(function() this:OnFinish() end)
+        }
+    else
+        this.mAttackAnim = gEntities.claw
+        this.mDefaultTargeter = CombatSelector.RandomAlivePlayer
+        storyboard =
+        {
+            SOP.RunState(this.mController, CSMove.mName, {dir = 1, distance = 8, time = 0.1}),
+            SOP.Function(function() this:DoAttack() end),
+            SOP.RunState(this.mController, CSMove.mName, {dir = -1, distance = 8, time = 0.4}),
+            SOP.Function(function() this:OnFinish() end)
+        }
+    end
 
     this.mStoryboard = Storyboard:Create(this.mState.mStack,
                                          storyboard)
@@ -56,8 +71,8 @@ function CEAttack:Execute(queue)
     end
 
     if not next(self.mTargets) then
-        -- Find another enemy
-        self.mTargets = CombatSelector.WeakestEnemy(self.mState)
+        -- Find another target
+        self.mTargets = self.mDefaultTargeter(self.mState)
     end
 end
 
@@ -75,51 +90,14 @@ function CEAttack:DoAttack()
 end
 
 function CEAttack:AttackTarget(target)
+    local damage = Formula.MeleeAttack(self.mState, self.mOwner, target)
+    local entity = self.mState.mActorCharMap[target].mEntity
 
-    local stats = self.mOwner.mStats
-    local enemyStats = target.mStats
+    self.mState:ApplyDamage(target, damage)
 
-    -- Simple attack get
-    local attack = stats:Get("attack")
-    attack = attack + stats:Get("strength")
-    local defense = enemyStats:Get("defense")
-
-    local damage = math.max(0, attack - defense)
-    print("Attacked for ", damage, attack, defense)
-
-    local hp = enemyStats:Get("hp_now")
-    local hp =  hp - damage
-
-    enemyStats:Set("hp_now", math.max(0, hp))
-    print("hp is", enemyStats:Get("hp_now"))
-
-    -- Change actor's character to hurt state
-    local character = self.mState.mActorCharMap[target]
-    local controller = character.mController
-    if damage > 0 then
-        print("DAMAGE > 0")
-        local state = controller.mCurrent
-        if state.mName ~= "cs_hurt" then
-            controller:Change("cs_hurt", state)
-        end
-    end
-
-
-    local entity = character.mEntity
     local x = entity.mX
     local y = entity.mY
-    local dmgEffect = JumpingNumbers:Create(x, y, damage)
-    local slashEffect = AnimEntityFx:Create(x, y,
-                            gEntities.slash,
-                            gEntities.slash.frames)
-
-    self.mState:AddEffect(dmgEffect)
-    self.mState:AddEffect(slashEffect)
-
-    self.mState:HandleDeath()
-
-    -- the enemy needs stats
-    -- the player needs a weapon
-
+    local effect = AnimEntityFx:Create(x, y, self.mAttackAnim, self.mAttackAnim.frames)
+    self.mState:AddEffect(effect)
 end
 

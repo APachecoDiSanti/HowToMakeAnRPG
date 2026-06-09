@@ -37,6 +37,7 @@ Apply({
         "NPCStandState.lua",
         "PlanStrollState.lua",
         "Tween.lua",
+        "CombatFormula.lua",
         "Actions.lua",
         "Trigger.lua",
         "Dice.lua",

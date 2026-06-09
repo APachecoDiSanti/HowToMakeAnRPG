@@ -149,9 +149,9 @@ manifest =
         {
             path = "code/Tween.lua"
         },
-        ['Animation.lua'] =
+        ['CombatFormula.lua'] =
         {
-            path = "code/Animation.lua"
+            path = "code/CombatFormula.lua"
         },
         ['Util.lua'] =
         {
@@ -368,6 +368,7 @@ manifest =
         {
             path = "art/chest.png",
         },
+        ["combat_claw.png"] = {path = "art/combat_claw.png"}
     },
     ['fonts'] =
     {

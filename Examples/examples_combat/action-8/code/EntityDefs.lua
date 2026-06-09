@@ -93,6 +93,13 @@ gEntities =
         height = 64,
         startFrame = 3,
         frames = {3, 2, 1}
+    },
+    claw = {
+        texture = "combat_claw.png",
+        width = 64,
+        height = 64,
+        startFrame = 1,
+        frames = { 1, 2, 3}
     }
 }
 
@@ -204,7 +211,8 @@ retreat = {61, 62, 63, 64},
             "cs_run_anim",
             "cs_standby",
             "cs_die_enemy",
-            "cs_hurt_enemy"
+            "cs_hurt_enemy",
+            "cs_move"
         },
         state = "cs_standby",
     }

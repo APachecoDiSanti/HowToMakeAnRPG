@@ -541,3 +541,29 @@ function CombatState:AddEffect(effect)
 
     table.insert(self.mEffectList, effect)
 end
+
+
+function CombatState:ApplyDamage(target, damage)
+    local stats = target.mStats
+    local hp = stats:Get("hp_now") - damage
+    stats:Set("hp_now", math.max(0, hp))
+    print("hp is", stats:Get("hp_now"))
+
+    -- Change actor's character to hurt state
+    local character = self.mActorCharMap[target]
+    local controller = character.mController
+
+    if damage > 0 then
+        local state = controller.mCurrent
+        if state.mName ~= "cs_hurt" then
+            controller:Change("cs_hurt", state)
+        end
+    end
+
+    local entity = character.mEntity
+    local x = entity.mX
+    local y = entity.mY
+    local dmgEffect = JumpingNumbers:Create(x, y, damage)
+    self:AddEffect(dmgEffect)
+    self:HandleDeath()
+end
