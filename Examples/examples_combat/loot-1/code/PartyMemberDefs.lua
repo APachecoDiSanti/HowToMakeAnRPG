@@ -30,8 +30,8 @@ gPartyMemberDefs =
         id = "thief",
         stats =
         {
-            ["hp_now"] = 280,
-            ["hp_max"] = 280,
+            ["hp_now"] = 3,
+            ["hp_max"] = 3,
             ["mp_now"] = 150,
             ["mp_max"] = 150,
             ["strength"] = 10,
@@ -55,8 +55,8 @@ gPartyMemberDefs =
         id = "mage",
         stats =
         {
-            ["hp_now"] = 200,
-            ["hp_max"] = 200,
+            ["hp_now"] = 3,
+            ["hp_max"] = 3,
             ["mp_now"] = 250,
             ["mp_max"] = 250,
             ["strength"] = 8,

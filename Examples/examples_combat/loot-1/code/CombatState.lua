@@ -95,6 +95,7 @@ function CombatState:Create(stack, def)
         mEventQueue = EventQueue:Create(),
         mDeathList = {},
         mEffectList = {},
+        mIsFinishing = false
     }
 
     -- Setup layout panel
@@ -390,7 +391,7 @@ function CombatState:Update(dt)
 
         self.mStack:Update(dt)
 
-    else
+    elseif not self.mIsFinishing then
         self.mEventQueue:Update()
 
         self:AddTurns(self.mActors.enemy)
@@ -398,14 +399,36 @@ function CombatState:Update(dt)
 
         if self:PartyWins() then
             self.mEventQueue:Clear()
+            self:OnWin()
             -- deal with win
         elseif self:EnemyWins() then
             self.mEventQueue:Clear()
+            self:OnLose()
             -- deal with lost
         end
     end
 
 end
+
+function CombatState:OnWin()
+    self.mIsFinishing = true
+end
+
+
+function CombatState:OnLose()
+    local storyboard = {
+        SOP.UpdateState(self, 1.5),
+        SOP.BlackScreen("black", 0),
+        SOP.FadeInScreen("black"),
+        SOP.ReplaceState(self, GameOverState:Create(self.mGameStack, gWorld)),
+        SOP.Wait(2),
+        SOP.FadeOutScreen("black")
+    }
+    local storyboard = Storyboard:Create(self.mGameStack, storyboard)
+    self.mGameStack:Push(storyboard)
+    self.mIsFinishing = true
+end
+
 
 function CombatState:HandleInput()
 

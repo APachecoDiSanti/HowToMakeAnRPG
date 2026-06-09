@@ -436,3 +436,35 @@ function SOP.RunState(statemachine, id, params)
             end)
     end
 end
+
+
+function SOP.ReplaceState(current, new)
+    return function(storyboard)
+        print("being asked to replace a state")
+        local stack = storyboard.mStack
+
+        for k, v in ipairs(stack.mStates) do
+            if v == current then
+                stack.mStates[k]:Exit()
+                stack.mStates[k] = new
+                stack.mStates[k]:Enter()
+                return EmptyEvent
+            end
+        end
+        print("FAILED TO REPLACE STATE IN STORYBOARD")
+        assert(false)
+    end
+end
+
+
+function SOP.UpdateState(state, time)
+    return function(storyboard)
+        return TweenEvent:Create(
+            Tween:Create(0, 1, time),
+            state,
+            function(target, value)
+                target:Update(GetDeltaTime())
+            end
+        )
+    end
+end
