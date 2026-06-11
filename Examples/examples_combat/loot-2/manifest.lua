@@ -265,6 +265,7 @@ manifest =
         {
             path = "code/CombatChoiceState.lua"
         },
+        ["XPSummaryState.lua"] = {path="code/XPSummaryState.lua"},
         ['CombatFormula.lua'] =
         {
             path = "code/CombatFormula.lua"
@@ -277,6 +278,8 @@ manifest =
         {
             path = "code/fx/AnimEntityFx.lua"
         },
+        ["XPPopUp.lua"] = {path="code/XPPopUp.lua"},
+        ["ActorXPSummary.lua"] = {path="code/ActorXPSummary.lua"},
     },
     textures =
     {

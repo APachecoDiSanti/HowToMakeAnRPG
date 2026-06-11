@@ -81,6 +81,9 @@ Apply({
         "CEAttack.lua",
         "CombatChoiceState.lua",
         "CombatTargetState.lua",
-        "CombatFormula.lua"
+        "XPSummaryState.lua",
+        "CombatFormula.lua",
+        "XPPopUp.lua",
+        "ActorXPSummary.lua"
     },
     function(v) Asset.Run(v) end)
