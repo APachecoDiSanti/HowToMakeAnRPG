@@ -29,7 +29,20 @@ gCombatDef =
 gStack:Push(ExploreState:Create(gStack, CreateArenaMap(), Vector.Create(30, 18, 1)))
 gStack:Push(CombatState:Create(gStack, gCombatDef))
 
-gStack:Push(XPSummaryState:Create(gStack, gWorld.mParty, {xp = 30}))
+-- gStack:Push(XPSummaryState:Create(gStack, gWorld.mParty, {xp = 30})
+gStack:Push(LootSummaryState:Create(
+    gStack,
+    gWorld,
+    {
+        xp = 30,
+        gold = 100,
+        loot = {
+            {id=1, count=2},
+            {id=2, count=1},
+            {id=3, count=1},
+        }
+    }
+))
 
 function update()
     local dt = GetDeltaTime()
