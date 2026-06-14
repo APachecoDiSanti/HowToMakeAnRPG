@@ -410,8 +410,42 @@ function CombatState:Update(dt)
 end
 
 function CombatState:OnWin()
+    -- All living party members will start dancing
+    for _, v in ipairs(self.mActors['party']) do
+        local char = self.mActorCharMap[v]
+        alive = v.mStats:Get("hp_now") > 0
+        if alive then 
+            char.mController:Change(CSRunAnim.mName, {'victory'})
+        end
+    end
+
+    -- Create the storyboard and add the stats
+    local combatData = self:CalcCombatData()
+    local xpSummaryState = XPSummaryState:Create(self.mGameStack, gWorld.mParty, combatData)
+
+    local storyboard = {
+        SOP.UpdateState(self, 1.0),
+        SOP.BlackScreen("black", 0),
+        SOP.FadeInScreen("black", 0.6),
+        SOP.ReplaceState(self, xpSummaryState),
+        SOP.Wait(0.3),
+        SOP.FadeOutScreen("black", 0.3),
+    }
+
+    local storyboard = Storyboard:Create(self.mGameStack, storyboard)
+    self.mGameStack:Push(storyboard)
     self.mIsFinishing = true
 end
+
+
+function CombatState:CalcCombatData()
+    return {
+        xp = 30,
+        gold = 10,
+        loot = {{id = 1, count=1}}
+    }
+end
+
 
 function CombatState:OnLose()
     if self.mGameStack:Top() ~= self then

@@ -155,5 +155,13 @@ function LootSummaryState:HandleInput()
         end
 
         self.mStack:Pop()
+        local storyboard = {
+            SOP.BlackScreen("black", 1),
+            SOP.Wait(0.1),
+            SOP.FadeOutScreen("black", 0.2),
+        }
+        local storyboard = Storyboard:Create(self.mStack, storyboard)
+        storyboard:Update(0) -- Creates the black screen this frame
+        self.mStack:Push(storyboard)
     end
 end
