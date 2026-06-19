@@ -85,6 +85,7 @@ Apply({
         "XPSummaryState.lua",
         "LootSummaryState.lua",
         "ActorXPSummary.lua",
-        "XPPopUp.lua"
+        "XPPopUp.lua",
+        "OddmentTable.lua"
     },
     function(v) Asset.Run(v) end)

@@ -124,6 +124,28 @@ ItemDB =
             hint = "Choose target to revive.",
         }
     },
+    {
+        name = "Mana Potion",
+        type = "useable",
+        description = "Heals a small amount of MP.",
+        use = {
+            action = "small_mp_restore",
+            target = "any",
+            target_default = "friendly_lowest_mana",
+            hint = "Choose target to restore mana."
+        }
+    },
+    {
+        name = "Mysterious Torque",
+        type = "accessory",
+        description = "A golden torque that glitters.",
+        stats = {
+            add = {
+                strength = 10,
+                speed = 10,
+            }
+        }
+    }
 }
 
 EmptyItem = ItemDB[-1]

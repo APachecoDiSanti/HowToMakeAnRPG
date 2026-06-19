@@ -95,6 +95,7 @@ function CombatState:Create(stack, def)
         mEventQueue = EventQueue:Create(),
         mDeathList = {},
         mEffectList = {},
+        mLoot = {},
         mIsFinishing = false,
     }
 
@@ -419,16 +420,43 @@ end
     --
 
 function CombatState:CalcCombatData()
-   -- Todo: Work out loot, xp and gold drops
-    return
-    {
-        xp = 30,
-        gold = 10,
-        loot =
-        {
-            { id = 1, count = 1 }
-        }
+    local drop = {
+        xp = 0,
+        gold = 0,
+        loot = {},
     }
+    
+    local lootDict = {}
+
+    for _, v in ipairs(self.mLoot) do
+        drop.xp = drop.xp + v.mXP
+        drop.gold = drop.gold + v.mGold
+
+        -- Items that are always dropped
+        for _, itemId in ipairs(v.mAlways) do
+            if lootDict[itemId] then
+                lootDict[itemId] = lootDict[itemId] + 1
+            else
+                lootDict[itemId] = 1
+            end
+        end
+
+        local item = v.mChance:Pick()
+        if item and item.id ~= -1 then
+            item.count = item.count or 1
+            if lootDict[item.id] then
+                lootDict[item.id] = lootDict[item.id] + item.count
+            else
+                lootDict[item.id] = item.count
+            end
+        end
+    end
+
+    for k, v in pairs(lootDict) do
+        table.insert(drop.loot, {id = k, count = v})
+    end
+    
+    return drop
 end
 
 function CombatState:OnWin()
@@ -585,6 +613,9 @@ function CombatState:HandleEnemyDeath()
 
             controller:Change("cs_die")
             self.mEventQueue:RemoveEventsOwnedBy(actor)
+
+            -- Add the loot
+            table.insert(self.mLoot, actor.mDrop)
 
             -- Add to effects
             table.insert(self.mDeathList, character)

@@ -84,6 +84,19 @@ function Actor:Create(def)
         this.mPortrait:SetTexture(this.mPortraitTexture)
     end
 
+    if def.drop then
+        local drop = def.drop
+        local goldRange = drop.gold or {}
+        local gold = math.random(goldRange[0] or 0, goldRange[1] or 0)
+
+        this.mDrop = {
+            mXP = drop.xp or 0,
+            mGold = gold,
+            mAlways = drop.always or {},
+            mChance = OddmentTable:Create(drop.chance)
+        }
+    end
+
     this.mNextLevelXP = NextLevel(this.mLevel)
 
     setmetatable(this, self)
