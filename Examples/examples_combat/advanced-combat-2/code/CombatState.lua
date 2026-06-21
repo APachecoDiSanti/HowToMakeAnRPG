@@ -96,7 +96,8 @@ function CombatState:Create(stack, def)
         mDeathList = {},
         mEffectList = {},
         mIsFinishing = false,
-        mLoot = {}
+        mLoot = {},
+        mFled = false
     }
 
     -- Setup layout panel
@@ -111,7 +112,12 @@ function CombatState:Create(stack, def)
         layout:CreatePanel('left'),
         layout:CreatePanel('right'),
     }
+    this.mLayout = layout
+    this.mTipText = ""
+    this.mShowTip = false
     this.mTipPanel = layout:CreatePanel('tip')
+    this.mNoticeText = ""
+    this.mShowNotice = false
     this.mNoticePanel = layout:CreatePanel('notice')
 
     this.mBackground:SetTexture(Texture.Find(def.background))
@@ -398,7 +404,7 @@ function CombatState:Update(dt)
         self:AddTurns(self.mActors.enemy)
         self:AddTurns(self.mActors.party)
 
-        if self:PartyWins() then
+        if self:PartyWins() or self:PartyFled() then
             self.mEventQueue:Clear()
             self:OnWin()
         elseif self:EnemyWins() then
@@ -540,9 +546,23 @@ function CombatState:Render(renderer)
         v:Render(renderer)
     end
 
-    --self.mTipPanel:Render(renderer)
-    --self.mNoticePanel:Render(renderer)
+    if self.mShowTip then
+        local x = self.mLayout:Left("tip") + 4
+        local y = self.mLayout:MidY("tip")
+        renderer:AlignText("left", "center")
+        renderer:ScaleText(1.1, 1.1)
+        self.mTipPanel:Render(renderer)
+        renderer:DrawText2d(x, y, self.mTipText)
+    end
 
+    if self.mShowNotice then
+        local x = self.mLayout:MidX("notice")
+        local y = self.mLayout:MidY("notice")
+        renderer:AlignText("center", "center")
+        renderer:ScaleText(1.33, 1.33)
+        self.mNoticePanel:Render(renderer)
+        renderer:DrawText2d(x, y, self.mNoticeText)
+    end
 
     renderer:ScaleText(0.88, 0.88)
     renderer:AlignText("left", "center")
@@ -730,4 +750,36 @@ function CombatState:AddEffect(effect)
     end
 
     table.insert(self.mEffectList, effect)
+end
+
+
+function CombatState:ShowTip(text)
+    self.mShowTip = true
+    self.mTipText = text
+end
+
+
+function CombatState:ShowNotice(text)
+    self.mShowNotice = true
+    self.mNoticeText = text
+end
+
+
+function CombatState:HideTip()
+    self.mShowTip = false
+end
+
+
+function CombatState:HideNotice()
+    self.mShowNotice = false
+end
+
+
+function CombatState:OnFlee()
+    self.mFled = true
+end
+
+
+function CombatState:PartyFled()
+    return self.mFled
 end

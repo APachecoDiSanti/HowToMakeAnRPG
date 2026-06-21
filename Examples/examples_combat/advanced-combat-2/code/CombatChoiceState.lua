@@ -110,6 +110,12 @@ function CombatChoiceState:OnSelect(index, data)
                 end
             })
         self.mStack:Push(state)
+    elseif data == "flee" then
+        self.mStack:Pop() -- choice state
+        local queue = self.mCombatState.mEventQueue
+        local event = CEFlee:Create(self.mCombatState, self.mActor)
+        local tp = event:TimePoints(queue)
+        queue:Add(event, tp)
     end
 end
 

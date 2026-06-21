@@ -265,6 +265,10 @@ manifest =
         {
             path = "code/combat_events/CEAttack.lua"
         },
+        ['CEFlee.lua'] =
+        {
+            path = "code/combat_events/CEFlee.lua"
+        },
         ['CombatChoiceState.lua'] =
         {
             path = "code/CombatChoiceState.lua"

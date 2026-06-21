@@ -112,3 +112,29 @@ function Formula.CalcDamage(state, attacker, target)
 
     return math.floor(math.max(0, attack - defense))
 end
+
+
+function Formula.CanFlee(state, fleer)
+    local fc = 0.35 -- flee chance
+    local stats = fleer.mStats
+    local speed = stats:Get("speed")
+
+    -- Get average speed of enemies
+    local enemyCount = 0
+    local totalSpeed = 0
+    for _,v in ipairs(state.mActors["enemy"]) do
+        local speed = v.mStats:Get("speed")
+        totalSpeed = totalSpeed + speed
+        enemyCount = enemyCount + 1
+    end
+
+    local avgSpeed = totalSpeed / enemyCount
+
+    if speed > avgSpeed then
+        fc = fc + 0.15
+    else
+        fc = fc - 0.15
+    end
+
+    return math.random() <= fc
+end

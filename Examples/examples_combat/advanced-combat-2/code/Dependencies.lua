@@ -79,6 +79,7 @@ Apply({
         "EventQueue.lua",
         "CETurn.lua",
         "CEAttack.lua",
+        "CEFlee.lua",
         "CombatChoiceState.lua",
         "CombatTargetState.lua",
         "CombatFormula.lua",
