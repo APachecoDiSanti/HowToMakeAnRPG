@@ -33,6 +33,7 @@ Apply({
         "CSEnemyDie.lua",
         "JumpingNumbers.lua",
         "AnimEntityFx.lua",
+        "CombatTextFx.lua",
         "Animation.lua",
         "NPCStandState.lua",
         "PlanStrollState.lua",

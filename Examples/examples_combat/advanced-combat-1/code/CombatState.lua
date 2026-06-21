@@ -637,3 +637,79 @@ function CombatState:AddEffect(effect)
 
     table.insert(self.mEffectList, effect)
 end
+
+
+function CombatState:AddTextEffect(actor, text, color)
+    local character = self.mActorCharMap[actor]
+    local entity = character.mEntity
+    local x = entity.mX
+    local y = entity.mY
+    local effect = CombatTextFx:Create(x, y, text, color)
+    self:AddEffect(effect)
+end
+
+
+function CombatState:ApplyMiss(target)
+    self:AddTextEffect(target, "MISS")
+end
+
+
+function CombatState:ApplyDodge(target)
+    local character = self.mActorCharMap[target]
+    local controller = character.mController
+
+    local state = controller.mCurrent
+    if state.mName ~= "cs_hurt" then
+        controller:Change("cs_hurt", state)
+    end
+
+    self:AddTextEffect(target, "DODGE")
+end
+
+
+function CombatState:ApplyDamage(target, damage, isCrit)
+    local stats = target.mStats
+    local hp = stats:Get("hp_now") - damage
+    stats:Set("hp_now", math.max(0, hp))
+
+    local character = self.mActorCharMap[target]
+    local controller = character.mController
+
+    if damage > 0 then
+        local state = controller.mCurrent
+        if state.mName ~= "cs_hurt" then
+            controller:Change("cs_hurt", state)
+        end
+    end
+
+    local entity = character.mEntity
+    local x = entity.mX
+    local y = entity.mY
+    local dmgColor = Vector.Create(1, 1, 1, 1)
+
+    if isCrit then
+        dmgColor = Vector.Create(1, 1, 0, 1)
+    end
+
+    local dmgEffect = JumpingNumbers:Create(x, y, damage, dmgColor)
+    self:AddEffect(dmgEffect)
+    self:HandleDeath()
+end
+
+
+function CombatState:ApplyCounter(target, owner)
+    local alive = target.mStats:Get("hp_now") > 0
+    if not alive then
+        return
+    end
+
+    local def = {
+        player = self:IsPartyMember(target),
+        counter = true
+    }
+
+    -- Add an attack state at -1, it occurs immediately
+    local attack = CEAttack:Create(self, target, def, {owner})
+    self.mEventQueue:Add(attack, -1)
+    self:AddTextEffect(target, "COUNTER")
+end

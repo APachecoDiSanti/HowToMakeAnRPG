@@ -43,3 +43,8 @@ function ShallowClone(t)
     end
     return clone
 end
+
+
+function Clamp(value, min, max)
+    return math.max(min, math.min(value, max))
+end

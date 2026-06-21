@@ -281,6 +281,10 @@ manifest =
         {
             path = "code/fx/AnimEntityFx.lua"
         },
+        ['CombatTextFx.lua'] =
+        {
+            path = "code/fx/CombatTextFx.lua"
+        },
         ['XPSummaryState.lua'] =
         {
             path = "code/XPSummaryState.lua"
