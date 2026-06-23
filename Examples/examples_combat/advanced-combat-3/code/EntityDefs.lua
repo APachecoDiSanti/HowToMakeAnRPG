@@ -101,6 +101,34 @@ gEntities =
         height = 64,
         startFrame = 1,
         frames = {1, 2, 3}
+    },
+    fx_restore_hp = {
+        texture = "fx_restore_hp.png",
+        width = 16,
+        height = 16,
+        startFrame = 1,
+        frames = { 1, 2, 3, 4, 5 }
+    },
+    fx_restore_mp = {
+        texture = "fx_restore_mp.png",
+        width = 16,
+        height = 16,
+        startFrame = 1,
+        frames = { 1, 2, 3, 4, 5, 6 }
+    },
+    fx_revive = {
+        texture = "fx_revive.png",
+        width = 16,
+        height = 16,
+        startFrame = 1,
+        frames = { 1, 2, 3, 4, 5, 6, 7, 8 }
+    },
+    fx_use_item = {
+        texture = "fx_use_item.png",
+        width = 16,
+        height = 16,
+        startFrame = 1,
+        frames = { 1, 2, 3, 4, 4, 3, 2, 1 }
     }
 }
 

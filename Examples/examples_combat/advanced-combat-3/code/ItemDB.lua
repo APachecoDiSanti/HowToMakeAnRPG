@@ -106,9 +106,13 @@ ItemDB =
         description = "Heal a small amount of HP.",
         use =
         {
-            action = "small_hp_restore",
-            target = "any",
-            target_default = "friendly_wounded",
+            action = "hp_restore",
+            restore = 250,
+            target = {
+                selector = "MostHurtParty",
+                switch_sides = true,
+                type = "One"
+            },
             hint = "Choose target to heal.",
         }
     },
@@ -119,8 +123,12 @@ ItemDB =
         use =
         {
             action = "revive",
-            target = "any",
-            target_default = "friendly_dead",
+            restore = 100,
+            target = {
+                selector = "DeadParty",
+                switch_sides = true,
+                type = "One"
+            },
             hint = "Choose target to revive.",
         }
     },
@@ -130,9 +138,13 @@ ItemDB =
         description = "Heals a small amount of MP.",
         use =
         {
-            action = "small_mp_restore",
-            target = "any",
-            target_default = "friendly_lowest_mana",
+            action = "mp_restore",
+            restore = 50,
+            target = {
+                selector = "MostDrainedParty",
+                switch_sides = true,
+                type = "One"
+            },
             hint = "Choose target to restore mana."
         }
     },

@@ -9,6 +9,13 @@ gWorld.mParty:Add(Actor:Create(gPartyMemberDefs.hero))
 gWorld.mParty:Add(Actor:Create(gPartyMemberDefs.mage))
 gWorld.mParty:Add(Actor:Create(gPartyMemberDefs.thief))
 
+gWorld:AddItem(1)
+gWorld:AddItem(2)
+gWorld:AddItem(3)
+gWorld:AddItem(10, 2)
+gWorld:AddItem(11)
+gWorld:AddItem(12)
+
 gCombatDef =
 {
     background = "arena_background.png",

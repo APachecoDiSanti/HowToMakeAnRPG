@@ -116,6 +116,8 @@ function CombatChoiceState:OnSelect(index, data)
         local event = CEFlee:Create(self.mCombatState, self.mActor)
         local tp = event:TimePoints(queue)
         queue:Add(event, tp)
+    elseif data == "item" then
+        self:OnItemAction()
     end
 end
 
@@ -177,3 +179,98 @@ function CombatChoiceState:HandleInput()
     self.mSelection:HandleInput()
 end
 
+
+function CombatChoiceState:OnItemAction()
+    -- 1. Get the filtered item lsit
+    local filter = function(def)
+        return def.type == "useable"
+    end
+    local filteredItems = gWorld:FilterItems(filter)
+
+
+    -- 2.Create the selection box
+    local x = self.mTextbox.mSize.left - 64
+    local y = self.mTextbox.mSize.top
+    self.mSelection:HideCursor()
+
+    local OnFocus = function(item)
+        local text = ""
+        if item then
+            local def = ItemDB[item.id]
+            text = def.description
+        end
+        self.mCombatState:ShowTip(text)
+    end
+
+    local OnExit = function()
+        self.mCombatState:HideTip("")
+        self.mSelection:ShowCursor()
+    end
+
+    local OnRenderItem = function(self, renderer, x, y, item)
+        local text = "--"
+        if item then
+            local def = ItemDB[item.id]
+            text = def.name
+            if item.count > 1 then
+                text = string.format("%s x%00d", def.name, item.count)
+            end
+        end
+        renderer:DrawText2d(x, y, text)
+    end
+
+    local OnSelection = function(selection, index, item)
+        if not item then
+            return
+        end
+        local def = ItemDB[item.id]
+        local targeter = self:CreateItemTargeter(def, selection)
+        self.mStack:Push(targeter)
+    end
+
+    local state = BrowseListState:Create{
+        stack =  self.mStack,
+        titel = "ITEMS",
+        x = x,
+        y = y,
+        data = filteredItems,
+        OnExit = OnExit,
+        OnRenderItem = OnRenderItem,
+        OnFocus = OnFocus,
+        OnSelection = OnSelection,
+    }
+    self.mStack:Push(state)
+end
+
+
+function CombatChoiceState:CreateItemTargeter(def, browseState)
+    local targetDef = def.use.target
+    self.mCombatState:ShowTip(def.use.hint)
+    browseState:Hide()
+
+    local OnSelect = function(targets)
+        self.mStack:Pop() -- target
+        self.mStack:Pop() -- item box
+        self.mStack:Pop() -- action
+
+        local queue = self.mCombatState.mEventQueue
+        local event = CEUseItem:Create(self.mCombatState, self.mActor, def, targets)
+        local tp = event:TimePoints(queue)
+        queue:Add(event, tp)
+    end
+
+    local OnExit = function()
+        browseState:Show()
+    end
+
+    return CombatTargetState:Create(
+        self.mCombatState,
+        {
+            targetType = targetDef.type,
+            defaultSelector = CombatSelector[targetDef.selector],
+            switchSides = targetDef.switch_sides,
+            OnSelect = OnSelect,
+            OnExit = OnExit
+        }
+    )
+end

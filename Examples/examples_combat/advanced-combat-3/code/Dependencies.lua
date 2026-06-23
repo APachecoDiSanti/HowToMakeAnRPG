@@ -80,14 +80,17 @@ Apply({
         "CETurn.lua",
         "CEAttack.lua",
         "CEFlee.lua",
+        "CEUseItem.lua",
         "CombatChoiceState.lua",
         "CombatTargetState.lua",
         "CombatFormula.lua",
+        "CombatActions.lua",
         "XPSummaryState.lua",
         "LootSummaryState.lua",
         "ActorXPSummary.lua",
         "CombatTextFx.lua",
         "XPPopUp.lua",
-        "OddmentTable.lua"
+        "OddmentTable.lua",
+        "BrowseListState.lua"
     },
     function(v) Asset.Run(v) end)

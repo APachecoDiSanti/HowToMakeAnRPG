@@ -1,23 +1,81 @@
+local function WeakestActor(list, onlyCheckHurt)
+    local target = nil
+    local health = 99999
+
+    for _, v in ipairs(list) do
+        local hp = v.mStats:Get("hp_now")
+        local isHurt = hp < v.mStats:Get("hp_max")
+        local skip = false
+        if onlyCheckHurt and not isHurt then
+            skip = true
+        end
+
+        if hp < health and not skip then
+            health = hp
+            target = v
+        end
+    end
+
+    return { target or list[1] }
+end
+
+
+local function MostDrainedActor(list, onlyCheckDrained)
+    local target = nil
+    local magic = 99999
+
+    for _, v in ipairs(list) do
+        local mp = v.mStats:Get("mp_now")
+        local isDrained = mp < v.mStats:Get("mp_max")
+        local skip = false
+        if onlyCheckDrained and not isDrained then
+            skip = true
+        end
+
+        if mp < magic and not skip then
+            magic = mp
+            target = v
+        end
+    end
+
+    return { target or list[1] }
+end
+
 
 -- Give the target state returns a list of actors
 -- that are targets.
 CombatSelector =
 {
     WeakestEnemy = function(state)
+        return WeakestActor(state.mActors["enemy"], false)
+    end,
 
-        local enemyList = state.mActors["enemy"]
-        local target = nil
-        local health = 99999
+    WeakestParty = function(state)
+        return WeakestActor(state.mActors["party"], false)
+    end,
 
-        for k, v in ipairs(enemyList) do
+    MostHurtEnemy = function(state)
+        return WeakestActor(state.mActors["enemy"], true)
+    end,
+
+    MostHurtParty = function(state)
+        return WeakestActor(state.mActors["party"], true)
+    end,
+
+    MostDrainedParty = function(state)
+        return MostDrainedActor(state.mActors["party"], true)
+    end,
+
+    DeadParty = function(state)
+        local list = state.mActors["party"]
+
+        for _, v in ipairs(list) do
             local hp = v.mStats:Get("hp_now")
-            if hp < health then
-                health = hp
-                target = v
+            if hp == 0 then
+                return { v }
             end
         end
-
-        return { target }
+        return list[1]
     end,
 
     SideEnemy = function(state)

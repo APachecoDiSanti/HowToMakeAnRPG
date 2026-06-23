@@ -269,6 +269,10 @@ manifest =
         {
             path = "code/combat_events/CEFlee.lua"
         },
+        ['CEUseItem.lua'] =
+        {
+            path = "code/combat_events/CEUseItem.lua"
+        },
         ['CombatChoiceState.lua'] =
         {
             path = "code/CombatChoiceState.lua"
@@ -305,6 +309,8 @@ manifest =
         {
             path = "code/OddmentTable.lua"
         },
+        ["BrowseListState.lua"] = { path = "code/BrowseListState.lua" },
+        ["CombatActions.lua"] = { path = "code/CombatActions.lua" },
     },
     textures =
     {
@@ -403,6 +409,22 @@ manifest =
         ['chest.png'] =
         {
             path = "art/chest.png",
+        },
+        ['fx_restore_hp.png'] =
+        {
+            path = "art/fx_restore_hp.png",
+        },
+        ['fx_use_item.png'] =
+        {
+            path = "art/fx_use_item.png",
+        },
+        ['fx_restore_mp.png'] =
+        {
+            path = "art/fx_restore_mp.png",
+        },
+        ['fx_revive.png'] =
+        {
+            path = "art/fx_revive.png",
         },
     },
     ['fonts'] =
