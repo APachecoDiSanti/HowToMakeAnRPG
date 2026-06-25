@@ -57,6 +57,10 @@ manifest =
         {
             path = "code/ItemDB.lua"
         },
+        ['SpellDB.lua'] =
+        {
+            path = "code/SpellDB.lua"
+        },
         ['InGameMenuState.lua'] =
         {
             path = "code/InGameMenuState.lua"
@@ -273,6 +277,10 @@ manifest =
         {
             path = "code/combat_events/CEUseItem.lua"
         },
+        ['CECastSpell.lua'] =
+        {
+            path = "code/combat_events/CECastSpell.lua"
+        },
         ['CombatChoiceState.lua'] =
         {
             path = "code/CombatChoiceState.lua"
@@ -428,6 +436,9 @@ manifest =
         {
             path = "art/fx_revive.png",
         },
+        ['fx_electric.png'] = {path = "art/fx_electric.png",},
+        ['fx_fire.png'] = {path = "art/fx_fire.png",},
+        ['fx_ice.png'] = {path = "art/fx_ice.png",},
         ['chest.png'] =
         {
             path = "art/chest.png",

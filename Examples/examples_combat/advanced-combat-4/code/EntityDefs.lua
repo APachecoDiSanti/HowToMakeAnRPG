@@ -133,7 +133,49 @@ gEntities =
         height = 16,
         startFrame = 1,
         frames = {1, 2, 3, 4, 4, 3, 2, 1}
-    }
+    },
+    fx_fire = {
+        texture = "fx_fire.png",
+        width = 32,
+        height = 48,
+        startFrame = 1,
+        frames = {1, 2, 3}
+    },
+    fx_electric = {
+        texture = "fx_electric.png",
+        width = 32,
+        height = 16,
+        startFrame = 1,
+        frames = {1, 2, 3}
+    },
+    fx_ice_1 = {
+        texture = "fx_ice.png",
+        width = 16,
+        height = 16,
+        startFrame = 1,
+        frames = {1, 2, 3, 4}
+    },
+    fx_ice_2 = {
+        texture = "fx_ice.png",
+        width = 16,
+        height = 16,
+        startFrame = 5,
+        frames = {5, 6, 7, 8}
+    },
+    fx_ice_3 = {
+        texture = "fx_ice.png",
+        width = 16,
+        height = 16,
+        startFrame = 9,
+        frames = {9, 10, 11, 12}
+    },
+    fx_ice_spark = {
+        texture = "fx_ice.png",
+        width = 16,
+        height = 16,
+        startFrame = 13,
+        frames = {13, 14, 15, 16}
+    },
 }
 
 
@@ -224,6 +266,7 @@ gCharacters =
             retreat = {61, 62, 63, 64},
             death   = {26, 27, 28, 29, 30, 31, 32, 33, 34},
             victory = {56, 57, 58, 59, 60, 53, 54, 55, 49, 50, 40, 35},
+            cast    = {11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25}
         },
         facing = "down",
         controller =

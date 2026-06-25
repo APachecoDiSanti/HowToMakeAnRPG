@@ -60,7 +60,7 @@ gPartyMemberDefs =
             ["mp_now"] = 250,
             ["mp_max"] = 250,
             ["strength"] = 8,
-            ["speed"] = 10,
+            ["speed"] = 100,
             ["intelligence"] = 20,
         },
         statGrowth =
@@ -73,6 +73,8 @@ gPartyMemberDefs =
         },
         portrait = "mage_portrait.png",
         name = "Ermis",
-        actions = { "attack", "magic", "item", "flee"}
+        actions = { "attack", "magic", "item", "flee"},
+        -- magic = {"fire", "burn"}
+        magic = {"fire", "burn", "ice", "bolt"}
     },
 }

@@ -103,6 +103,41 @@ CombatActions =
 
             AddAnimEffect(state, entity, animEffect, 0.1)
         end
-    end
+    end,
+
+    ['element_spell'] = function(state, owner, targets, def)
+        for _, v in ipairs(targets) do
+            local _, _, entity = StatsCharEntity(state, v)
+            local damage, hitResult = Formula.MagicAttack(state, owner, v, def)
+
+            if hitResult == HitResult.Hit then
+                state:ApplyDamage(v, damage)
+            end
+
+            if def.element == "fire" then
+                AddAnimEffect(state, entity, gEntities.fx_fire, 0.06)
+            elseif def.element == "electric" then
+                AddAnimEffect(state, entity, gEntities.fx_electric, 0.12)
+            elseif def.element == "ice" then
+                AddAnimEffect(state, entity, gEntities.fx_ice_1, 0.1)
+                local x = entity.mX
+                local y = entity.mY
+                local spk = gEntities.fx_ice_spark
+                local effect = AnimEntityFx:Create(x, y, spk, spk.frames, 0.12)
+                state:AddEffect(effect)
+
+                local x2 = x + entity.mWidth * 0.8
+                local ice2 = gEntities.fx_ice_2
+                effect = AnimEntityFx:Create(x2, y, ice2, ice2.frames, 0.1)
+                state:AddEffect(effect)
+                
+                local x3 = x - entity.mWidth * 0.8
+                local y3 = y - entity.mHeight * 0.6
+                local ice3 = gEntities.fx_ice_3
+                effect = AnimEntityFx:Create(x3, y3, ice3, ice3.frames, 0.1)
+                state:AddEffect(effect)
+            end
+        end
+    end,
 }
 

@@ -79,7 +79,8 @@ function Actor:Create(def)
             "armor",
             "accessory",
             "accessory"
-        }
+        },
+        mMagic = ShallowClone(def.magic or {})
     }
 
     if def.portrait then

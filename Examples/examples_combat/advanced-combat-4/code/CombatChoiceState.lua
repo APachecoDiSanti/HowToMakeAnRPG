@@ -131,24 +131,7 @@ function CombatChoiceState:OnSelect(index, data)
         self:OnItemAction()
 
     elseif data == "magic" then
-        local x = self.mTextbox.mSize.left - 64
-        local y = self.mTextbox.mSize.top
-        self.mSelection:HideCursor()
-        local state = BrowseListState:Create
-        {
-            stack = self.mStack,
-            title = "MAGIC",
-            x = x,
-            y = y,
-            data = {"Fire", "Ice", "Electric"},
-            OnExit = function()
-                self.mSelection:ShowCursor()
-                self.mCombatState:HideTip("")
-            end,
-            OnRenderItem = nil,
-            OnSelection = nil
-        }
-        self.mStack:Push(state)
+        self:OnMagicAction()
     elseif data == "special" then
         local x = self.mTextbox.mSize.left - 64
         local y = self.mTextbox.mSize.top
@@ -346,3 +329,101 @@ function CombatChoiceState:HandleInput()
     self.mSelection:HandleInput()
 end
 
+
+function CombatChoiceState:OnMagicAction()
+    local actor = self.mActor
+
+    local x = self.mTextbox.mSize.left - 64
+    local y = self.mTextbox.mSize.top
+    self.mSelection:HideCursor()
+
+    local OnRenderItem = function(self, renderer, x, y, item)
+        local text = "--"
+        local cost = "0"
+        local canCast = false
+        local mp = actor.mStats:Get("mp_now")
+        local color = Vector.Create(1, 1, 1, 1)
+        if item then
+            local def = SpellDB[item]
+            text = def.name
+            cost = string.format("%d", def.mp_cost)
+
+            canCast = mp >= def.mp_cost
+            if not canCast then
+                color = Vector.Create(0.7, 0.7, 0.7, 1)
+            end
+            renderer:AlignText("right", "center")
+            renderer:DrawText2d(x + 96, y, cost, color)
+        end
+
+        renderer:AlignText("left", "center")
+        renderer:DrawText2d(x, y, text, color)
+    end
+
+    local OnExit = function()
+        self.mSelection:ShowCursor()
+    end
+
+
+    local OnSelection = function(selection, index, item)
+        if not item then
+            return
+        end
+        local def = SpellDB[item]
+        local mp = actor.mStats:Get("mp_now")
+
+        if mp < def.mp_cost then
+            return
+        end
+
+        local targeter = self:CreateActionTargeter(def, selection, CECastSpell)
+        self.mStack:Push(targeter)
+    end
+
+    local state = BrowseListState:Create
+    {
+        stack = self.mStack,
+        title = "MAGIC",
+        x = x,
+        y = y,
+        data = actor.mMagic,
+        OnExit = OnExit,
+        OnRenderItem = OnRenderItem,
+        OnSelection = OnSelection
+    }
+    self.mStack:Push(state)
+end
+
+
+function CombatChoiceState:CreateActionTargeter(def, browseState, combatEvent)
+    local targetDef = def.target
+    browseState:Hide()
+    self:Hide()
+
+    local OnSelect = function(targets)
+        self.mStack:Pop() -- target state        
+        self.mStack:Pop() -- spell browse state
+        self.mStack:Pop() -- action state
+
+        local queue = self.mCombatState.mEventQueue
+        local event = combatEvent:Create(self.mCombatState, self.mActor, def, targets)
+        local tp = event:TimePoints(queue)
+        queue:Add(event, tp)
+    end
+
+    local OnExit = function()
+       browseState:Show()
+       self:Show()
+    end
+
+    return CombatTargetState:Create(
+        self.mCombatState,
+        {
+            targetType = targetDef.type,
+            defaultSelector = CombatSelector[targetDef.selector],
+            switchSides = targetDef.switch_sides,
+            OnSelect = OnSelect,
+            OnExit = OnExit
+        }
+    )
+end

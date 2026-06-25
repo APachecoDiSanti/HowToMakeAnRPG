@@ -138,3 +138,52 @@ function Formula.CanFlee(state, fleer)
 
     return math.random() <= fc
 end
+
+
+function Formula.IsHitMagic(state, attacker, target, spell)
+    local hitchance = spell.base_hit_chance
+    if math.random() <= hitchance then
+        return HitResult.Hit
+    else
+        return HitResult.Miss
+    end
+end
+
+
+function Formula.CalcSpellDamage(state, attacker, target, spell)
+    local base = spell.base_damage
+    if type(base) == 'table' then
+        base = math.random(base[1], base[2])
+    end
+    local damage = base * 4
+    local level = attacker.mLevel
+    local stats = attacker.mStats
+    local bonus = level * stats:Get("intelligence") * (base / 32)
+    damage = damage + bonus
+
+    if spell.element then
+        local modifier = target.mStats:Get(spell.element)
+        damage = damage + (damage * modifier)
+    end
+
+    local resist = math.min(255, target.mStats:Get("resist"))
+    local resist01 = 1 - (resist/255)
+    damage = damage * resist01
+
+    return math.floor(damage)
+end
+
+
+
+function Formula.MagicAttack(state, attacker, target, spell)
+    local damage = 0
+    local hitResult = Formula.IsHitMagic(state, attacker, target, spell)
+
+    if hitResult == HitResult.Miss then
+        return math.floor(damage), HitResult.Miss
+    end
+
+    local damage = Formula.CalcSpellDamage(state, attacker, target, spell)
+    
+    return math.floor(damage), HitResult.Hit
+end
