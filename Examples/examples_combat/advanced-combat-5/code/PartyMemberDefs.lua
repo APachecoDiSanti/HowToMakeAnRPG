@@ -5,12 +5,12 @@ gPartyMemberDefs =
         id = "hero",
         stats =
         {
-            ["hp_now"] = 5,
-            ["hp_max"] = 10,
+            ["hp_now"] = 300,
+            ["hp_max"] = 300,
             ["mp_now"] = 299,
             ["mp_max"] = 300,
             ["strength"] = 10,
-            ["speed"] = 10,
+            ["speed"] = 20,
             ["intelligence"] = 10,
         },
         statGrowth =
@@ -23,7 +23,8 @@ gPartyMemberDefs =
         },
         portrait = "hero_portrait.png",
         name = "Seven",
-        actions = { "attack", "special", "item", "flee" }
+        actions = { "attack", "special", "item", "flee" },
+        special = { "slash" }
     },
     thief =
     {
@@ -48,7 +49,8 @@ gPartyMemberDefs =
         },
         portrait = "thief_portrait.png",
         name = "Jude",
-        actions = { "attack", "special", "item", "flee" }
+        actions = { "attack", "special", "item", "flee" },
+        special = { "steal" }
     },
     mage =
     {

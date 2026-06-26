@@ -206,7 +206,8 @@ gCharacters =
             advance = {36, 37, 38, 39},
             retreat = {61, 62, 63, 64},
             death   = {26, 27, 28, 29},
-            victory = {6, 7, 8, 9}
+            victory = {6, 7, 8, 9},
+            slash   = {11, 12, 13, 14, 15, 16, 17, 18, 11}
         },
         facing = "down",
         controller =
@@ -240,6 +241,12 @@ gCharacters =
             retreat = {61, 62, 63, 64},
             death   = {26, 27, 28, 29, 30, 31, 32},
             victory = {56, 57, 58, 59, 60, 40},
+            steal_1 = {41, 42, 43, 44, 45},
+            steal_2 = {46, 47, 48, 49, 50, 51, 52, 53},
+            steal_3 = {49, 48, 43, 44, 45},
+            steal_4 = {45, 44, 43, 42, 41},
+            steal_success = {54},
+            steal_failure = {55},
         },
         facing = "down",
         controller =

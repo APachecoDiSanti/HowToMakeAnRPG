@@ -80,7 +80,9 @@ function Actor:Create(def)
             "accessory",
             "accessory"
         },
-        mMagic = ShallowClone(def.magic or {})
+        mMagic = ShallowClone(def.magic or {}),
+        mSpecial = ShallowClone(def.special or {}),
+        mStealItem = def.steal_item
     }
 
     if def.portrait then

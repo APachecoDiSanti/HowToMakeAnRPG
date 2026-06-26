@@ -277,6 +277,14 @@ manifest =
         {
             path = "code/combat_events/CECastSpell.lua"
         },
+        ['CESteal.lua'] =
+        {
+            path = "code/combat_events/CESteal.lua"
+        },
+        ['CESlash.lua'] =
+        {
+            path = "code/combat_events/CESlash.lua"
+        },
         ['CombatChoiceState.lua'] =
         {
             path = "code/CombatChoiceState.lua"
@@ -324,7 +332,11 @@ manifest =
         ['SpellDB.lua'] =
         {
             path = "code/SpellDB.lua"
-        }
+        },
+        ['SpecialDB.lua'] =
+        {
+            path = "code/SpecialDB.lua"
+        },
     },
     textures =
     {

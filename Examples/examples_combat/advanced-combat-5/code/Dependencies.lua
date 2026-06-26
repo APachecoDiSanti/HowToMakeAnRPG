@@ -93,6 +93,9 @@ Apply({
         "BrowseListState.lua",
         "CombatActions.lua",
         "SpellDB.lua",
+        "SpecialDB.lua",
         "CECastSpell.lua",
+        "CESteal.lua",
+        "CESlash.lua",
     },
     function(v) Asset.Run(v) end)

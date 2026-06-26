@@ -26,6 +26,7 @@ gEnemyDefs =
                 { oddment = 1, item = { id = -1 } },
                 { oddment = 3, item = { id = 10 } }
             }
-        }
+        },
+        steal_item = 10,
     }
 }

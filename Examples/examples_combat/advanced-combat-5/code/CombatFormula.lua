@@ -195,3 +195,15 @@ function Formula.MagicAttack(state, attacker, target, spell)
 
     return math.floor(damage), HitResult.Hit
 end
+
+
+function Formula.Steal(state, attacker, target)
+    local cts = 0.05 -- Chance to steal, 5%
+    if attacker.mLevel > target.mLevel then
+        cts = (50 + attacker.mLevel - target.mLevel)/128
+        cts = Clamp(cts, 0.05, 0.95)
+    end
+
+    local rand = math.random()
+    return rand <= cts
+end
