@@ -5,23 +5,23 @@ gEnemyDefs =
         id = "goblin",
         stats =
         {
-            ["hp_now"] = 30,
-            ["hp_max"] = 30,
+            ["hp_now"] = 100,
+            ["hp_max"] = 100,
             ["mp_now"] = 0,
             ["mp_max"] = 0,
-            ["strength"] = 8,
-            ["speed"] = 5,
+            ["strength"] = 15,
+            ["speed"] = 6,
             ["intelligence"] = 2,
-            ["counter"] = 0.5,
+            ["counter"] = 0,
         },
         name = "Arena Goblin",
         actions = { "attack" },
         steal_item =  10,
         drop =
         {
-            xp = 5,
-            gold = {0, 5},
-            always = {11},
+            xp = 150,
+            gold = {5, 15},
+            always = nil,
             chance =
             {
                 { oddment = 1, item = { id = -1 } },

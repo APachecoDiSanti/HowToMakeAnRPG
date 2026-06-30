@@ -77,11 +77,7 @@ function XPSummaryState:ApplyXPToParty(xp)
                 local levelup = actor:CreateLevelUp()
                 local levelNumber = actor.mLevel + levelup.level
                 summary:AddPopUp("Level Up!")
-
-                -- if levelNumber == 2 then
-                --     summary:AddPopUp("Unlocked: Fire I", Vector.Create(0.75,0.75,1))
-                -- end
-
+                self:UnlockPopUps(summary, levelup.actions)
                 actor:ApplyLevel(levelup)
             end
 
@@ -202,4 +198,22 @@ function XPSummaryState:GotoLootSummary()
 
     local storyboard = Storyboard:Create(self.mStack, storyboard)
     self.mStack:Push(storyboard)
+end
+
+
+function XPSummaryState:UnlockPopUps(summary, actions)
+    for k,v in pairs(actions) do
+        local color = Vector.Create(1, 0.843, 0, 1)
+        local db = SpecialDB
+        if k == 'magic' then
+            db = SpellDB
+            color = Vector.Create(0.57, 0.43, 0.85, 1)
+        end
+
+        for _, id in ipairs(v) do
+            local name = db[id].name
+            local msg = string.format("+ %s", name)
+            summary:AddPopUp(msg, color)
+        end
+    end
 end

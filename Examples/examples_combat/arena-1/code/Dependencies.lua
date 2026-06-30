@@ -96,6 +96,7 @@ Apply({
         "CECastSpell.lua",
         "SpecialDB.lua",
         "CESlash.lua",
-        "CESteal.lua"
+        "CESteal.lua",
+        "ArenaState.lua"
     },
     function(v) Asset.Run(v) end)

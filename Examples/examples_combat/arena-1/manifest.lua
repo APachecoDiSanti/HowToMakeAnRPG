@@ -245,9 +245,9 @@ manifest =
         {
             path = "code/combat_states/CSEnemyDie.lua"
         },
-        ['Animation.lua'] =
+        ['ArenaState.lua'] =
         {
-            path = "code/Animation.lua"
+            path = "code/ArenaState.lua"
         },
         ['EventQueue.lua'] =
         {
