@@ -467,3 +467,20 @@ function SOP.UpdateState(state, time)
             end)
     end
 end
+
+
+function SOP.RemoveState(state)
+    return function(storyboard)
+        local stack = storyboard.mStack
+
+        for i = #stack.mStates, 1, -1 do
+            local v = stack.mStates[i]
+            if v == state then
+                v:Exit()
+                table.remove(stack.mStates, i)
+                break
+            end
+        end
+        return EmptyEvent
+    end
+end

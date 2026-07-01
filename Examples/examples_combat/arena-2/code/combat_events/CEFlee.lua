@@ -14,6 +14,10 @@ function CEFlee:Create(state, actor)
     -- Decide if flee succeeds
     this.mCanFlee = Formula.CanFlee(state, actor)
 
+    if not this.mState.mCanFlee then
+        this.mCanFlee = false
+    end
+
     if this.mCanFlee then
         local storyboard =
         {

@@ -96,8 +96,15 @@ function CombatState:Create(stack, def)
         mDeathList = {},
         mEffectList = {},
         mLoot = {},
-        mFled = false
+        mFled = false,
+        mCanFlee = true,
+        OnDieCallback = def.OnDie,
+        OnWinCallback = def.OnWin
     }
+
+    if def.canFlee ~= nil then
+        this.mCanFlee = def.canFlee
+    end
 
     -- Setup layout panel
     layout = Layout:Create()
@@ -521,6 +528,15 @@ function CombatState:OnWin()
         SOP.Wait(0.3),
         SOP.FadeOutScreen("black", 0.3),
     }
+    if self.OnWinCallback then
+        storyboard = {
+            SOP.UpdateState(self, 1.0),
+            SOP.BlackScreen("black", 0),
+            SOP.FadeInScreen("black", 0.6),
+            SOP.ReplaceState(self, xpSummaryState),
+            SOP.Function(function() self.OnWinCallback() end)
+        }
+    end
 
     local storyboard = Storyboard:Create(self.mGameStack, storyboard)
     self.mGameStack:Push(storyboard)
@@ -531,15 +547,30 @@ function CombatState:OnLose()
         return
     end
 
-    local storyboard =
-    {
-        SOP.UpdateState(self, 1.5),
-        SOP.BlackScreen("black", 0),
-        SOP.FadeInScreen("black"),
-        SOP.ReplaceState(self, GameOverState:Create(self.mGameStack, gWorld)),
-        SOP.Wait(2),
-        SOP.FadeOutScreen("black"),
-    }
+    local storyboard
+
+    if self.OnDieCallback then
+        storyboard  =
+        {
+            SOP.UpdateState(self, 1.5),
+            SOP.BlackScreen("black", 0),
+            SOP.FadeInScreen("black"),
+            SOP.RemoveState(self),
+            SOP.Function(self.OnDieCallback),
+            SOP.Wait(2),
+            SOP.FadeOutScreen("black"),
+        }
+    else
+        storyboard  =
+        {
+            SOP.UpdateState(self, 1.5),
+            SOP.BlackScreen("black", 0),
+            SOP.FadeInScreen("black"),
+            SOP.ReplaceState(self, GameOverState:Create(self.mGameStack, gWorld)),
+            SOP.Wait(2),
+            SOP.FadeOutScreen("black"),
+        }
+    end
     local storyboard = Storyboard:Create(self.mGameStack, storyboard)
     self.mGameStack:Push(storyboard)
 end

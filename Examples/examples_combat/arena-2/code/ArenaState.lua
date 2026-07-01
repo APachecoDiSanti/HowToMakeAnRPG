@@ -11,22 +11,41 @@ function ArenaState:Create(world, stack)
             {
                 mName = "Round 1",
                 mLocked = false,
+                mEnemy = {
+                    gEnemyDefs.goblin,
+                }
             },
             {
                 mName = "Round 2",
                 mLocked = true,
+                mEnemy = {
+                    gEnemyDefs.goblin,
+                    gEnemyDefs.goblin,
+                    gEnemyDefs.goblin,
+                }
             },
             {
                 mName = "Round 3",
                 mLocked = true,
+                mEnemy = {
+                    gEnemyDefs.goblin,
+                    gEnemyDefs.ogre,
+                }
             },
             {
                 mName = "Round 4",
-                mLocked = true
+                mLocked = true,
+                mEnemy = {
+                    gEnemyDefs.ogre,
+                    gEnemyDefs.ogre,
+                }
             },
             {
                 mName = "Round 5",
-                mLocked = true
+                mLocked = true,
+                mEnemy = {
+                    gEnemyDefs.dragon,
+                }
             },
         },
     }
@@ -135,4 +154,59 @@ function ArenaState:HandleInput()
     end
 
     self.mSelection:HandleInput()
+end
+
+
+function ArenaState:OnRoundSelected(index, item)
+    if item.mLocked then
+        return
+    end
+
+    local enemyDefs = item.mEnemy or { gEnemyDefs.goblin }
+    local enemyList = {}
+
+    for k, v in ipairs(enemyDefs) do
+        enemyList[k]  = Actor:Create(v)
+    end
+
+    local combatDef = {
+        background = "arena_background.png",
+        actors = {
+            party = self.mWorld.mParty:ToArray(),
+            enemy = enemyList,
+        },
+        canFlee = false,
+        OnWin = function()
+            self:WinRound(index, item)
+        end,
+        OnDie = function()
+            self:LoseRound(index, item)
+        end,
+    }
+    local state = CombatState:Create(self.mStack, combatDef)
+    self.mStack:Push(state)
+end
+
+
+function ArenaState:LoseRound(index, item)
+    local party = self.mWorld.mParty.mMembers
+    for _, v in pairs(party) do
+        local hp = v.mStats:Get("hp_now")
+        hp = math.max(hp, 1)
+        v.mStats:Set("hp_now", hp)
+    end
+end
+
+
+function ArenaState:WinRound(index, item)
+    if index == #self.mRounds then
+        self.mStack:Pop()
+        local state = ArenaCompleteState:Create()
+        self.mStack:Push(state)
+    end
+
+    self.mSelection:MoveDown()
+
+    local nextRound = self.mSelection:SelectedItem()
+    nextRound.mLocked = false
 end

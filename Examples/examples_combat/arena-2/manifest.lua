@@ -341,6 +341,7 @@ manifest =
         {
             path = "code/ArenaState.lua"
         },
+        ["ArenaCompleteState.lua"] = { path = 'code/ArenaCompleteState.lua' }
     },
     textures =
     {
@@ -468,6 +469,8 @@ manifest =
         {
             path = "art/chest.png",
         },
+        ['ogre.png'] = { path = "art/ogre.png" },
+        ['green_dragon.png'] = { path = "art/green_dragon.png" },
     },
     ['fonts'] =
     {
