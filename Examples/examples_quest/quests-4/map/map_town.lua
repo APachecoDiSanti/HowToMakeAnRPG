@@ -8,10 +8,71 @@ return {
   tilewidth = 16,
   tileheight = 16,
   properties = {},
-    on_wake = {},
-  actions = {},
-  trigger_types = {},
-  triggers = {},
+    on_wake = {
+      {
+        id = "AddNPC",
+        params = {{ def = "npc_major", id = "major", x = 5, y = 4}}
+      },
+      {
+        id = "AddNPC",
+        params = {{ def = "npc_inn_keeper", id = "inn_keeper", x = 35, y = 23}}
+      },
+      {
+        id = "AddNPC",
+        params = {{ def = "npc_blacksmith", id = "blacksmith", x = 57, y = 44}}
+      },
+      {
+        id = "AddNPC",
+        params = {{ def = "npc_potion_master", id = "potion_master", x = 6, y = 42}}
+      },
+      {
+        id = "AddNPC",
+        params = {{ def = "npc_villager_1", id = "villager_1", x = 47, y = 101}}
+      },
+      {
+        id = "AddNPC",
+        params = {{ def = "npc_villager_2", id = "villager_2", x = 35, y = 78}}
+      },
+    },
+  actions = {
+    major_to_map = { id = "Teleport", params = {30, 98} },
+    potions_to_map = { id = "Teleport", params = {29, 116} },
+    inn_to_map = { id = "Teleport", params = {52, 88} },
+    arms_to_map = { id = "Teleport", params = {14, 92} },
+    empty_to_map = { id = "Teleport", params = {28, 85} },
+    
+    map_to_major = { id = "Teleport", params = {5, 14} },
+    map_to_potions = { id = "Teleport", params = {6, 47} },
+    map_to_inn = { id = "Teleport", params = {35, 28} },
+    map_to_arms = { id = "Teleport", params = {57, 49} },
+    map_to_empty = { id = "Teleport", params = {57, 8} },
+  },
+  trigger_types = {
+    in_major = { OnEnter = "map_to_major" },
+    out_major = { OnEnter = "major_to_map" },
+    in_potions = { OnEnter = "map_to_potions" },
+    out_potions = { OnEnter = "potions_to_map" },
+    in_arms = { OnEnter = "map_to_arms" },
+    out_arms = { OnEnter = "arms_to_map" },
+    in_inn = { OnEnter = "map_to_inn" },
+    out_inn = { OnEnter = "inn_to_map" },
+    in_empty = { OnEnter = "map_to_empty" },
+    out_empty = { OnEnter = "empty_to_map" },
+  },
+  triggers = {
+    { trigger = "in_major", x = 30, y = 97 },
+    { trigger = "in_major", x = 31, y = 97 },
+    { trigger = "out_major", x = 5, y = 15 },
+    { trigger = "out_major", x = 6, y = 15 },
+    { trigger = "in_potions", x = 29, y = 115 },
+    { trigger = "in_arms", x = 14, y = 91 },
+    { trigger = "in_empty", x = 28, y = 84 },
+    { trigger = "in_inn", x = 52, y = 87 },
+    { trigger = "out_empty", x = 57, y = 9 },
+    { trigger = "out_inn", x = 35, y = 29 },
+    { trigger = "out_potions", x = 6, y = 48 },
+    { trigger = "out_arms", x = 57, y = 50 },
+  },
  tilesets = {
     {
       name = "town_tileset",

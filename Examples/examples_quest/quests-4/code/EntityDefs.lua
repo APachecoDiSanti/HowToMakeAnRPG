@@ -181,7 +181,34 @@ gEntities =
         height = 16,
         startFrame = 13,
         frames = {13, 14, 15, 16}
-    }
+    },
+    npc_major = {
+        texture = "walk_cycle.png",
+        width = 16,
+        height = 24,
+        startFrame = 105,
+        tileX = 11,
+        tileY = 3,
+        layer = 1
+    },
+    npc_1 = {
+        texture = "walk_cycle.png",
+        width = 16,
+        height = 24,
+        startFrame = 121,
+        tileX = 11,
+        tileY = 3,
+        layer = 1
+    },
+    npc_2 = {
+        texture = "walk_cycle.png",
+        width = 16,
+        height = 24,
+        startFrame = 137,
+        tileX = 11,
+        tileY = 3,
+        layer = 1
+    },
 }
 
 
@@ -256,6 +283,8 @@ gCharacters =
             "cs_hurt",
             "cs_move",
             "cs_standby",
+            "follow_path",
+            "move"
         },
         state = "npc_stand",
     },
@@ -289,6 +318,8 @@ gCharacters =
             "cs_hurt",
             "cs_move",
             "cs_standby",
+            "follow_path",
+            "move"
         },
         state = "npc_stand",
     },
@@ -304,5 +335,77 @@ gCharacters =
             "cs_hurt_enemy"
         },
         state = "cs_standby",
-    }
+    },
+    npc_major = {
+        entity = "npc_major",
+        anims = {
+            up = {97, 98, 99, 100},
+            right = {101, 102, 103, 104},
+            down = {105, 106, 107, 108},
+            left = {109, 110, 111, 112},
+        },
+        facing = "down",
+        controller = {"follow_path", "move", "npc_stand"},
+        state = "npc_stand"
+    },
+    npc_inn_keeper = {
+        entity = "npc_1",
+        anims = {
+            up = {113, 114, 115, 116},
+            right = {117, 118, 119, 120},
+            down = {121, 122, 123, 124},
+            left = {125, 126, 127, 128},
+        },
+        facing = "down",
+        controller = {"npc_stand"},
+        state = "npc_stand"
+    },
+    npc_blacksmith = {
+        entity = "npc_1",
+        anims = {
+            up = {113, 114, 115, 116},
+            right = {117, 118, 119, 120},
+            down = {121, 122, 123, 124},
+            left = {125, 126, 127, 128},
+        },
+        facing = "down",
+        controller = {"npc_stand"},
+        state = "npc_stand"
+    },
+    npc_potion_master = {
+        entity = "npc_1",
+        anims = {
+            up = {113, 114, 115, 116},
+            right = {117, 118, 119, 120},
+            down = {121, 122, 123, 124},
+            left = {125, 126, 127, 128},
+        },
+        facing = "down",
+        controller = {"npc_stand"},
+        state = "npc_stand"
+    },
+    npc_villager_1 = {
+        entity = "npc_1",
+        anims = {
+            up = {113, 114, 115, 116},
+            right = {117, 118, 119, 120},
+            down = {121, 122, 123, 124},
+            left = {125, 126, 127, 128},
+        },
+        facing = "down",
+        controller = {"npc_stand"},
+        state = "npc_stand"
+    },
+    npc_villager_2 = {
+        entity = "npc_2",
+        anims = {
+            up = {129, 130, 131, 132},
+            right = {133, 134, 135, 136},
+            down = {137, 138, 139, 140},
+            left = {141, 142, 143, 144},
+        },
+        facing = "down",
+        controller = {"npc_stand"},
+        state = "npc_stand"
+    },
 }
