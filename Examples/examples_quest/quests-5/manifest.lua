@@ -341,6 +341,7 @@ manifest =
         {
             path = "map/map_town.lua"
         },
+        ['ShopState.lua'] = {path = "code/ShopState.lua"}
     },
     textures =
     {
@@ -467,7 +468,8 @@ manifest =
         ['chest.png'] =
         {
             path = "art/chest.png"
-        }
+        },
+        ["up_caret.png"] = {path = "art/up_caret.png"}
     },
     ['fonts'] =
     {

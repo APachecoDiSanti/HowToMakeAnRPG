@@ -98,6 +98,7 @@ Apply({
         "CESteal.lua",
         "ArenaState.lua",
         "ArenaCompleteState.lua",
-        "map_town.lua"
+        "map_town.lua",
+        "ShopState.lua"
     },
     function(v) Asset.Run(v) end)

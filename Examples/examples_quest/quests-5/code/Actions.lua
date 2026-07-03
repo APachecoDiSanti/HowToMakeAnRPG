@@ -86,5 +86,11 @@ Actions =
         return function(trigger, entity, tX, tY, tLayer)
             Func(map, trigger, entity, tX, tY, tLayer)
         end
+    end,
+
+    OpenShop = function(map, def)
+        return function(trigger, entity, tX, tY, tLayer)
+            gStack:Push(ShopState:Create(gStack, gWorld, def))
+        end
     end
 }

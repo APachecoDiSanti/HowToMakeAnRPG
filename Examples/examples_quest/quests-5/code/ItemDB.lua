@@ -12,6 +12,7 @@ ItemDB =
         },
         use = nil,
         use_restriction = nil,
+        price = 0
     },
     {
         name = "Bone Blade",
@@ -19,7 +20,8 @@ ItemDB =
         icon = "sword",
         restriction = {"hero"},
         description = "A wicked sword made from bone.",
-        stats = { add = { attack = 5 } }
+        stats = { add = { attack = 5 } },
+        price = 300
     },
     {
         name = "Bone Armor",
@@ -34,13 +36,15 @@ ItemDB =
                 defense = 5,
                 resist = 1,
             }
-        }
+        },
+        price = 500
     },
     {
         name = "Ring of Titan",
         type = "accessory",
         description = "Grants the strength of the Titan.",
-        stats = { add = { strength = 10 } }
+        stats = { add = { strength = 10 } },
+        price = 1000
     },
     {
         name = "World Tree Branch",
@@ -55,7 +59,8 @@ ItemDB =
                 attack = 2,
                 magic = 5
             }
-        }
+        },
+        price = 300
     },
     {
         name = "Dragon's Cloak",
@@ -70,13 +75,15 @@ ItemDB =
                 defense = 3,
                 resist = 10,
             }
-        }
+        },
+        price = 500
     },
     {
         name = "Singer's Stone",
         type = "accessory",
         description = "The stone's song resists magical attacks.",
-        stats = { add = { resist = 10 } }
+        stats = { add = { resist = 10 } },
+        price = 1000
     },
     {
         name = "Black Dagger",
@@ -84,7 +91,8 @@ ItemDB =
         icon = "dagger",
         restriction = {"thief"},
         description = "A dagger made out of an unknown material.",
-        stats = { add = { attack = 4 } }
+        stats = { add = { attack = 4 } },
+        price = 100
     },
     {
         name = "Footpad Leathers",
@@ -93,12 +101,14 @@ ItemDB =
         restriction = {"thief"},
         description = "Light armor for silent movement.",
         stats = { add = { defense = 3 } },
+        price = 250
     },
     {
         name = "Swift Boots",
         type = "accessory",
         description = "Increases speed by 25%",
         stats = { mult = { speed = 0.25 } },
+        price = 2000
     },
     {
         name = "Heal Potion",
@@ -115,7 +125,8 @@ ItemDB =
                 type = "One"
             },
             hint = "Choose target to heal.",
-        }
+        },
+        price = 50
     },
     {
         name = "Life Salve",
@@ -132,7 +143,8 @@ ItemDB =
                 type = "One"
             },
             hint = "Choose target to revive.",
-        }
+        },
+        price = 100
     },
     {
         name = "Mana Potion",
@@ -149,7 +161,8 @@ ItemDB =
                 type = "One"
             },
             hint = "Choose target to restore mana."
-        }
+        },
+        price = 100
     },
     {
         name = "Mysterious Torque",
@@ -162,7 +175,8 @@ ItemDB =
                 strength = 10,
                 speed = 10
             }
-        }
+        },
+        price = 1000
     },
 }
 

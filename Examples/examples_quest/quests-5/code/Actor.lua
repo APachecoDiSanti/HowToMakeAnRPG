@@ -325,3 +325,15 @@ function Actor:CanUse(item)
 
     return false
 end
+
+
+function Actor:EquipCount(itemId)
+    local count = 0
+    for _, v in pairs(self.mEquipment) do
+        if v == itemId then
+            count = count + 1
+        end
+    end
+
+    return count
+end

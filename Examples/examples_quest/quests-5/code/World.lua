@@ -133,22 +133,38 @@ function World:DrawKey(menu, renderer, x, y, item)
     end
 end
 
-function World:DrawItem(menu, renderer, x, y, item)
+function World:DrawItem(menu, renderer, x, y, item, color)
+    color = color or Vector.Create(1, 1, 1, 1)
+
     if item then
         local itemDef = ItemDB[item.id]
         local iconSprite = self.mIcons:Get(itemDef.icon or itemDef.type)
         if iconSprite then
+            iconSprite:SetColor(color)
             iconSprite:SetPosition(x + 6, y)
             renderer:DrawSprite(iconSprite)
         end
         renderer:AlignText("left", "center")
-        renderer:DrawText2d(x + 18, y, itemDef.name)
-        local right = x + menu.mSpacingX - 64
-        renderer:AlignText("right", "center")
-        renderer:DrawText2d(right, y, string.format(":%02d", item.count))
+        renderer:DrawText2d(x + 18, y, itemDef.name, color)
+        if item.count then
+            local right = x + menu.mSpacingX - 64
+            renderer:AlignText("right", "center")
+            renderer:DrawText2d(right, y, string.format(":%02d", item.count), color)
+        end
     else
-
         renderer:AlignText("center", "center")
-        renderer:DrawText2d(x + menu.mSpacingX/2, y, " - ")
+        renderer:DrawText2d(x + menu.mSpacingX/2, y, " - ", color)
     end
+end
+
+
+function World:ItemCount(itemId)
+
+    for _, v in ipairs(self.mItems) do
+        if itemId == v.id then
+            return v.count
+        end
+    end
+
+    return 0
 end
