@@ -23,6 +23,10 @@ function CreateTownMap()
     sell_filter = "arms"
   }
 
+  local innDef = {
+    cost = 5
+  }
+
 return {
   version = "1.1",
   luaversion = "5.1",
@@ -73,6 +77,10 @@ return {
 
     open_potion_shop = { id = "OpenShop", params = {shopDefPotions}},
     open_arms_shop = { id = "OpenShop", params = {shopDefArms}},
+    open_inn = { id = "OpenInn", params = {innDef}},
+
+    npc_1_talk = { id = "ShortText", params = {"The major was ill for a long time." }},
+    npc_2_talk = { id = "ShortText", params = {"These stone columns are ancient. How old? No one knows." }},
   },
   trigger_types = {
     in_major = { OnEnter = "map_to_major" },
@@ -87,6 +95,9 @@ return {
     out_empty = { OnEnter = "empty_to_map" },
     potion_shop = {OnUse = "open_potion_shop"},
     arms_shop = {OnUse = "open_arms_shop"},
+    inn = {OnUse = "open_inn"},
+    npc_1 = {OnUse = "npc_1_talk"},
+    npc_2 = {OnUse = "npc_2_talk"},
   },
   triggers = {
     { trigger = "in_major", x = 30, y = 97 },
@@ -103,6 +114,9 @@ return {
     { trigger = "out_arms", x = 57, y = 50 },
     { trigger = "potion_shop", x = 6, y = 44},
     { trigger = "arms_shop", x = 57, y = 46},
+    { trigger = "inn", x = 35, y = 25},
+    { trigger = "npc_1", x = 47, y = 101},
+    { trigger = "npc_2", x = 35, y = 78},
   },
  tilesets = {
     {

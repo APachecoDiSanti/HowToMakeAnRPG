@@ -92,5 +92,44 @@ Actions =
         return function(trigger, entity, tX, tY, tLayer)
             gStack:Push(ShopState:Create(gStack, gWorld, def))
         end
-    end
+    end,
+
+    OpenInn = function(map, def)
+        def = def or {}
+        local cost = def.cost or 5
+        local lackGPMsg = "You need %d gp to stay at the inn."
+        local askMsg = "Stay at the inn for %d gp?"
+        local resultMsg = "HP/MP Restored!"
+
+        askMsg = string.format(askMsg, cost)
+        lackGPMsg = string.format(lackGPMsg, cost)
+
+        local OnSelection = function(index, item)
+            if index == 2 then
+                return
+            end
+
+            gWorld.mGold = gWorld.mGold - cost
+            gWorld.mParty:Rest()
+
+            gStack:PushFit(gRenderer, 0, 0, resultMsg)
+        end
+
+        return function(trigger, entity, tX, tY, tLayer)
+            local gp = gWorld.mGold
+            if gp >= cost then
+                gStack:PushFit(gRenderer, 0, 0, askMsg, false, {choices = {options = {"Yes", "No"}, OnSelection = OnSelection} })
+            else
+                gStack:PushFit(gRenderer, 0, 0, lackGPMsg)
+            end
+        end
+    end,
+
+    ShortText = function(map, text)
+        return function(trigger, entity, tX, tY, tLayer)
+            tY = tY - 4
+            local x, y = map:TileToScreen(tX, tY)
+            gStack:PushFix(gRenderer, x, y, 9*32, 2.5*32, text)
+        end
+    end,
 }

@@ -367,3 +367,10 @@ function Map:RenderLayer(renderer, layer, hero)
         end
     end
 end
+
+
+function Map:TileToScreen(tX, tY)
+    local x = -self.mCamX + self.mX + tX * self.mTileWidth
+    local y = -self.mCamY + self.mY - tY * self.mTileHeight
+    return x, y
+end

@@ -41,3 +41,14 @@ function Party:EquipCount(itemId)
 
     return count
 end
+
+
+function Party:Rest()
+    for _, v in pairs(self.mMembers) do
+        local stats = v.mStats
+        if stats:Get("hp_now") > 0 then
+            stats:Set("hp_now", stats:Get("hp_max"))
+            stats:Set("mp_now", stats:Get("mp_max"))
+        end
+    end
+end
