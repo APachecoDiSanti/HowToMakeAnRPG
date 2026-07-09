@@ -132,4 +132,15 @@ Actions =
             gStack:PushFix(gRenderer, x, y, 9*32, 2.5*32, text)
         end
     end,
+
+    RemoveNPC = function(map, npcId)
+        return function(trigger, entity, tX, tY, tLayer)
+            local char = map.mNPCbyId[npcId]
+            local x = char.mEntity.mTileX
+            local y = char.mEntity.mTileY
+            local layer = char.mEntity.mLayer
+
+            map:RemoveNPC(x, y, layer)
+        end
+    end,
 }
