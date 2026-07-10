@@ -15,14 +15,15 @@ function CreateWorldMap()
     },
     actions =
     {
-
+      to_town = {id = "ChangeMap", params = {"town", 1, 106}},
     },
     trigger_types =
     {
-
+      enter_town = {OnEnter = "to_town"},
     },
     triggers =
     {
+      { trigger = "enter_town", x = 7, y = 26}
     },
     tilesets = {
       {

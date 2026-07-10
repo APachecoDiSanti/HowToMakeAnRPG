@@ -9,6 +9,7 @@ function World:Create()
         mKeyItems = {},
         mParty = Party:Create(),
         mIcons = Icons:Create(Texture.Find("inventory_icons.png")),
+        mLockInput = false,
     }
     setmetatable(this, self)
     return this
@@ -169,4 +170,19 @@ function World:DrawItem(menu, renderer, x, y, item, color)
         renderer:AlignText("center", "center")
         renderer:DrawText2d(x + menu.mSpacingX/2, y, " - ", color)
     end
+end
+
+
+function World:IsInputLocked()
+    return self.mLockInput
+end
+
+
+function World:LockInput()
+    self.mLockInput = true
+end
+
+
+function World:UnlockInput()
+    self.mLockInput = false
 end

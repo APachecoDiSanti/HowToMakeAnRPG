@@ -88,8 +88,8 @@ local intro =
     SOP.HandOff("handin")
 }
 
-local storyboard = Storyboard:Create(gStack, intro, true)
-gStack:Push(storyboard)
+-- local storyboard = Storyboard:Create(gStack, intro, true)
+-- gStack:Push(storyboard)
 
 
 function update()

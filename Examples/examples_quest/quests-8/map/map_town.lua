@@ -108,7 +108,9 @@ return {
       {
           id = "RunScript",
           params = { TalkToMajor }
-      }
+      },
+      to_world_map_left = {id = "ChangeMap", params = {"world", 6, 26}},
+      to_world_map_right = {id = "ChangeMap", params = {"world", 8, 26}},
   },
   trigger_types =
   {
@@ -130,6 +132,9 @@ return {
       npc_1 = { OnUse = "npc_1_talk" },
       npc_2 = { OnUse = "npc_2_talk" },
       major = { OnUse = "major_talk" },
+      
+      world_left = {OnEnter = "to_world_map_left"},
+      world_right = {OnEnter = "to_world_map_right"},
   },
   triggers =
   {
@@ -153,6 +158,14 @@ return {
       { trigger = "npc_1", x = 47, y = 101 },
       { trigger = "npc_2", x = 35, y = 78 },
       { trigger = "major", x = 5, y = 5 },
+      
+      { trigger = "world_left", x = 0, y = 105 },
+      { trigger = "world_left", x = 0, y = 106 },
+      { trigger = "world_left", x = 0, y = 107 },
+      
+      { trigger = "world_right", x = 59, y = 105 },
+      { trigger = "world_right", x = 59, y = 106 },
+      { trigger = "world_right", x = 59, y = 107 },
   },
   tilesets = {
     {

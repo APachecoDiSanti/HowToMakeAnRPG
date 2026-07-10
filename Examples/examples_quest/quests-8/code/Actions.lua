@@ -155,5 +155,22 @@ Actions =
             local x, y = map:TileToScreen(tX, tY)
             gStack:PushFix(gRenderer, x, y, 9*32, 2.5*32, text)
         end
-    end
+    end,
+
+    ChangeMap = function(map, destinationId, dX, dY)
+        local storyboard = {
+            SOP.BlackScreen("blackscreen", 0),
+            SOP.FadeInScreen("blackscreen", 0.5),
+            SOP.ReplaceScene("handin", {map = destinationId, focusX = dX, focusY = dY, hideHero = false}),
+            SOP.FadeOutScreen("blackscreen", 0.5),
+            SOP.Function(function() gWorld:UnlockInput() end),
+            SOP.HandOff(destinationId)
+        }
+
+        return function(trigger, entity, tX, tY, tLayer)
+            gWorld:LockInput()
+            local storyboard = Storyboard:Create(gStack, storyboard, true)
+            gStack:Push(storyboard)
+        end
+    end,
 }
