@@ -108,6 +108,20 @@ gEntities =
         width = 32,
         height = 32,
     },
+    goblin_field =
+    {
+        texture = "goblin_field.png",
+        startFrame = 1,
+        width = 32,
+        height = 32,
+    },
+    goblin_forest =
+    {
+        texture = "goblin_forest.png",
+        startFrame = 1,
+        width = 32,
+        height = 32,
+    },
     chest =
     {
         texture = "chest.png",
@@ -330,6 +344,32 @@ gCharacters =
     goblin =
     {
         entity = "goblin",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy"
+        },
+        state = "cs_standby",
+    },
+    goblin_field =
+    {
+        entity = "goblin_field",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy"
+        },
+        state = "cs_standby",
+    },
+    goblin_forest =
+    {
+        entity = "goblin_forest",
         controller =
         {
             "cs_move",

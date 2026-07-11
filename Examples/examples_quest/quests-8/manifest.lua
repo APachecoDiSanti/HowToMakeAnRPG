@@ -237,10 +237,6 @@ manifest =
         {
             path = "code/combat_states/CSEnemyDie.lua"
         },
-        ['Animation.lua'] =
-        {
-            path = "code/Animation.lua"
-        },
         ['EventQueue.lua'] =
         {
             path = "code/EventQueue.lua"
@@ -345,6 +341,7 @@ manifest =
         {
             path = "map/map_world.lua"
         },
+        ["map_cave.lua"] = { path = "map/map_cave.lua"},
         ['ShopState.lua'] =
         {
             path = "code/ShopState.lua"
@@ -479,7 +476,11 @@ manifest =
         ['chest.png'] =
         {
             path = "art/chest.png"
-        }
+        },
+        ["combat_bg_field.png"] = {path = "art/combat_bg_field.png"},
+        ["combat_bg_forest.png"] = {path = "art/combat_bg_forest.png"},
+        ["goblin_field.png"] = {path = "art/goblin_field.png"},
+        ["cave_tileset.png"] = {path = "art/cave_tileset.png"},
     },
     ['fonts'] =
     {

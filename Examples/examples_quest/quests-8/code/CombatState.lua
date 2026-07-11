@@ -316,7 +316,11 @@ function CombatState:CreateCombatCharacters(side)
 
     -- Create an character for each actor
     for k, v in ipairs(actorList) do
-        local charDef = gCharacters[v.mId]
+        local charDef = ShallowClone(gCharacters[v.mId])
+
+        if charDef.combatEntity then
+            charDef.entity = charDef.combatEntity
+        end
         local char = Character:Create(charDef, self)
         table.insert(characterList, char)
         self.mActorCharMap[v] = char
@@ -658,7 +662,7 @@ function CombatState:HandlePartyDeath()
             local hp = stats:Get("hp_now")
             if hp <= 0 then
                 -- Dead party actor we need to deal with
-                controller:Change(CSRunAnim.mName, {'death'})
+                controller:Change(CSRunAnim.mName, {'death', false})
                 self.mEventQueue:RemoveEventsOwnedBy(actor)
             end
 

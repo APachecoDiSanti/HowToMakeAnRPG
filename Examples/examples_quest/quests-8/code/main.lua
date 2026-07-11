@@ -15,14 +15,14 @@ gWorld.mParty:Add(mage)
 gStack:Push(ExploreState:Create(gStack, CreateTownMap(), startPos))
 
 gWorld.mGold = 5
-gWorld:AddItem(1, 3)
-gWorld:AddItem(2, 3)
+gWorld:AddItem(1, 1)
+gWorld:AddItem(2, 1)
 gWorld:AddItem(10, 5)
 
 -- Equip the sword (from inventory)
-hero:Equip(Actor.EquipSlotId[1], {id = 1, count = 2})
-hero.mStats:Set("hp_now", 1)
-thief.mStats:Set("hp_now", 0)
+hero:Equip(Actor.EquipSlotId[1], {id = 1, count = 1})
+-- hero.mStats:Set("hp_now", 1)
+-- thief.mStats:Set("hp_now", 0)
 
 -- gStack:Push(ShopState:Create(gStack, gWorld, shopDef))
 local sayDef = { textScale = 1.3 }

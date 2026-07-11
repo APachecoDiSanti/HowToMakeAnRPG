@@ -66,6 +66,8 @@ function MoveState:Enter(data)
 
         if trigger then
             trigger:OnExit(self.mEntity, x, y, layer)
+        else
+            self.mMap:TryEncounter(x, y, layer)
         end
     end
 
