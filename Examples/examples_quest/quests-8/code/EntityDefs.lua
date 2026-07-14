@@ -122,6 +122,27 @@ gEntities =
         width = 32,
         height = 32,
     },
+    cave_drake =
+    {
+        texture = "cave_drake.png",
+        startFrame = 1,
+        width = 128,
+        height = 64,
+    },
+    cave_bat =
+    {
+        texture = "cave_bat.png",
+        startFrame = 1,
+        width = 32,
+        height = 32,
+    },
+    cave_shade =
+    {
+        texture = "cave_shade.png",
+        startFrame = 1,
+        width = 64,
+        height = 64,
+    },
     chest =
     {
         texture = "chest.png",
@@ -370,6 +391,45 @@ gCharacters =
     goblin_forest =
     {
         entity = "goblin_forest",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy"
+        },
+        state = "cs_standby",
+    },
+    cave_drake =
+    {
+        entity = "cave_drake",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy"
+        },
+        state = "cs_standby",
+    },
+    cave_bat =
+    {
+        entity = "cave_bat",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy"
+        },
+        state = "cs_standby",
+    },
+    cave_shade =
+    {
+        entity = "cave_shade",
         controller =
         {
             "cs_move",

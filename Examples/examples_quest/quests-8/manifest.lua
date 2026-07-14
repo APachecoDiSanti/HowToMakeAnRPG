@@ -481,6 +481,13 @@ manifest =
         ["combat_bg_forest.png"] = {path = "art/combat_bg_forest.png"},
         ["goblin_field.png"] = {path = "art/goblin_field.png"},
         ["cave_tileset.png"] = {path = "art/cave_tileset.png"},
+        ["cave_drake.png"] = {path = "art/cave_drake.png"},
+        ["cave_bat.png"] = {path = "art/cave_bat.png"},
+        ["cave_shade.png"] = {path = "art/cave_shade.png"},
+        ["combat_bg_cave.png"] = {path = "art/combat_bg_cave.png"},
+        ["door.png"] = {path = "art/door.png"},
+        ["sphere.png"] = {path = "art/sphere.png"},
+        ["teleport.png"] = {path = "art/teleport.png"},
     },
     ['fonts'] =
     {

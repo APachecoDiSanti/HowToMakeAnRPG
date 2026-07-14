@@ -177,6 +177,11 @@ ItemDB =
         },
         price = 1000
     },
+    {
+        name = "Gemstone",
+        type = "key",
+        description = "Red gemstone shaped like a small skull."
+    }
 }
 
 EmptyItem = ItemDB[-1]

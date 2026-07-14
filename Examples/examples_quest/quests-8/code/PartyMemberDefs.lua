@@ -5,13 +5,13 @@ gPartyMemberDefs =
         id = "hero",
         stats =
         {
-            ["hp_now"] = 36,
-            ["hp_max"] = 36,
-            ["mp_now"] = 5,
-            ["mp_max"] = 5,
-            ["strength"] = 10,
-            ["speed"] = 16,
-            ["intelligence"] = 10,
+            ["hp_now"] = 360,
+            ["hp_max"] = 360,
+            ["mp_now"] = 50,
+            ["mp_max"] = 50,
+            ["strength"] = 100,
+            ["speed"] = 160,
+            ["intelligence"] = 100,
         },
         actionGrowth =
         {
@@ -31,20 +31,20 @@ gPartyMemberDefs =
         portrait = "hero_portrait.png",
         name = "Seven",
         actions = { "attack", "item", "flee" },
-        level = 0,
+        level = 10,
     },
     thief =
     {
         id = "thief",
         stats =
         {
-            ["hp_now"] = 34,
-            ["hp_max"] = 34,
-            ["mp_now"] = 5,
-            ["mp_max"] = 5,
-            ["strength"] = 10,
-            ["speed"] = 15,
-            ["intelligence"] = 10,
+            ["hp_now"] = 340,
+            ["hp_max"] = 340,
+            ["mp_now"] = 50,
+            ["mp_max"] = 50,
+            ["strength"] = 100,
+            ["speed"] = 150,
+            ["intelligence"] = 100,
         },
         statGrowth =
         {
@@ -64,7 +64,7 @@ gPartyMemberDefs =
         portrait = "thief_portrait.png",
         name = "Jude",
         actions = { "attack", "item", "flee" },
-        level = 0,
+        level = 10,
     },
     mage =
     {
@@ -72,13 +72,13 @@ gPartyMemberDefs =
         id = "mage",
         stats =
         {
-            ["hp_now"] = 32,
-            ["hp_max"] = 32,
-            ["mp_now"] = 10,
-            ["mp_max"] = 10,
-            ["strength"] = 8,
-            ["speed"] = 10,
-            ["intelligence"] = 20,
+            ["hp_now"] = 320,
+            ["hp_max"] = 320,
+            ["mp_now"] = 100,
+            ["mp_max"] = 100,
+            ["strength"] = 80,
+            ["speed"] = 100,
+            ["intelligence"] = 200,
         },
         statGrowth =
         {
@@ -107,6 +107,6 @@ gPartyMemberDefs =
         name = "Ermis",
         actions = { "attack", "item", "flee"},
         magic = { },
-        level = 0,
+        level = 10,
     },
 }

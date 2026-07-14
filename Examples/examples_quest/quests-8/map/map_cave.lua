@@ -23,6 +23,7 @@ function CreateCaveMap()
         local sayDef = { textScale = 1.5 }
         local bossTalk =
         {
+            SOP.Function(function() gWorld:LockInput() end),
             SOP.Say("handin", "hero", "Gemstone received.", 1, sayDef),
             SOP.Wait(0.3),
             SOP.Say("handin", "hero", "Trespass in MY house?", 3, sayDef),
@@ -32,6 +33,7 @@ function CreateCaveMap()
             SOP.Say("handin", "hero", "STEAL?", 3, sayDef),
             SOP.Wait(0.2),
             SOP.Say("handin", "hero", "You must be punished!", 3, sayDef),
+            SOP.Function(function() gWorld:UnlockInput() end),
             SOP.RunAction("Combat", { map, combatDef }),
             SOP.HandOff("handin"),
         }

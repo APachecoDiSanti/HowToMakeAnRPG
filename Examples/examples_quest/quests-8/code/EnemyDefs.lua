@@ -87,4 +87,71 @@ gEnemyDefs =
             }
         }
     },
+    cave_drake =
+    {
+        id = "cave_drake",
+        stats =
+        {
+            ["hp_now"] = 1000,
+            ["hp_max"] = 1000,
+            ["mp_now"] = 0,
+            ["mp_max"] = 0,
+            ["strength"] = 20,
+            ["speed"] = 13,
+            ["intelligence"] = 20,
+            ["counter"] = 0,
+        },
+        name = "Cave Drake",
+        actions = { "attack" },
+        steal_item =  10,
+        drop =
+        {
+            xp = 750,
+            gold = {1000, 1000},
+            always = nil,
+            chance =
+            {
+                { oddment = 1, item = { id = -1 } },
+                { oddment = 1, item = { id = 10 } }
+            }
+        }
+    },
+    cave_bat =
+    {
+        id = "cave_bat",
+        stats =
+        {
+            ["hp_now"] = 100,
+            ["hp_max"] = 100,
+            ["strength"] = 9,
+            ["speed"] = 16,
+            ["intelligence"] = 3,
+        },
+        name = "Bat",
+        actions = { "attack" },
+        steal_item =  10,
+        drop = { xp = 50 }
+    },
+    cave_shade = {
+        id = "cave_shade",
+        stats = {
+            ["hp_now"] = 200,
+            ["hp_max"] = 200,
+            ["strength"] = 20,
+            ["speed"] = 5,
+            ["intelligence"] = 5,
+        },
+        name = "Shade",
+        actions = { "attack" },
+        steal_item =  10,
+        drop = {
+            xp = 100,
+            gold = {5, 50},
+            chance =
+            {
+                { oddment = 3, item = { id = -1 } },
+                { oddment = 1, item = { id = 12 } }
+            }
+        }
+    },
 }
