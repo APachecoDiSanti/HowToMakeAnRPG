@@ -246,7 +246,30 @@ gEntities =
         height = 16,
         startFrame = 13,
         frames = {13, 14, 15, 16}
-    }
+    },
+    door_left =
+    {
+        texture = "door.png",
+        width = 16,
+        height = 32,
+        startFrame = 1,
+        frames = {1, 3, 5, 7}
+    },
+    door_right =
+    {
+        texture = "door.png",
+        width = 16,
+        height = 32,
+        startFrame = 2,
+        frames = {2, 4, 6, 8}
+    },
+    sphere =
+    {
+        texture = "sphere.png",
+        width = 16,
+        height = 16,
+        startFrame = 1
+    },
 }
 
 

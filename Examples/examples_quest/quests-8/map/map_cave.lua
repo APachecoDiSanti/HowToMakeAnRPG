@@ -1,6 +1,7 @@
 function CreateCaveMap()
 
     local gemstoneId = 14
+    local keystoneId = 15
 
     local TakeGem = function(map, trigger, entity, x, y, layer)
 
@@ -94,6 +95,98 @@ function CreateCaveMap()
 
     end
 
+    local KeyStoneInteract = function(map, trigger, entity, x, y, layer)
+      layer = layer or 1
+      local entity = map:GetEntity(x, y, layer)
+      map:RemoveEntity(entity)
+      map:RemoveTrigger(x, y, layer)
+      gWorld:AddKey(keystoneId)
+      gStack:PushFit(gRenderer, 0, 0, "Keystone received.")
+    end
+
+    local DoorPlateInteract = function(map, trigger, entity, x, y, layer)
+      layer = layer or 1
+
+      if gWorld:HasKey(keystoneId) then
+        map:RemoveTrigger(x, y, layer)
+        gWorld:RemoveKey(keystoneId)
+        local sphere = Entity:Create(gEntities["sphere"])
+        sphere:SetTilePos(x, y, layer, map)
+
+        local leftDoor = map:GetEntity(39, 39, 1)
+        local rightDoor = map:GetEntity(40, 39, 1)
+        local leftAnim = { gEntities["door_left"].frames, false}
+        local rightAnim = { gEntities["door_right"].frames, false}
+        local sayDef = { textScale = 1.5 }
+        local storyboard = {
+          SOP.Say("handin", "hero", "Keystone removed.", 1, sayDef),
+          SOP.NoBlock(SOP.Animate(leftDoor, leftAnim)),
+          SOP.Animate(rightDoor, rightAnim),
+          SOP.Function(
+            function()
+              map:RemoveEntity(leftDoor)
+              map:RemoveEntity(rightDoor)
+              -- caveState.completed_puzzle = true
+            end
+          ),
+          SOP.HandOff("handin")
+        }
+        gStack:Push(Storyboard:Create(gStack, storyboard, true))
+      else
+        local sayX, sayY = map:TileToScreen(x, y - 1)
+        gStack:PushFit(gRenderer, sayX, sayY, "Looks like something goes here...")
+      end
+    end
+
+    local  SetupDoorPuzzle = function(map, trigger, entity, x, y, layer)
+      local tileDoorPlateId = 182
+      local tileLocations = {
+        {39, 56, true},
+        {42, 56, true},
+        {38, 41, true},
+        {41, 41, false},
+      }
+      local keyX = 56
+      local keyY = 40
+
+      for _, v in ipairs(tileLocations) do
+        local x = v[1]
+        local y = v[2]
+        local isFilled = v[3]
+
+        map:WriteTile{
+          x = x,
+          y = y,
+          layer = 1,
+          tile = tileDoorPlateId,
+          collision = true
+        }
+
+        if isFilled then
+          local sphere = Entity:Create(gEntities["sphere"])
+          sphere:SetTilePos(x, y, 1, map)
+        else
+          local trigger = Trigger:Create{OnUse = function(...) DoorPlateInteract(map, ...) end}
+          map:AddFullTrigger(trigger, x, y, 1)
+        end
+      end
+      
+      if not gWorld:HasKey(keystoneId) then
+        -- Add the key sphere
+        local key = Entity:Create(gEntities["sphere"])
+        key:SetTilePos(keyX, keyY, 1, map)
+        
+        -- We need to add a trigger for the keystone
+        local keyTrigger = Trigger:Create{OnUse = function(...) KeyStoneInteract(map, ...) end}
+        map:AddFullTrigger(keyTrigger, keyX, keyY, 1)
+      end
+      
+      local doorLeft = Entity:Create(gEntities["door_left"])
+      local doorRight = Entity:Create(gEntities["door_right"])
+      doorLeft:SetTilePos(39, 39, 1, map)
+      doorRight:SetTilePos(40, 39, 1, map)
+    end
+
 return {
   version = "1.1",
   luaversion = "5.1",
@@ -117,6 +210,7 @@ return {
           id = "AddChest",
           params = { "chest", { { id = 10 } }, 12, 27 },
       },
+      { id = "RunScript", params = { SetupDoorPuzzle } },
   },
   actions =
   {
