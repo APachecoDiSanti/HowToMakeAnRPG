@@ -6,8 +6,8 @@ gStack = StateStack:Create()
 gWorld = World:Create()
 -- local startPos = Vector.Create(5, 9, 1)
 -- local startPos = Vector.Create(27, 26, 1)
--- local startPos = Vector.Create(12, 110, 1)
-local startPos = Vector.Create(40, 62, 1)
+local startPos = Vector.Create(12, 110, 1)
+-- local startPos = Vector.Create(40, 47, 1)
 
 local hero = Actor:Create(gPartyMemberDefs.hero)
 local thief = Actor:Create(gPartyMemberDefs.thief)
@@ -16,7 +16,12 @@ gWorld.mParty:Add(hero)
 gWorld.mParty:Add(thief)
 gWorld.mParty:Add(mage)
 -- gStack:Push(ExploreState:Create(gStack, CreateTownMap(), startPos))
-gStack:Push(ExploreState:Create(gStack, CreateCaveMap(), startPos))
+
+-- do-end block is used to limit scope of variablesas they're no longer accessible outside of it
+do
+    local cavemap = CreateCaveMap(gWorld.mGameState)
+    gStack:Push(ExploreState:Create(gStack, cavemap, startPos))
+end
 
 gWorld.mGold = 5
 gWorld:AddItem(1, 1)

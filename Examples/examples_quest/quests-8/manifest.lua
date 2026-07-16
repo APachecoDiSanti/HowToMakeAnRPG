@@ -5,6 +5,7 @@ manifest =
 {
     scripts =
     {
+        ["DefaultGameState.lua"] = { path = "code/DefaultGameState.lua"},
         ['Actions.lua'] =
         {
             path = "code/Actions.lua"

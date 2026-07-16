@@ -10,6 +10,7 @@ function World:Create()
         mParty = Party:Create(),
         mIcons = Icons:Create(Texture.Find("inventory_icons.png")),
         mLockInput = false,
+        mGameState = GetDefaultGameState()
     }
     setmetatable(this, self)
     return this

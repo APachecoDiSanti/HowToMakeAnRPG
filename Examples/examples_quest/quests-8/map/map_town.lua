@@ -1,4 +1,6 @@
-function CreateTownMap()
+function CreateTownMap(state)
+  local id = "town"
+  local townState = state.maps[id]
 
   local shopDefPotions =
   {
@@ -43,6 +45,8 @@ function CreateTownMap()
 
 
 return {
+  id = id,
+  name = "Town",
   version = "1.1",
   luaversion = "5.1",
   orientation = "orthogonal",

@@ -17,6 +17,7 @@ Apply({
     function(v) LoadLibrary(v) end)
 
 Apply({
+        "DefaultGameState.lua",
         "Animation.lua",
         "Map.lua",
         "Util.lua",

@@ -39,7 +39,7 @@ function FrontMenuState:Create(parent)
             layout:CreatePanel("party"),
             layout:CreatePanel("menu")
         },
-        mTopBarText = "Current Map Name",
+        mTopBarText = parent.mMapDef.name,
         mInPartyMenu = false,
     }
 
