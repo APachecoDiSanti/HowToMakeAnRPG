@@ -347,6 +347,10 @@ manifest =
         {
             path = "code/ShopState.lua"
         },
+        ["SaveScheme.lua"] = { path = "code/SaveScheme.lua"},
+        ["PrintTable.lua"] = { path = "code/PrintTable.lua"},
+        ["Blob.lua"] = { path = "code/Blob.lua"},
+        ["Save.lua"] = { path = "code/Save.lua"},
     },
     textures =
     {

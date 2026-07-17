@@ -100,11 +100,18 @@ local intro =
 -- local storyboard = Storyboard:Create(gStack, intro, true)
 -- gStack:Push(storyboard)
 
-
 function update()
 
     local dt = GetDeltaTime()
     gStack:Update(dt)
     gStack:Render(gRenderer)
     gWorld:Update(dt)
+
+    if Keyboard.JustPressed(KEY_S) then
+        Save:Save(_G, SaveScheme)
+    end
+
+    if Keyboard.JustPressed(KEY_L) then
+        Save:Load(_G, tmpSave, SaveScheme)
+    end
 end

@@ -13,6 +13,7 @@ Apply({
         "Vector",
         "Keyboard",
         "Sound",
+        "SaveGame"
     },
     function(v) LoadLibrary(v) end)
 
@@ -102,6 +103,10 @@ Apply({
         "CESteal.lua",
         "ArenaState.lua",
         "ArenaCompleteState.lua",
-        "ShopState.lua"
+        "ShopState.lua",
+        "SaveScheme.lua",
+        "PrintTable.lua",
+        "Blob.lua",
+        "Save.lua",
     },
     function(v) Asset.Run(v) end)
