@@ -35,6 +35,7 @@ function CreateWorldMap(state)
     tileheight = 16,
     properties = {},
     encounters = encountersWorld,
+    can_save = true,
     on_wake =
     {
 

@@ -108,6 +108,8 @@ function Actor:Create(def)
     this.mNextLevelXP = NextLevel(this.mLevel)
 
     setmetatable(this, self)
+
+    this:DoInitialLeveling()
     return this
 end
 
@@ -337,4 +339,27 @@ function Actor:CanUse(item)
     end
 
     return false
+end
+
+
+function Actor:DoInitialLeveling()
+    -- Only for party members
+    if not gPartyMemberDefs[self.mId] then
+        return
+    end
+
+    -- Get total XP current level represents
+    for i = 1, self.mLevel do
+        self.mXP = self.mXP + NextLevel(i - 1)
+    end
+
+    -- Set level back to 0
+    self.mLevel = 0
+    self.mNextLevelXP = NextLevel(self.mLevel)
+
+    -- unlock all abilities / add stats
+    while(self:ReadyToLevelUp()) do
+        local levelup = self:CreateLevelUp()
+        self:ApplyLevel(levelup)
+    end
 end

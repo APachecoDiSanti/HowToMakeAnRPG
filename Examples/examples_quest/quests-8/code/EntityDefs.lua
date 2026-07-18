@@ -270,6 +270,13 @@ gEntities =
         height = 16,
         startFrame = 1
     },
+    save_point =
+    {
+        texture = "save_point.png",
+        width = 16,
+        height = 16,
+        startFrame = 1
+    },
 }
 
 

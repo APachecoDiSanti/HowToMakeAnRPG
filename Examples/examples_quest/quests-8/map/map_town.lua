@@ -55,6 +55,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   properties = {},
+  can_save = true,
   on_wake =
   {
       {

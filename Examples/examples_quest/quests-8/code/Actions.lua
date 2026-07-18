@@ -222,5 +222,30 @@ Actions =
             local storyboard = Storyboard:Create(gStack, storyboard)
             gStack:Push(storyboard)
         end
-    end
+    end,
+
+    AddSavePoint = function(map, x, y, layer)
+        return function(trigger, entity, tX, tY, tLayer)
+            local entityDef = gEntities["save_point"]
+            local savePoint = Entity:Create(entityDef)
+            savePoint:SetTilePos(x, y, layer, map)
+
+            local function AskCallback(index)
+                if index == 2 then
+                    return
+                end
+                Save:Save()
+                gStack:PushFit(gRenderer, 0, 0, "Saved!")
+            end
+
+            local trigger = Trigger:Create({
+                OnUse = function()
+                    gWorld.mParty:Rest()
+                    local askMsg = "Save progress?"
+                    gStack:PushFit(gRenderer, 0, 0, askMsg, false, {choices = {options = {"Yes", "No"}, OnSelection = AskCallback}})
+                end
+            })
+            map:AddFullTrigger(trigger, x, y, layer)
+        end
+    end,
 }

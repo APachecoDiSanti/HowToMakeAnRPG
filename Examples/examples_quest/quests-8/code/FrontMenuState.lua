@@ -23,12 +23,13 @@ function FrontMenuState:Create(parent)
             spacingY = 32,
             data =
             {
-                "Items",
-                "Status",
-                "Equipment",
-                -- "Magic",
-                -- "Save"
+                {id = "items", text = "Items"},
+                {id = "status", text = "Status"},
+                {id = "equipment", text = "Equipment"},
+                {id = "save", text = "Save"},
+                {id = "load", text = "Load"},
             },
+            RenderItem = function(...) this:RenderMenuItem(...) end,
             OnSelection = function(...) this:OnMenuClick(...) end
         },
 
@@ -75,12 +76,26 @@ end
 function FrontMenuState:Exit()
 end
 
-function FrontMenuState:OnMenuClick(index)
+function FrontMenuState:OnMenuClick(index, item)
 
-    local ITEMS = 1
-
-    if index == ITEMS then
+    if item.id == "items" then
         return self.mStateMachine:Change("items")
+    end
+
+    if item.id == "save" then
+        if self.mParent.mMapDef.can_save then
+            Save:Save()
+            self.mStack:PushFit(gRenderer, 0, 0, "Saved!")
+        end
+        return
+    end
+
+    if item.id == "load" then
+        if Save:DoesExist() then
+            Save:Load()
+            gStack:PushFit(gRenderer, 0, 0, "Loaded!")
+        end
+        return
     end
 
     self.mInPartyMenu = true
@@ -179,4 +194,23 @@ function FrontMenuState:Render(renderer)
     local partyY = self.mLayout:Top("party") - 45
     self.mPartyMenu:SetPosition(partyX, partyY)
     self.mPartyMenu:Render(renderer)
+end
+
+
+function FrontMenuState:RenderMenuItem(menu, renderer, x, y, item)
+    local color = Vector.Create(1, 1, 1, 1)
+    local canSave = self.mParent.mMapDef.can_save
+    local text = item.text
+
+    if item.id == "save" and not canSave then
+        color = Vector.Create(0.6, 0.6, 0.6, 1)
+    end
+
+    if item.id == "load" and not Save:DoesExist() then
+        color = Vector.Create(0.6, 0.6, 0.6, 1)
+    end
+
+    if item then
+        renderer:DrawText2d(x, y, text, color)
+    end
 end

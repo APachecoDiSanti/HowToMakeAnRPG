@@ -493,6 +493,8 @@ manifest =
         ["door.png"] = {path = "art/door.png"},
         ["sphere.png"] = {path = "art/sphere.png"},
         ["teleport.png"] = {path = "art/teleport.png"},
+        ["title_screen.png"] = {path = "art/title_screen.png"},
+        ["save_point.png"] = {path = "art/save_point.png"},
     },
     ['fonts'] =
     {

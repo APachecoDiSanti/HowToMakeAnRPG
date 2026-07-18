@@ -230,6 +230,7 @@ return {
   tileheight = 16,
   properties = {},
   -- encounters = encountersCave,
+  can_save = false,
   on_wake =
   {
       {
@@ -245,6 +246,7 @@ return {
           params = { "chest", { { id = 10 } }, 12, 27 },
       },
       { id = "RunScript", params = { SetupDoorPuzzle } },
+      { id = "AddSavePoint", params = { 26, 29, 1 } },
   },
   actions =
   {
