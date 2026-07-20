@@ -316,6 +316,7 @@ function CombatState:CreateCombatCharacters(side)
 
     -- Create an character for each actor
     for k, v in ipairs(actorList) do
+        print(v, v.mId)
         local charDef = ShallowClone(gCharacters[v.mId])
 
         if charDef.combatEntity then

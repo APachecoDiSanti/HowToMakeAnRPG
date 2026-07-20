@@ -65,7 +65,7 @@ function ShopState:Create(stack, world, def)
     for _, v in pairs(this.mWorld.mParty.mMembers) do
         table.insert(this.mActors, v)
         local def = gCharacters[v.mId]
-        local char = Character:Create(def)
+        local char = Character:Create(def, {})
         this.mActorCharMap[v] = char
     end
 

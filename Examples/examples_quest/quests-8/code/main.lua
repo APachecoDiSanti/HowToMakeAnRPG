@@ -8,8 +8,8 @@ function SetupNewGame()
     gStack = StateStack:Create()
     gWorld = World:Create()
 
-    -- local startPos = Vector.Create(5, 9, 1)
-    local startPos = Vector.Create(27, 26, 1)
+    local startPos = Vector.Create(5, 9, 1)
+    -- local startPos = Vector.Create(27, 26, 1)
 
     local hero = Actor:Create(gPartyMemberDefs.hero)
     local thief = Actor:Create(gPartyMemberDefs.thief)
@@ -82,6 +82,12 @@ function SetupNewGame()
         SOP.FadeOutChar("handin", "mage"),
         SOP.RunAction("RemoveNPC", {"handin", "mage"},
             {GetMapRef}),
+        SOP.Function(
+            function()
+                gWorld.mGameState.maps.town.quest_given = true
+                gWorld.mGold = gWorld.mGold + 500
+            end
+        ),
         SOP.Wait(0.1),
         SOP.HandOff("handin")
     }
@@ -95,13 +101,13 @@ function SetupNewGame()
 
     -- do-end block is used to limit scope of variablesas they're no longer accessible outside of it
     do
-        -- local map = MapDB['town'](gWorld.mGameState)
-        local map = MapDB['cave'](gWorld.mGameState)
+        local map = MapDB['town'](gWorld.mGameState)
+        -- local map = MapDB['cave'](gWorld.mGameState)
         gStack:Push(ExploreState:Create(gStack, map, startPos))
     end
 
-    -- return Storyboard:Create(gStack, intro, true)
-    return Storyboard:Create(gStack, story, true)
+    return Storyboard:Create(gStack, intro, true)
+    -- return Storyboard:Create(gStack, story, true)
 end
 
 -- local startPos = Vector.Create(27, 26, 1)

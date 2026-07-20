@@ -229,7 +229,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   properties = {},
-  -- encounters = encountersCave,
+  encounters = encountersCave,
   can_save = false,
   on_wake =
   {

@@ -35,12 +35,71 @@ function CreateTownMap(state)
   }
 
   local function TalkToMajor(map, trigger, entity, x, y, layer)
-    print("talking to the major")
+    local gemstoneId = 14
 
-    -- Assume it's before player has the stone
-    local message = "Go to the mine and get the gem. Then we can talk."
-    local action = Actions.ShortText(map, message)
-    action(trigger, entity, x, y, layer)
+    if gWorld:HasKey(gemstoneId) then
+      local combatDef = {
+        background = "combat_bg_town.png",
+        enemy = {"demon_major"},
+        canFlee = false,
+      }
+
+      local sayDef = {textScale = 1.5}
+      local bossTalk = {
+        SOP.BlackScreen("blackscreen", 0),
+        SOP.Say("handin", "hero", "Gemstone removed.", 1.75, sayDef),
+        SOP.Wait(0.3),
+        SOP.Say("handin", "major", "Ah, the gemstone. Thank you.", 3, sayDef),
+        SOP.Wait(0.2),
+        SOP.Say("handin", "major", "Fools!", 3, sayDef),
+        SOP.Wait(0.2),
+        SOP.Say("handin", "major", "How long I've waited.", 3, sayDef),
+        SOP.Wait(0.2),
+        SOP.Say("handin", "major", "Killing the major, taking his form...", 3, sayDef),
+        SOP.Wait(0.2),
+        SOP.Say("handin", "major", "To return to the corporeal realm...", 3, sayDef),
+        SOP.Wait(0.2),
+        SOP.Say("handin", "major", "and FEED!", 3, sayDef),
+        SOP.Wait(0.2),
+        SOP.RunAction("Combat", { map, combatDef }),
+        SOP.NoBlock(SOP.Say("handin", "major", "Nooooo!", 1.5, sayDef)),
+        SOP.FadeOutChar("handin", "major", 1.75),
+        SOP.Wait(0.2),
+        SOP.FadeInScreen(),
+        SOP.Function(
+          function()
+            gStack = StateStack:Create()
+            gStack:Push(GameOverState:Create(gStack, gWorld, true))
+          end
+        )
+      }
+
+      local storyboard = Storyboard:Create(gStack, bossTalk, true)
+      gStack:Push(storyboard)
+    else
+      local message = "Go to the mine and get the gem. Then we can talk."
+      local action = Actions.ShortText(map, message)
+      action(trigger, entity, x, y, layer)
+    end
+  end
+
+
+  local function MoveMajor(map)
+    if townState.quest_given then
+      local removeAction = Actions.RemoveNPC(map, "major")
+      removeAction()
+      local addAction = Actions.AddNPC(
+        map,
+        {
+          def = "npc_major",
+          id = "major",
+          x = 5,
+          y = 5,
+          layer = 1
+        }
+      )
+      addAction()
+    end
   end
 
 
@@ -82,6 +141,7 @@ return {
           id = "AddNPC",
           params = {{ def = "npc_villager_2", id ="villager_2", x = 35, y = 78 }}
       },
+      { id = "RunScript", params = { MoveMajor }},
   },
   actions =
   {
@@ -137,7 +197,7 @@ return {
       npc_1 = { OnUse = "npc_1_talk" },
       npc_2 = { OnUse = "npc_2_talk" },
       major = { OnUse = "major_talk" },
-      
+
       world_left = {OnEnter = "to_world_map_left"},
       world_right = {OnEnter = "to_world_map_right"},
   },

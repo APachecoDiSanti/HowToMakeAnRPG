@@ -277,6 +277,13 @@ gEntities =
         height = 16,
         startFrame = 1
     },
+    demon_major =
+    {
+        texture = "demon.png",
+        width = 176,
+        height = 176,
+        startFrame = 1
+    },
 }
 
 
@@ -460,6 +467,19 @@ gCharacters =
     cave_shade =
     {
         entity = "cave_shade",
+        controller =
+        {
+            "cs_move",
+            "cs_run_anim",
+            "cs_standby",
+            "cs_die_enemy",
+            "cs_hurt_enemy"
+        },
+        state = "cs_standby",
+    },
+    demon_major =
+    {
+        entity = "demon_major",
         controller =
         {
             "cs_move",
